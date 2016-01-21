@@ -13,72 +13,104 @@ class administradores(models.Model):
 		return self.nombre
 
 # Modelo para alumnos
-class alumnos(models.Model):
-	matricula = models.IntegerField(null=False)
-	nombre = models.CharField(null=False, max_length=100)
-	contrasena = models.CharField(null=False, max_length=15)
-	carrera = models.CharField(null=False, max_length=100)
-	cuatrimestre = models.IntegerField(null=False)
-	realizado = models.IntegerField(null=False,default=0)
+class Alumno(models.Model):
+	Matricula = models.IntegerField(null=False)
+	Nombre = models.CharField(null=False, max_length=100)
+	Contrasena = models.CharField(null=False, max_length=15)
+	Carrera = models.CharField(null=False, max_length=100)
+	Cuatrimestre = models.IntegerField(null=False)
+	Realizado = models.IntegerField(null=False,default=0)
 	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
 	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
 
 	def __str__(self):
-		return self.matricula
+		return self.Matricula
 
 # Modelo para las carreras
-class carreras(models.Model):
-	nombre = models.CharField(null=False, max_length=100)
-	abrev_carrera = models.CharField(null=False, max_length=10)
-	jefe = models.CharField(null=False, max_length=100)
+class Carrera(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
+	Abrev_carrera = models.CharField(null=False, max_length=10)
+	Jefe = models.CharField(null=False, max_length=100)
 
 	def __str__(self):
-		return self.nombre
+		return self.Nombre
 
 # Modelo para la configuracion
-class configuracion(models.Model):
-	nombre = models.CharField(null=False, max_length=50)
-	valor = models.CharField(null=False, max_length=50)
+class Configuracion(models.Model):
+	Nombre = models.CharField(null=False, max_length=50)
+	Valor = models.CharField(null=False, max_length=50)
 
 	def __str__(self):
-		return self.nombre
+		return self.Nombre
 
 # Modelo para los grupos
-class grupos(models.Model):
-	num_grupo = models.CharField(null=False, max_length=10)
-	carrera = models.CharField(null=False, max_length=100)
-	cuatrimestre = models.IntegerField(null=False,default=0)
+class Grupo(models.Model):
+	Num_grupo = models.CharField(null=False, max_length=10)
+	Carrera = models.CharField(null=False, max_length=100)
+	Cuatrimestre = models.IntegerField(null=False,default=0)
 
 	def __str__(self):
-		return self.num_grupo
+		return self.Num_grupo
 
 # Modelo para las materias
-class materias(models.Model):
-	nombre = models.CharField(null=False, max_length=100)
+class Materia(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
 
 	def __str__(self):
-		return self.nombre
+		return self.Nombre
 
 # Modelo para los servicios
-class servicios(models.Model):
-	nombre = models.CharField(null=False, max_length=50)
-	calificaciones = models.IntegerField(null=False,default=0)
+class Servicio(models.Model):
+	Nombre = models.CharField(null=False, max_length=50)
+	Calificaciones = models.IntegerField(null=False,default=0)
 
 	def __str__(self):
-		return self.nombre
+		return self.Nombre
 
 # Modelo para los tutores
-class tutores(models.Model):
-	nombre = models.CharField(null=False, max_length=100)
-	num_grupo = models.CharField(null=False, max_length=10)
-	carrera = models.CharField(null=False, max_length=100)
-	cuatrimestre = models.IntegerField(null=False,default=0)
-	calificacion = models.IntegerField(null=False,default=0)
-	cantidad = models.IntegerField(null=False,default=0)
-	promedio = models.IntegerField(null=False,default=0)
+class Tutor(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
+	Num_grupo = models.CharField(null=False, max_length=10)
+	Carrera = models.CharField(null=False, max_length=100)
+	Cuatrimestre = models.IntegerField(null=False,default=0)
+	Calificacion = models.IntegerField(null=False,default=0)
+	Cantidad = models.IntegerField(null=False,default=0)
+	Promedio = models.IntegerField(null=False,default=0)
 
 	def __str__(self):
-		return self.nombre
+		return self.Nombre
+
+# Modelo para preguntas
+class Pregunta(models.Model):
+	Descripcion = models.CharField(null=False,max_length=600)
+
+	def __str__(self):
+		self.Descripcion
+
+# Modelo para secciones de preguntas
+class Seccion(models.Model):
+	Descripcion = models.CharField(null=False,max_length=100)
+	Preguntas = models.ManyToManyField(Pregunta)
+	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
+
+	def __str__(self):
+		return self.Descripcion
+
+# Modelo para Periodo escolar
+class Periodo(models.Model):
+	Descripcion = models.CharField(null=False,max_length=100)
+	Secciones = models.ManyToManyField(Seccion)
+	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
+
+	def __str__(self):
+		return self.Descripcion
+
+
+
+
+
+
+
 
 
 	
