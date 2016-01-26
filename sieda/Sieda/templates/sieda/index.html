@@ -20,12 +20,12 @@ Principal
     <div class="panel-body">
         <div class="row">
             <div class=".col-md-6 .col-md-offset-3">
-                <form role="form">
+                <form role="form" method="POST">{% csrf_token %}
                     <div class="form-group">
 			            <div class="login-wrap">
-			                <input type="text" class="form-control" placeholder="Matricula" autofocus>
+			                <input name="username" type="text" class="form-control" placeholder="Matricula" autofocus>
 			                <br>
-			                <input type="password" class="form-control" placeholder="Contraseña">
+			                <input name="password" type="password" class="form-control" placeholder="Contraseña">
 			                <label class="checkbox">
 			                    <span class="pull-right">
 			                        <a data-toggle="modal" href="#myModal"> ¿Olvidó su contraseña?</a>

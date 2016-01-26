@@ -21,7 +21,7 @@ def AdminMain(request):
 
 def AdminAlta(request):
     if request.method == 'POST':
-        form = forms.AdminForm(request.POST or None)
+        form = forms.Administradorform(request.POST or None)
         if form.is_valid():
             instance = form.save()
             messages.add_message(request, messages.INFO, 'Administrador ha sido agregado exitosamente ')
@@ -29,27 +29,27 @@ def AdminAlta(request):
         else:
             return render(request, 'Administrativo/administradores/agregar.html', {'form': form})
     else:
-        form = forms.AdminForm()
+        form = forms.Administradorform()
     return render(request, 'Administrativo/administradores/agregar.html', {'form': form})
 
 def AdminEditar(request, id):
     admin = get_object_or_404(models.administradores, id=id)
     if request.method == 'POST':
-        form = forms.AdminForm(request.POST, instance=admin)
+        form = forms.Administradorform(request.POST, instance=admin)
         if form.is_valid():
             form = form.save()
             messages.add_message(request, messages.INFO, 'Administrador ha sido modificado exitosamente ')
-            return HttpResponseRedirect(reverse('main:admin_consultar', args=[form.id]))
+            return HttpResponseRedirect(reverse('main:admin_consultar'))
         else:
             return render(request, 'Administrativo/administradores/agregar.html', {'form': form, 'admin': admin, })
     else:
-        form = forms.AdminForm(instance=admin)
+        form = forms.Administradorform(instance=admin)
     return render(request, 'Administrativo/administradores/agregar.html', {'form': form, 'admin': admin, })
 
 def AdminEliminar(request, id):
     admin = get_object_or_404(models.administradores, id=id)
     admin.delete()
-    messages.add_message(request, messages.INFO, 'Administrador borrado {0}'.format(admin.nombre))
+    messages.add_message(request, messages.INFO, 'Administrador : {0} ha sido borrado '.format(admin.nombre))
     return HttpResponseRedirect(reverse('main:admin_consultar'))
 
 def AdminConsultar(request):
