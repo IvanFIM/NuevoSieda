@@ -12,46 +12,6 @@ class administradores(models.Model):
 	def __str__(self):
 		return self.nombre
 
-# Modelo para alumnos
-class Alumno(models.Model):
-	Matricula = models.IntegerField(null=False)
-	Nombre = models.CharField(null=False, max_length=100)
-	Contrasena = models.CharField(null=False, max_length=15)
-	Carrera = models.CharField(null=False, max_length=100)
-	Cuatrimestre = models.IntegerField(null=False)
-	Realizado = models.IntegerField(null=False,default=0)
-	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
-	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
-
-	def __str__(self):
-		return self.Matricula
-
-# Modelo para las carreras
-class Carrera(models.Model):
-	Nombre = models.CharField(null=False, max_length=100)
-	Abrev_carrera = models.CharField(null=False, max_length=10)
-	Jefe = models.CharField(null=False, max_length=100)
-
-	def __str__(self):
-		return self.Nombre
-
-# Modelo para la configuracion
-class Configuracion(models.Model):
-	Nombre = models.CharField(null=False, max_length=50)
-	Valor = models.CharField(null=False, max_length=50)
-
-	def __str__(self):
-		return self.Nombre
-
-# Modelo para los grupos
-class Grupo(models.Model):
-	Num_grupo = models.CharField(null=False, max_length=10)
-	Carrera = models.CharField(null=False, max_length=100)
-	Cuatrimestre = models.IntegerField(null=False,default=0)
-
-	def __str__(self):
-		return self.Num_grupo
-
 # Modelo para las materias
 class Materia(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
@@ -59,33 +19,60 @@ class Materia(models.Model):
 	def __str__(self):
 		return self.Nombre
 
-# Modelo para los servicios
-class Servicio(models.Model):
-	Nombre = models.CharField(null=False, max_length=50)
-	Calificaciones = models.IntegerField(null=False,default=0)
+#Modelo para maestros
+class Maestro(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
+	Materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.Nombre
+
+# Modelo para las carreras
+class Carrera(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
+	Abrev_carrera = models.CharField(null=False, max_length=10)
+	Jefe = models.ManyToManyField(Maestro)
+
+	def __str__(self):
+		return self.Nombre
+
+# Modelo para alumnos
+class Alumno(models.Model):
+	Matricula = models.IntegerField(null=False)
+	Nombre = models.CharField(null=False, max_length=100)
+	Contrasena = models.CharField(null=False, max_length=15)
+	Carrera = models.ForeignKey(Carrera,null=True)
+	Cuatrimestre = models.IntegerField(null=False)
+	Realizado = models.BooleanField(default=False)
+	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
+	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
+
+	def __int__(self):
+		return self.Matricula
+		
+
+# Modelo para los grupos
+class Grupo(models.Model):
+	Cuatrimestre = models.IntegerField(null=False,default=0)
+
+	def __int__(self):
+		return self.Cuatrimestre
 
 # Modelo para los tutores
 class Tutor(models.Model):
-	Nombre = models.CharField(null=False, max_length=100)
-	Num_grupo = models.CharField(null=False, max_length=10)
-	Carrera = models.CharField(null=False, max_length=100)
-	Cuatrimestre = models.IntegerField(null=False,default=0)
-	Calificacion = models.IntegerField(null=False,default=0)
-	Cantidad = models.IntegerField(null=False,default=0)
-	Promedio = models.IntegerField(null=False,default=0)
+	Maestro = models.ForeignKey(Maestro,null=True)
+	Grupo = models.ForeignKey(Grupo,null=True)
+	Carrera = models.ForeignKey(Carrera,null=True)
 
 	def __str__(self):
-		return self.Nombre
+		return self.Maestro.Nombre
 
 # Modelo para preguntas
 class Pregunta(models.Model):
 	Descripcion = models.CharField(null=False,max_length=600)
 
 	def __str__(self):
-		self.Descripcion
+		return self.Descripcion
 
 # Modelo para secciones de preguntas
 class Seccion(models.Model):
@@ -97,13 +84,32 @@ class Seccion(models.Model):
 		return self.Descripcion
 
 # Modelo para Periodo escolar
-class Periodo(models.Model):
+class Catalago(models.Model):
 	Descripcion = models.CharField(null=False,max_length=100)
 	Secciones = models.ManyToManyField(Seccion)
 	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
 
 	def __str__(self):
 		return self.Descripcion
+
+#Modelo para periodo
+class Periodo(models.Model):
+	Descripcion = models.CharField(null=False,max_length=100)
+	Catalagos = models.ManyToManyField(Catalago)
+
+	def __str__(self):
+		return self.Descripcion
+
+# Modelo para calificaciones
+class Calificaciones(models.Model):
+	Periodo = models.ForeignKey(Periodo,null=True)
+	Seccion = models.ForeignKey(Seccion,null=True)
+	Maestro = models.ForeignKey(Maestro,null=True)
+	Calificacion = models.IntegerField(null=False)
+
+
+
+
 
 
 

@@ -17,40 +17,49 @@ class Carreraform(forms.ModelForm):
 		model = models.Carrera
 		fields = ['Nombre', 'Abrev_carrera', 'Jefe']
 
-class Configuracionform(forms.ModelForm):
+class Maestroform(forms.ModelForm):
 	class Meta:
-		model = models.Configuracion
-		fields = ['Nombre', 'Valor']
+		model = models.Maestro
+		fields = ['Nombre', 'Materia']
 
 class Grupoform(forms.ModelForm):
 	class Meta:
 		model = models.Grupo
-		fields = ['Num_grupo', 'Carrera', 'Cuatrimestre']
+		fields = ['Cuatrimestre']
 
 class Materiaform(forms.ModelForm):
 	class Meta:
 		model = models.Materia
 		fields = ['Nombre']
 
-class Servicioform(forms.ModelForm):
-	class Meta:
-		model = models.Servicio
-		fields = ['Nombre','Calificaciones']
-
 class Tutorform(forms.ModelForm):
 	class Meta:
 		model = models.Tutor
-		fields = ['Nombre','Num_grupo','Carrera','Cuatrimestre','Calificacion','Cantidad','Promedio']
+		fields = ['Maestro','Grupo','Carrera']
 
 class Periodoform(forms.ModelForm):
 	class Meta:
 		model = models.Periodo
+		fields = ['Descripcion','Catalagos']
+		widgets = {
+            'Catalagos': forms.CheckboxSelectMultiple()
+        }
+
+class Catalagoform(forms.ModelForm):
+	class Meta:
+		model = models.Catalago
 		fields = ['Descripcion','Secciones']
+		widgets = {
+            'Secciones': forms.CheckboxSelectMultiple()
+        }
 
 class Seccionform(forms.ModelForm):
 	class Meta:
 		model = models.Seccion
 		fields = ['Descripcion','Preguntas']
+		widgets = {
+            'Preguntas': forms.CheckboxSelectMultiple()
+        }
 
 class Preguntaform(forms.ModelForm):
 	class Meta:
