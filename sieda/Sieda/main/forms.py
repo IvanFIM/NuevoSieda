@@ -15,7 +15,7 @@ class Alumnoform(forms.ModelForm):
 class Carreraform(forms.ModelForm):
 	class Meta:
 		model = models.Carrera
-		fields = ['Nombre', 'Abrev_carrera', 'Jefe']
+		fields = ['Nombre', 'Abrev_carrera', 'Grupos']
 
 class Maestroform(forms.ModelForm):
 	class Meta:

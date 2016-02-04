@@ -22,16 +22,31 @@ class Materia(models.Model):
 #Modelo para maestros
 class Maestro(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
-	Materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+	Materia = models.ManyToManyField(Materia)
 
 	def __str__(self):
-		return self.Nombre
+		return self.Nombre		
+
+# Modelo para los grupos
+class Grupo(models.Model):
+	Cuatrimestre = models.IntegerField(null=False,default=0)
+
+	def __int__(self):
+		return self.Cuatrimestre
 
 # Modelo para las carreras
 class Carrera(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
 	Abrev_carrera = models.CharField(null=False, max_length=10)
-	Jefe = models.ManyToManyField(Maestro)
+	Grupos = models.ManyToManyField(Grupo)
+
+	def __str__(self):
+		return self.Nombre
+
+# Modelo para los jefes de carrera
+class JefeCarrera(models.Model):
+	Nombre = models.CharField(null=False, max_length=100)
+	Carrera = models.ForeignKey(Carrera,null=True)
 
 	def __str__(self):
 		return self.Nombre
@@ -44,19 +59,12 @@ class Alumno(models.Model):
 	Carrera = models.ForeignKey(Carrera,null=True)
 	Cuatrimestre = models.IntegerField(null=False)
 	Realizado = models.BooleanField(default=False)
+	Grupo = models.ForeignKey(Grupo,null=True)
 	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
 	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
 
 	def __int__(self):
 		return self.Matricula
-		
-
-# Modelo para los grupos
-class Grupo(models.Model):
-	Cuatrimestre = models.IntegerField(null=False,default=0)
-
-	def __int__(self):
-		return self.Cuatrimestre
 
 # Modelo para los tutores
 class Tutor(models.Model):
