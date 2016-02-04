@@ -30,5 +30,22 @@ Portal Administrativo
 		<div class="panel-footer"></div>
 		</div>
 	</div>
+	<div class="col-md-4 col-sm-4">
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+				<h3 >Alumnos</h3>
+				<br>
+			</div>
+		<div class="panel-body">
+			<strong>Numero de Alumnos Registrados:</strong> {{ alumnos_total}}
+			<br>
+			<br>
+			<button type="button" class="btn btn-success btn-circle" onclick="window.location='{% url 'main:alumno_alta' %}'"><i class="glyphicon glyphicon-plus"></i></button>
+
+		</div>
+		<div class="panel-footer"></div>
+		</div>
+	</div>
 </div><!--/.row-->
+
 {% endblock %}

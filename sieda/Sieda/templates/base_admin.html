@@ -28,9 +28,9 @@
             <ul class="nav navbar-top-links navbar-left">
                 <li><a href="#" ><i class="fa fa-bar-chart-o"></i> Reportes</a></li>
                 <li><a href="{% url 'main:admin_consultar' %}" ><i class="fa fa-sitemap"></i> Administradores</a></li>
-                <li><a href="#" ><i class="fa fa-user"></i> Docentes</a></li>
-                <li><a href="#" ><i class="fa fa-users"></i> Alumnos</a></li>
-                <li><a href="#" ><i class="fa fa-briefcase"></i> Carreras</a></li>
+                <li><a href="{% url 'main:maestro_consultar' %}" ><i class="fa fa-user"></i> Maestro</a></li>
+                <li><a href="{% url 'main:alumno_consultar' %}" ><i class="fa fa-users"></i> Alumnos</a></li>
+                <li><a href="{% url 'main:carrera_consultar' %}" ><i class="fa fa-briefcase"></i> Carreras</a></li>
                 <li><a href="#" ><i class="fa fa-paperclip"></i> Grupos</a></li>
                 <li><a href="#" ><i class="fa fa-coffee"></i> Tutores</a></li>
                 <li><a href="#" ><i class="fa fa-book"></i> Materias</a></li>

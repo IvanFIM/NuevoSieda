@@ -1,0 +1,61 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Consultar Carreras
+{% endblock %}
+
+{% block head %}         
+        
+{% endblock %}
+
+{% block body %}
+<div class="panel panel-default">
+<div class="panel-heading">
+ Consultar Carreras
+ <a href="{% url 'main:carrera_alta' %}" class="btn btn-success pull-right">Agregar</a>
+
+</div>               
+    <div class="panel-body"> 
+     <br>
+    <table class="table table-hover ">
+        <thead style="background:#283643; color: #fff;">
+        <tr>
+            <th>Nombre </th>
+            <th>Jefe de carrea</th>
+            <th>Carrera</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for carrera in carreras %}
+                <tr>
+                    <td>{{ carrera.Nombre }} </td>
+                    <td>{{ carrera.Jefe }} </td>
+                    <td>{{ carrera.Abrev_carrera }} </td>
+                    <td>
+                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;"class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:carrera_editar' id=carrera.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                        </button>
+
+                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:carrera_eliminar' id=carrera.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                        
+                    </td>                 
+                </tr>
+                  {% empty %}
+                        <div class="alert alert-dismissible alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h4>No hay Carreras registradas aun!</h4>
+                        <p>Para agregar una carrera, por favor presione "Agregar"</p>
+                        </div>
+            {% endfor %}
+        </tbody>
+</table>
+
+    </div>
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}
