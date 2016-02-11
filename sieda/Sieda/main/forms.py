@@ -40,7 +40,7 @@ class Tutorform(forms.ModelForm):
 class Periodoform(forms.ModelForm):
 	class Meta:
 		model = models.Periodo
-		fields = ['Descripcion','Catalagos']
+		fields = ['Descripcion','Catalagos', 'Realizado']
 		widgets = {
             'Catalagos': forms.CheckboxSelectMultiple()
         }

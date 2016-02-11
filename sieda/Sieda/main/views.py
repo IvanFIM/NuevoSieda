@@ -94,7 +94,7 @@ def AlumnoEliminar(request, id):
     return HttpResponseRedirect(reverse('main:alumno_consultar'))
 
 def AlumnoConsultar(request):
-    alumnos = models.Alumno.objects.all()   
+    alumnos = models.Alumno.objects.all() 
     return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
 
 # --  CARRERAS -- 
@@ -214,3 +214,167 @@ def GrupoEliminar(request, id):
 def GrupoConsultar(request):
     grupos = models.Grupo.objects.all()   
     return render(request, 'Administrativo/grupos/consultar.html', {'grupos' : grupos})
+
+    # --  CATALOGO -- 
+
+def CatalogoAlta(request):
+    if request.method == 'POST':
+        form = forms.Catalagoform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Catalago ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:catalogo_consultar'))
+        else:
+            return render(request, 'Administrativo/Catalogo/agregar.html', {'form': form})
+    else:
+        form = forms.Catalagoform()
+    return render(request, 'Administrativo/Catalogo/agregar.html', {'form': form})
+
+def CatalogoEditar(request, id):
+    catalago = get_object_or_404(models.Catalago, id=id)
+    if request.method == 'POST':
+        form = forms.Catalagoform(request.POST, instance=catalago)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Catalago ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:catalogo_consultar'))
+        else:
+            return render(request, 'Administrativo/Catalogo/agregar.html', {'form': form, 'catalago': catalago, })
+    else:
+        form = forms.Catalagoform(instance=catalago)
+    return render(request, 'Administrativo/Catalogo/agregar.html', {'form': form, 'catalago': catalago, })
+
+def CatalogoEliminar(request, id):
+    catalago = get_object_or_404(models.Catalago, id=id)
+    catalago.delete()
+    messages.add_message(request, messages.INFO, 'Catalago : {0} ha sido borrada '.format(catalago.Descripcion))
+    return HttpResponseRedirect(reverse('main:catalogo_consultar'))
+
+def CatalogoConsultar(request):
+    catalago = models.Catalago.objects.all()   
+    return render(request, 'Administrativo/Catalogo/consultar.html', {'catalago' : catalago})
+
+    # --  PERIODO -- 
+
+def PeriodoAlta(request):
+    if request.method == 'POST':
+        form = forms.Periodoform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Periodo ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:periodo_consultar'))
+        else:
+            return render(request, 'Administrativo/Periodo/agregar.html', {'form': form})
+    else:
+        form = forms.Periodoform()
+    return render(request, 'Administrativo/Periodo/agregar.html', {'form': form})
+
+def PeriodoEditar(request, id):
+    periodo = get_object_or_404(models.Periodo, id=id)
+    if request.method == 'POST':
+        form = forms.Periodoform(request.POST, instance=periodo)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Periodo ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:periodo_consultar'))
+        else:
+            return render(request, 'Administrativo/Periodo/agregar.html', {'form': form, 'catalago': catalago, })
+    else:
+        form = forms.Periodoform(instance=periodo)
+    return render(request, 'Administrativo/Periodo/agregar.html', {'form': form, 'periodo': periodo, })
+
+def PeriodoEliminar(request, id):
+    periodo = get_object_or_404(models.Periodo, id=id)
+    periodo.delete()
+    messages.add_message(request, messages.INFO, 'Periodo : {0} ha sido borrada '.format(periodo.Descripcion))
+    return HttpResponseRedirect(reverse('main:periodo_consultar'))
+
+def PeriodoConsultar(request):
+    periodo = models.Periodo.objects.all()   
+    return render(request, 'Administrativo/Periodo/consultar.html', {'periodo' : periodo})
+
+    # --  SECCION -- 
+
+def SeccionAlta(request):
+    if request.method == 'POST':
+        form = forms.Seccionform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Seccion ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:seccion_consultar'))
+        else:
+            return render(request, 'Administrativo/Seccion/agregar.html', {'form': form})
+    else:
+        form = forms.Seccionform()
+    return render(request, 'Administrativo/Seccion/agregar.html', {'form': form})
+
+def SeccionEditar(request, id):
+    seccion = get_object_or_404(models.Seccion, id=id)
+    if request.method == 'POST':
+        form = forms.Seccionform(request.POST, instance=seccion)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Seccion ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:seccion_consultar'))
+        else:
+            return render(request, 'Administrativo/Seccion/agregar.html', {'form': form, 'seccion': seccion, })
+    else:
+        form = forms.Seccionform(instance=seccion)
+    return render(request, 'Administrativo/Periodo/agregar.html', {'form': form, 'seccion': seccion, })
+
+def SeccionEliminar(request, id):
+    seccion = get_object_or_404(models.Seccion, id=id)
+    seccion.delete()
+    messages.add_message(request, messages.INFO, 'Seccion : {0} ha sido borrada '.format(seccion.Descripcion))
+    return HttpResponseRedirect(reverse('main:seccion_consultar'))
+
+def SeccionConsultar(request):
+    seccion = models.Seccion.objects.all()   
+    return render(request, 'Administrativo/Seccion/consultar.html', {'seccion' : seccion})
+
+    # --  PREGUNTA -- 
+
+def PreguntaAlta(request):
+    if request.method == 'POST':
+        form = forms.Preguntaform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Pregunta ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:pregunta_consultar'))
+        else:
+            return render(request, 'Administrativo/Pregunta/agregar.html', {'form': form})
+    else:
+        form = forms.Preguntaform()
+    return render(request, 'Administrativo/Pregunta/agregar.html', {'form': form})
+
+def PreguntaEditar(request, id):
+    pregunta = get_object_or_404(models.Pregunta, id=id)
+    if request.method == 'POST':
+        form = forms.Preguntaform(request.POST, instance=pregunta)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Pregunta ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:pregunta_consultar'))
+        else:
+            return render(request, 'Administrativo/Pregunta/agregar.html', {'form': form, 'pregunta': pregunta, })
+    else:
+        form = forms.Preguntaform(instance=pregunta)
+    return render(request, 'Administrativo/Pregunta/agregar.html', {'form': form, 'pregunta': pregunta, })
+
+def PreguntaEliminar(request, id):
+    pregunta = get_object_or_404(models.Pregunta, id=id)
+    pregunta.delete()
+    messages.add_message(request, messages.INFO, 'Pregunta : {0} ha sido borrada '.format(pregunta.Descripcion))
+    return HttpResponseRedirect(reverse('main:pregunta_consultar'))
+
+def PreguntaConsultar(request):
+    pregunta = models.Pregunta.objects.all()   
+    return render(request, 'Administrativo/Pregunta/consultar.html', {'pregunta' : pregunta})
+
+#  --Evaluacion--
+def CatalogoPreguntas(request):
+    periodo = models.Periodo.objects.filter(Realizado=False)
+    catalago = periodo.Catalagos.all()[0]
+    seccion = catalago.Secciones.all()[0]
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : seccion.Preguntas})
+

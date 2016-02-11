@@ -23,10 +23,8 @@
         <tr>
             <th>Matricula</th>
             <th>Nombre</th>
-            <th>Contraseña</th>
             <th>Carrera</th>
             <th>Cuatrimestre</th>
-            <th>Realizado</th>
             <th>Fecha de creación</th>
             <th>Ultima modificación</th>
             <th></th>
@@ -37,10 +35,8 @@
                 <tr>
                     <td>{{ alumno.Matricula }} </td>
                     <td>{{ alumno.Nombre }} </td>
-                    <td>{{ alumno.Contrasena }} </td>
-                    <td>{{ alumno.Carrera_id }} </td> 
+                    <td>{{ alumno.getCarrera }} </td> 
                     <td>{{ alumno.Cuatrimestre }} </td>  
-                    <td>{{ alumno.Realizado}} </td>   
                     <td>{{ alumno.fecha_creacion }} </td> 
                     <td>{{ alumno.fecha_modificacion }} </td> 
                     <td>

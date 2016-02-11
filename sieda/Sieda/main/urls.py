@@ -37,5 +37,28 @@ urlpatterns = [
     url(r'^maestros/consultar$', views.MaestroConsultar, name='maestro_consultar'),
     url(r'^maestros/(?P<id>[0-9]+)/eliminar$', views.MaestroEliminar, name='maestro_eliminar'),
     url(r'^maestros/(?P<id>[0-9]+)/modificar$', views.MaestroEditar, name='maestro_editar'),
+
+    url(r'^Catalogo/alta$', views.CatalogoAlta, name='catalogo_alta'),
+    url(r'^Catalogo/consultar$', views.CatalogoConsultar, name='catalogo_consultar'),
+    url(r'^Catalogo/(?P<id>[0-9]+)/eliminar$', views.CatalogoEliminar, name='catalogo_eliminar'),
+    url(r'^Catalogo/(?P<id>[0-9]+)/modificar$', views.CatalogoEditar, name='catalogo_editar'),
+
+    url(r'^Periodo/alta$', views.PeriodoAlta, name='periodo_alta'),
+    url(r'^Periodo/consultar$', views.PeriodoConsultar, name='periodo_consultar'),
+    url(r'^Periodo/(?P<id>[0-9]+)/eliminar$', views.PeriodoEliminar, name='periodo_eliminar'),
+    url(r'^Periodo/(?P<id>[0-9]+)/modificar$', views.PeriodoEditar, name='periodo_editar'),
+
+    url(r'^Seccion/alta$', views.SeccionAlta, name='seccion_alta'),
+    url(r'^Seccion/consultar$', views.SeccionConsultar, name='seccion_consultar'),
+    url(r'^Seccion/(?P<id>[0-9]+)/eliminar$', views.SeccionEliminar, name='seccion_eliminar'),
+    url(r'^Seccion/(?P<id>[0-9]+)/modificar$', views.SeccionEditar, name='seccion_editar'),
+
+    url(r'^Pregunta/alta$', views.PreguntaAlta, name='pregunta_alta'),
+    url(r'^Pregunta/consultar$', views.PreguntaConsultar, name='pregunta_consultar'),
+    url(r'^Pregunta/(?P<id>[0-9]+)/eliminar$', views.PreguntaEliminar, name='pregunta_eliminar'),
+    url(r'^Pregunta/(?P<id>[0-9]+)/modificar$', views.PreguntaEditar, name='pregunta_editar'),
+
+
+    url(r'^Evaluacion/consultar$', views.CatalogoPreguntas, name='Evaluacion_consultar'),
     
 ]

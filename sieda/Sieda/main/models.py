@@ -66,6 +66,9 @@ class Alumno(models.Model):
 	def __int__(self):
 		return self.Matricula
 
+	def getCarrera(self):
+		return self.Carrera.Nombre
+
 # Modelo para los tutores
 class Tutor(models.Model):
 	Maestro = models.ForeignKey(Maestro,null=True)
@@ -91,7 +94,7 @@ class Seccion(models.Model):
 	def __str__(self):
 		return self.Descripcion
 
-# Modelo para Periodo escolar
+# Modelo para catalogo escolar
 class Catalago(models.Model):
 	Descripcion = models.CharField(null=False,max_length=100)
 	Secciones = models.ManyToManyField(Seccion)
@@ -103,7 +106,8 @@ class Catalago(models.Model):
 #Modelo para periodo
 class Periodo(models.Model):
 	Descripcion = models.CharField(null=False,max_length=100)
-	Catalagos = models.ManyToManyField(Catalago)
+	Realizado = models.BooleanField(default=False)
+	Catalagos = models.ManyToManyField(Catalago, through='Catalagos')
 
 	def __str__(self):
 		return self.Descripcion
