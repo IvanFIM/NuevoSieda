@@ -16,12 +16,15 @@ class Alumnoform(forms.ModelForm):
 class Carreraform(forms.ModelForm):
 	class Meta:
 		model = models.Carrera
-		fields = ['Nombre', 'Abrev_carrera', 'Grupos']
+		fields = ['Nombre', 'Abrev_carrera']
 
 class Maestroform(forms.ModelForm):
 	class Meta:
 		model = models.Maestro
 		fields = ['Nombre', 'Materia']
+		widgets = {
+            'Materia': forms.CheckboxSelectMultiple()
+        }
 
 class Grupoform(forms.ModelForm):
 	class Meta:
@@ -31,7 +34,10 @@ class Grupoform(forms.ModelForm):
 class Materiaform(forms.ModelForm):
 	class Meta:
 		model = models.Materia
-		fields = ['Nombre']
+		fields = ['Nombre', 'Grupos','Carrera']
+		widgets = {
+            'Grupos': forms.CheckboxSelectMultiple()
+        }
 
 class Tutorform(forms.ModelForm):
 	class Meta:

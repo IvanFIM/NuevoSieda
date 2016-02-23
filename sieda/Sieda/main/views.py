@@ -495,7 +495,9 @@ def PreguntaConsultar(request):
 #  --Evaluacion--
 def CatalogoPreguntas(request):
     periodo = models.Periodo.objects.filter(Realizado=False)
-    catalago = periodo.Catalagos.all()[0]
-    seccion = catalago.Secciones.all()[0]
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : seccion.Preguntas})
+    cat = periodo[0].Catalagos.all()[0]
+    seccion = cat.Secciones.all()[0]
+    pregunta = seccion.Preguntas.all()
+
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias})
 

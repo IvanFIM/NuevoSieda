@@ -10,11 +10,30 @@ class administradores(models.Model):
 	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
 
 	def __str__(self):
-		return self.nombre
+		return self.nombre		
+
+# Modelo para los grupos
+class Grupo(models.Model):
+	Cuatrimestre = models.IntegerField(null=False,default=0)
+
+	def __int__(self):
+		return self.Cuatrimestre
+
+
+
+# Modelo para las carreras
+class Carrera(models.Model):
+	Nombre = models.CharField("Nombre de la carrera",null=False, max_length=100)
+	Abrev_carrera = models.CharField("Abreviatura de la carrera",null=False, max_length=10)
+
+	def __str__(self):
+		return self.Nombre
 
 # Modelo para las materias
 class Materia(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
+	Grupos = models.ManyToManyField(Grupo)
+	Carrera = models.ForeignKey(Carrera,null=True)
 
 	def __str__(self):
 		return self.Nombre
@@ -23,21 +42,6 @@ class Materia(models.Model):
 class Maestro(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
 	Materia = models.ManyToManyField(Materia)
-
-	def __str__(self):
-		return self.Nombre		
-# Modelo para los grupos
-class Grupo(models.Model):
-	Cuatrimestre = models.IntegerField(null=False,default=0)
-
-	def __int__(self):
-		return self.Cuatrimestre
-
-# Modelo para las carreras
-class Carrera(models.Model):
-	Nombre = models.CharField("Nombre de la carrera",null=False, max_length=100)
-	Abrev_carrera = models.CharField("Abreviatura de la carrera",null=False, max_length=10)
-	Grupos = models.ManyToManyField(Grupo)
 
 	def __str__(self):
 		return self.Nombre

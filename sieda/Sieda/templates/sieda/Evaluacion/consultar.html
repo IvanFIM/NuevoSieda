@@ -10,43 +10,57 @@
 {% endblock %}
 
 {% block body %}
-<div class="panel panel-default">
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
 <div class="panel-heading">
- seccion.Descripcion
- <!--<a href="{% url 'main:seccion_alta' %}" class="btn btn-success pull-right">Agregar</a>-->
+ {{seccion.Descripcion}}
 
 </div>               
     <div class="panel-body"> 
      <br>
-    <table class="table table-hover ">
-        <thead style="background:#283643; color: #fff;">
+        <table class="table table-striped">
+            <thead >
+                <tr>
+                    <th>Materia</th>
+                    <th>Maestro</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+
+     <br>
+     <br>
+    <table class="table table-striped">
+        <thead >
         <tr>
             <th>Descripcion</th>
-            <th></th>
+            {% for mat in materias %}
+            <th> {{mat.Nombre}}</th>
+            {% endfor %}
         </tr>
         </thead>
         <tbody>
             {% for pre in preguntas %}
                 <tr>
                     <td>{{ pre.Descripcion }} </td>
+                    {% for mat in materias %}
                     <td>
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;"class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:seccion_editar' id=sec.id %}'"><i class="glyphicon glyphicon-pencil"></i>
-                        </button>
-
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:seccion_eliminar' id=sec.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
-                        
-                    </td>                 
+                        <select class="btn btn-default">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                        </select>
+                    </td>      
+                    {% endfor %}           
                 </tr>
                   {% empty %}
-                        <!--<div class="alert alert-dismissible alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <h4>No hay secciones registradas aun!</h4>
-                        <p>Para agregar una seccion, por favor presione "Agregar"</p>
-                        </div>-->
             {% endfor %}
         </tbody>
 </table>
-
+<br>
+                        <button style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Siguiente</button>
     </div>
 </div>
 
