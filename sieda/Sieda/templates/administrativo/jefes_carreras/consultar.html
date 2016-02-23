@@ -1,0 +1,54 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Consultar Jefes Carreras
+{% endblock %}
+
+{% block head %}         
+        
+{% endblock %}
+
+{% block body %}
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Consultar Jefes Carreras
+         <a href="{% url 'main:jefe_carrera_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Carrera</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jefecarrera in jefescarreras %}
+                    <tr>
+                        <td>{{ jefecarrera.Nombre }} </td>
+                        <td>{{ jefecarrera.Carrera }} </td>
+                        <td>
+                            <button type="button" class=" btn btn-warning btn-circle" onclick="window.location='{% url 'main:jefe_carrera_editar' id=jefecarrera.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:jefe_carrera_eliminar' id=jefecarrera.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            
+                        </td>                 
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay Jefes de carrreas registrados aun!</h4>
+                            <p>Para agregar un jefe de carrera, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="clearfix"> </div>
+
+{% endblock %}

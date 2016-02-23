@@ -1,0 +1,56 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Consultar Tutores
+{% endblock %}
+
+{% block head %}         
+        
+{% endblock %}
+
+{% block body %}
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Consultar Tutores
+    <a href="{% url 'main:tutor_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Maestro</th>
+                <th>Grupo</th>
+                <th>Carrera</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for tutor in tutores %}
+                    <tr>
+                        <td>{{ tutor.Maestro }} </td>
+                        <td>{{ tutor.Grupo }} </td>
+                        <td>{{ tutor.Carrera }} </td>  
+                        <td>
+                            <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:tutor_editar' id=tutor.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                            </button>
+
+                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:tutor_eliminar' id=tutor.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            
+                        </td>                 
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay Tutores registrados aun!</h4>
+                            <p>Para agregar un tutor, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="clearfix"> </div>
+
+{% endblock %}

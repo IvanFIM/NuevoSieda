@@ -1,0 +1,39 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Agregar Jefe Carrera
+{% endblock %}
+
+{% block body %}
+    <!--  <div class="alert alert-info">
+                    mensaje
+                </div>-->
+<div class="col-md-4 col-md-offset-4  ">              
+    <div class="Compose-Message">               
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               <P> {% if not jefescarreras %}Agregar Jefe de carrera{% else %}Modificar {{ jefecarrera.nombre }}{% endif %}</P>
+            </div>
+            <div class="panel-body panel-body-com-m">
+              
+                <form action="" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                      {% buttons %}
+                        <button type="submit" class="btn btn-warning warning_22">
+                           Guardar
+                        </button>
+                        <button onclick="history.back()" class="btn btn-default">
+                           Cancelar
+                        </button>
+                        <button type="button" class="btn btn-info " onclick="window.open('{% url 'main:carrera_alta' %}', 300, 400, 'ventana1')"><i class="glyphicon glyphicon-plus"></i></button>
+                      {% endbuttons %}
+                </form>
+            </div>
+         </div>
+      </div>
+</div>
+<div class="clearfix"> </div>
+{% endblock %}
+
