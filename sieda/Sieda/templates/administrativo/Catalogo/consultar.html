@@ -10,50 +10,45 @@
 {% endblock %}
 
 {% block body %}
-<div class="panel panel-default">
-<div class="panel-heading">
- Consultar Catalogos
- <a href="{% url 'main:catalogo_alta' %}" class="btn btn-success pull-right">Agregar</a>
 
-</div>               
-    <div class="panel-body"> 
-     <br>
-    <table class="table table-hover ">
-        <thead style="background:#283643; color: #fff;">
-        <tr>
-            <th>Nombre</th>
-            <th>Materia</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for cat in catalago %}
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Consultar Catalogos
+         <a href="{% url 'main:catalogo_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ cat.Descripcion }} </td>
-                    <td>{{ maestro.Materia_id }} </td>
-                    <td>
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;"class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:catalogo_editar' id=cat.id %}'"><i class="glyphicon glyphicon-pencil"></i>
-                        </button>
-
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:catalogo_eliminar' id=cat.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
-                        
-                    </td>                 
+                    <th>Nombre</th>
+                    <th>Materia</th>
+                    <th></th>
                 </tr>
-                  {% empty %}
-                        <div class="alert alert-dismissible alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <h4>No hay catalogos registrados aun!</h4>
-                        <p>Para agregar un catalago, por favor presione "Agregar"</p>
-                        </div>
-            {% endfor %}
-        </tbody>
-</table>
+            </thead>
+            <tbody>
+                {% for cat in catalago %}
+                    <tr>
+                        <td>{{ cat.Descripcion }} </td>
+                        <td>{{ maestro.Materia_id }} </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:catalogo_editar' id=cat.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                            </button>
 
+                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:catalogo_eliminar' id=cat.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            
+                        </td>                 
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay catalogos registrados aun!</h4>
+                            <p>Para agregar un catalago, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-
-</div>
-</div>
-
+<div class="clearfix"> </div>
 
 {% endblock %}

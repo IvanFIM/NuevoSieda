@@ -10,27 +10,27 @@
 {% endblock %}
 
 {% block body %}
-<div class="panel panel-default">
-<div class="panel-heading">
- Consultar Administradores
- <a href="{% url 'main:admin_alta' %}" class="btn btn-success pull-right">Agregar</a>
 
-</div>               
-    <div class="panel-body"> 
-     <br>
-    <table class="table table-hover ">
-        <thead style="background:#283643; color: #fff;">
-        <tr>
-            <th>Nombre de usuario</th>
-            <th>Nombre</th>
-            <th>Contraseña</th>
-            <th>Permisos</th>
-            <th>Fecha de creación</th>
-            <th>Ultima modificación</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+         Consultar Administradores
+         <a href="{% url 'main:admin_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre de usuario</th>
+                    <th>Nombre</th>
+                    <th>Contraseña</th>
+                    <th>Permisos</th>
+                    <th>Fecha de creación</th>
+                    <th>Ultima modificación</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             {% for administradores in admin %}
                 <tr>
                     <td>{{ administradores.nom_user }} </td>
@@ -40,10 +40,10 @@
                     <td>{{ administradores.fecha_creacion }} </td> 
                     <td>{{ administradores.fecha_modificacion }} </td> 
                     <td>
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;"class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:admin_editar' id=administradores.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                        <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:admin_editar' id=administradores.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                         </button>
 
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:admin_eliminar' id=administradores.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:admin_eliminar' id=administradores.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
                         
                     </td>                 
                 </tr>
@@ -54,14 +54,14 @@
                         <p>Para agregar un administrador, por favor presione "Agregar"</p>
                         </div>
             {% endfor %}
-        </tbody>
-</table>
-
+            </tbody>
+        </table>
     </div>
 </div>
+<div class="clearfix"> </div>
 
-</div>
-</div>
+
+
 
 
 {% endblock %}

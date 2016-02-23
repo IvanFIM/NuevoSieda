@@ -12,6 +12,7 @@ class Alumnoform(forms.ModelForm):
 		model = models.Alumno
 		fields = ['Matricula','Nombre','Carrera', 'Cuatrimestre', 'Contrasena' ]
 
+
 class Carreraform(forms.ModelForm):
 	class Meta:
 		model = models.Carrera
@@ -67,7 +68,10 @@ class Preguntaform(forms.ModelForm):
 		fields = ['Descripcion']
 			
 		
-			
+class JefeCarreraform(forms.ModelForm):
+	class Meta:
+		model = models.JefeCarrera
+		fields = ['Nombre', 'Carrera']		
 		
 			
 		

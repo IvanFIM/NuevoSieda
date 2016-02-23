@@ -10,10 +10,51 @@
 {% endblock %}
 
 {% block body %}
+
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Consultar Pregunta
+        <a href="{% url 'main:pregunta_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for pre in pregunta %}
+                    <tr>
+                        <td>{{ pre.Descripcion }} </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:pregunta_editar' id=pre.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:pregunta_eliminar' id=pre.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            
+                        </td>                 
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay preguntas registradas aun!</h4>
+                            <p>Para agregar una pregunta, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="clearfix"> </div>
+
+
+
 <div class="panel panel-default">
 <div class="panel-heading">
- Consultar Pregunta
- <a href="{% url 'main:pregunta_alta' %}" class="btn btn-success pull-right">Agregar</a>
+  class="btn btn-success pull-right">Agregar</a>
 
 </div>               
     <div class="panel-body"> 

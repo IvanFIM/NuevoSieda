@@ -26,7 +26,6 @@ class Maestro(models.Model):
 
 	def __str__(self):
 		return self.Nombre		
-
 # Modelo para los grupos
 class Grupo(models.Model):
 	Cuatrimestre = models.IntegerField(null=False,default=0)
@@ -36,8 +35,8 @@ class Grupo(models.Model):
 
 # Modelo para las carreras
 class Carrera(models.Model):
-	Nombre = models.CharField(null=False, max_length=100)
-	Abrev_carrera = models.CharField(null=False, max_length=10)
+	Nombre = models.CharField("Nombre de la carrera",null=False, max_length=100)
+	Abrev_carrera = models.CharField("Abreviatura de la carrera",null=False, max_length=10)
 	Grupos = models.ManyToManyField(Grupo)
 
 	def __str__(self):
@@ -107,7 +106,7 @@ class Catalago(models.Model):
 class Periodo(models.Model):
 	Descripcion = models.CharField(null=False,max_length=100)
 	Realizado = models.BooleanField(default=False)
-	Catalagos = models.ManyToManyField(Catalago, through='Catalagos')
+	Catalagos = models.ManyToManyField(Catalago)
 
 	def __str__(self):
 		return self.Descripcion

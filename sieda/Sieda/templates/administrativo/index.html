@@ -13,39 +13,54 @@ Portal Administrativo
 
 
 {% block body %}
-<div class="row">
-	<div class="col-md-4 col-sm-4">
-		<div class="panel panel-default text-center">
-			<div class="panel-heading">
-				<h3 >Administradores</h3>
-				<br>
-			</div>
-		<div class="panel-body">
-			<strong>Numero de administradores Registrados:</strong> {{ admin_total}}
-			<br>
-			<br>
-			<button type="button" class="btn btn-success btn-circle" onclick="window.location='{% url 'main:admin_alta' %}'"><i class="glyphicon glyphicon-plus"></i></button>
 
-		</div>
-		<div class="panel-footer"></div>
+<div class="col_3">
+	<div class="col-md-3 widget widget1">
+		<div class="r3_counter_box">
+			<i class="fa fa-mail-forward"></i>
+			<div class="stats">
+			  <h5>{{ maestros_total}}</h5>
+			  <div class="grow">
+				<p>Maestros</p>
+			  </div>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-4 col-sm-4">
-		<div class="panel panel-default text-center">
-			<div class="panel-heading">
-				<h3 >Alumnos</h3>
-				<br>
+	<div class="col-md-3 widget widget1">
+		<div class="r3_counter_box">
+			<i class="fa fa-users "></i>
+			<div class="stats">
+			  <h5>{{ alumnos_total}}</h5>
+			  <div class="grow grow1">
+				<p>Alumnos</p>
+			  </div>
 			</div>
-		<div class="panel-body">
-			<strong>Numero de Alumnos Registrados:</strong> {{ alumnos_total}}
-			<br>
-			<br>
-			<button type="button" class="btn btn-success btn-circle" onclick="window.location='{% url 'main:alumno_alta' %}'"><i class="glyphicon glyphicon-plus"></i></button>
-
-		</div>
-		<div class="panel-footer"></div>
 		</div>
 	</div>
-</div><!--/.row-->
+	<div class="col-md-3 widget widget1">
+		<div class="r3_counter_box">
+			<i class="fa fa-star"></i>
+			<div class="stats">
+			  <h5>{{tutores_total}}</h5>
+			  <div class="grow grow3">
+				<p>Tutores</p>
+			  </div>
+			</div>
+		</div>
+	 </div>
+	 <div class="col-md-3 widget">
+		<div class="r3_counter_box">
+			<i class="fa fa-map"></i>
+			<div class="stats">
+			  <h5>{{ carreras_total}}</h5>
+			  <div class="grow grow2">
+				<p>Carreras</p>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+
 
 {% endblock %}

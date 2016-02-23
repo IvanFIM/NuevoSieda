@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    Consultar Administradores
+    Consultar Grupo
 {% endblock %}
 
 {% block head %}         
@@ -10,47 +10,42 @@
 {% endblock %}
 
 {% block body %}
-<div class="panel panel-default">
-<div class="panel-heading">
- Consultar Administradores
- <a href="{% url 'main:admin_alta' %}" class="btn btn-success pull-right">Agregar</a>
 
-</div>               
-    <div class="panel-body"> 
-     <br>
-    <table class="table table-hover ">
-        <thead style="background:#283643; color: #fff;">
-        <tr>
-            <th>Grupo</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for administradores in admin %}
-                <tr>
-                    <td>{{ administradores.nom_user }} </td>
-                    <td>
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;"class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:admin_editar' id=administradores.id %}'"><i class="glyphicon glyphicon-pencil"></i>
-                        </button>
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Consultar Grupo
+         <a href="{% url 'main:grupo_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Cuatrimestre</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody >
+                {% for grupo in grupos %}
+                    <tr>
+                        <td >{{ grupo.Cuatrimestre }} </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:grupo_editar' id=grupo.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                            </button>
 
-                        <button type="button" style="width: 30px; height: 30px; font-size: 7px;" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:admin_eliminar' id=administradores.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
-                        
-                    </td>                 
-                </tr>
-                  {% empty %}
-                        <div class="alert alert-dismissible alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <h4>No hay Administradores registrados aun!</h4>
-                        <p>Para agregar un administrador, por favor presione "Agregar"</p>
-                        </div>
-            {% endfor %}
-        </tbody>
-</table>
-
+                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:grupo_eliminar' id=grupo.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            
+                        </td>                 
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay Grupos registrados aun!</h4>
+                            <p>Para agregar un grupo, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-
-</div>
-</div>
-
-
+<div class="clearfix"> </div>
 {% endblock %}

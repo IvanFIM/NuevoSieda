@@ -38,6 +38,26 @@ urlpatterns = [
     url(r'^maestros/(?P<id>[0-9]+)/eliminar$', views.MaestroEliminar, name='maestro_eliminar'),
     url(r'^maestros/(?P<id>[0-9]+)/modificar$', views.MaestroEditar, name='maestro_editar'),
 
+    url(r'^tutores/alta$', views.TutorAlta, name='tutor_alta'),
+    url(r'^tutores/consultar$', views.TutorConsultar, name='tutor_consultar'),
+    url(r'^tutores/(?P<id>[0-9]+)/eliminar$', views.TutorEliminar, name='tutor_eliminar'),
+    url(r'^tutores/(?P<id>[0-9]+)/modificar$', views.TutorEditar, name='tutor_editar'),
+    
+    url(r'^grupos/alta$', views.GrupoAlta, name='grupo_alta'),
+    url(r'^grupos/consultar$', views.GrupoConsultar, name='grupo_consultar'),
+    url(r'^grupos/(?P<id>[0-9]+)/eliminar$', views.GrupoEliminar, name='grupo_eliminar'),
+    url(r'^grupos/(?P<id>[0-9]+)/modificar$', views.GrupoEditar, name='grupo_editar'),
+
+    url(r'^materias/alta$', views.MateriaAlta, name='materia_alta'),
+    url(r'^materias/consultar$', views.MateriaConsultar, name='materia_consultar'),
+    url(r'^materias/(?P<id>[0-9]+)/eliminar$', views.MateriaEliminar, name='materia_eliminar'),
+    url(r'^materias/(?P<id>[0-9]+)/modificar$', views.MateriaEditar, name='materia_editar'),
+    
+    url(r'^jefes_de_carreras/alta$', views.JefeCarreraAlta, name='jefe_carrera_alta'),
+    url(r'^jefes_de_carreras/consultar$', views.JefeCarreraConsultar, name='jefe_carrera_consultar'),
+    url(r'^jefes_de_carreras/(?P<id>[0-9]+)/eliminar$', views.JefeCarreraEliminar, name='jefe_carrera_eliminar'),
+    url(r'^jefes_de_carreras/(?P<id>[0-9]+)/modificar$', views.JefeCarreraEditar, name='jefe_carrera_editar'),
+
     url(r'^Catalogo/alta$', views.CatalogoAlta, name='catalogo_alta'),
     url(r'^Catalogo/consultar$', views.CatalogoConsultar, name='catalogo_consultar'),
     url(r'^Catalogo/(?P<id>[0-9]+)/eliminar$', views.CatalogoEliminar, name='catalogo_eliminar'),

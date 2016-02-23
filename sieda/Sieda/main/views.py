@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse, Http404
 from . import models
 from . import forms
-from .models import administradores, Alumno, Carrera, Maestro, Grupo
+from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera
 
 ###### -- PORTAL SIEDA -- ######
 
@@ -17,13 +17,16 @@ def Encuesta(request):
 ###### -- PORTAL ADMINISTRATIVO -- ######
 
 def AdminMain(request):
-    admin_total = administradores.objects.count()
-    return render(request, 'administrativo/index.html' , {'admin_total': admin_total})
+    maestros_total = Maestro.objects.count()
+    alumnos_total = Alumno.objects.count()
+    carreras_total = Carrera.objects.count()
+    tutores_total = Tutor.objects.count()
+    return render(request, 'administrativo/index.html' , {'maestros_total': maestros_total, 'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'tutores_total':tutores_total, })
 
 # -- ADMINISTRADORES -- 
 def AdminAlta(request):
     if request.method == 'POST':
-        form = forms.Administradorform(request.POST or None)
+        form = forms.JefeCarreraform(request.POST or None)
         if form.is_valid():
             instance = form.save()
             messages.add_message(request, messages.INFO, 'Administrador ha sido agregado exitosamente ')
@@ -176,6 +179,45 @@ def MaestroConsultar(request):
     maestros = models.Maestro.objects.all()   
     return render(request, 'Administrativo/maestros/consultar.html', {'maestros' : maestros})
 
+# --  TUTORES -- 
+
+def TutorAlta(request):
+    if request.method == 'POST':
+        form = forms.Tutorform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Tutor ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:tutor_consultar'))
+        else:
+            return render(request, 'Administrativo/tutores/agregar.html', {'form': form})
+    else:
+        form = forms.Tutorform()
+    return render(request, 'Administrativo/tutores/agregar.html', {'form': form})
+
+def TutorEditar(request, id):
+    tutores = get_object_or_404(models.Tutor, id=id)
+    if request.method == 'POST':
+        form = forms.Tutorform(request.POST, instance=tutores)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Tutor ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:tutor_consultar'))
+        else:
+            return render(request, 'Administrativo/tutores/agregar.html', {'form': form, 'tutores': tutores, })
+    else:
+        form = forms.Tutorform(instance=tutores)
+    return render(request, 'Administrativo/tutores/agregar.html', {'form': form, 'tutores': tutores, })
+
+def TutorEliminar(request, id):
+    tutores = get_object_or_404(models.Tutor, id=id)
+    tutores.delete()
+    messages.add_message(request, messages.INFO, 'Tutor : {0} ha sido borrada '.format(tutores.Nombre))
+    return HttpResponseRedirect(reverse('main:tutor_consultar'))
+
+def TutorConsultar(request):
+    tutores = models.Tutor.objects.all()   
+    return render(request, 'Administrativo/tutores/consultar.html', {'tutores' : tutores})
+
 # --  GRUPOS -- 
 
 def GrupoAlta(request):
@@ -198,7 +240,7 @@ def GrupoEditar(request, id):
         if form.is_valid():
             form = form.save()
             messages.add_message(request, messages.INFO, 'Grupo ha sido modificada exitosamente ')
-            return HttpResponseRedirect(reverse('main:Grupo_consultar'))
+            return HttpResponseRedirect(reverse('main:grupo_consultar'))
         else:
             return render(request, 'Administrativo/grupos/agregar.html', {'form': form, 'grupos': grupos, })
     else:
@@ -208,12 +250,91 @@ def GrupoEditar(request, id):
 def GrupoEliminar(request, id):
     grupos = get_object_or_404(models.Grupo, id=id)
     grupos.delete()
-    messages.add_message(request, messages.INFO, 'Grupo : {0} ha sido borrada '.format(grupos.nombre))
+    messages.add_message(request, messages.INFO, 'Grupo : {0} ha sido borrada '.format(grupos.Cuatrimestre))
     return HttpResponseRedirect(reverse('main:grupo_consultar'))
 
 def GrupoConsultar(request):
     grupos = models.Grupo.objects.all()   
     return render(request, 'Administrativo/grupos/consultar.html', {'grupos' : grupos})
+
+# --  JEFES DE CARRERAS -- 
+
+def JefeCarreraAlta(request):
+    if request.method == 'POST':
+        form = forms.JefeCarreraform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Jefe de carrera ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:jefe_carrera_consultar'))
+        else:
+            return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form})
+    else:
+        form = forms.JefeCarreraform()
+    return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form})
+
+def JefeCarreraEditar(request, id):
+    jefescarreras = get_object_or_404(models.JefeCarrera, id=id)
+    if request.method == 'POST':
+        form = forms.JefeCarreraform(request.POST, instance=jefescarreras)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Jefe de carrera ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:jefe_carrera_consultar'))
+        else:
+            return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form, 'jefescarreras': jefescarreras, })
+    else:
+        form = forms.JefeCarreraform(instance=jefescarreras)
+    return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form, 'jefescarreras': jefescarreras, })
+
+def JefeCarreraEliminar(request, id):
+    jefescarreras = get_object_or_404(models.jefesCarreras, id=id)
+    jefescarreras.delete()
+    messages.add_message(request, messages.INFO, 'Jefe de carrera : {0} ha sido borrada '.format(jefescarreras.Nombre))
+    return HttpResponseRedirect(reverse('main:jefes_carrera_consultar'))
+
+def JefeCarreraConsultar(request):
+    jefescarreras = models.JefeCarrera.objects.all()   
+    return render(request, 'Administrativo/jefes_carreras/consultar.html', {'jefescarreras' : jefescarreras})
+
+# -- MATERIAS -- 
+
+def MateriaAlta(request):
+    if request.method == 'POST':
+        form = forms.Materiaform(request.POST or None)
+        if form.is_valid():
+            instance = form.save()
+            messages.add_message(request, messages.INFO, 'Materia ha sido agregado exitosamente ')
+            return HttpResponseRedirect(reverse('main:materia_consultar'))
+        else:
+            return render(request, 'Administrativo/materias/agregar.html', {'form': form})
+    else:
+        form = forms.Materiaform()
+    return render(request, 'Administrativo/materias/agregar.html', {'form': form})
+
+def MateriaEditar(request, id):
+    materias = get_object_or_404(models.Materia, id=id)
+    if request.method == 'POST':
+        form = forms.Materiaform(request.POST, instance=materias)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.INFO, 'Materia ha sido modificada exitosamente ')
+            return HttpResponseRedirect(reverse('main:materia_consultar'))
+        else:
+            return render(request, 'Administrativo/materias/agregar.html', {'form': form, 'materias': materias, })
+    else:
+        form = forms.Materiaform(instance=materias)
+    return render(request, 'Administrativo/materias/agregar.html', {'form': form, 'materias': materias, })
+
+def MateriaEliminar(request, id):
+    materias = get_object_or_404(models.Materia, id=id)
+    materias.delete()
+    messages.add_message(request, messages.INFO, 'Materia : {0} ha sido borrada '.format(materias.Nombre))
+    return HttpResponseRedirect(reverse('main:materia_consultar'))
+
+def MateriaConsultar(request):
+    materias = models.Materia.objects.all()   
+    return render(request, 'Administrativo/materias/consultar.html', {'materias' : materias})
+
 
     # --  CATALOGO -- 
 
