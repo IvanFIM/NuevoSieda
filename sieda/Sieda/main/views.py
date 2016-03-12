@@ -499,5 +499,35 @@ def CatalogoPreguntas(request):
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
 
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias})
+    materias =  models.Materia.objects.filter(Carrera=1)
+
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'NumSeccion' : 0})
+
+def GuardarEvaluacion(request):
+    periodo = models.Periodo.objects.filter(Realizado=False)
+    cat = periodo[0].Catalagos.all()[0]
+    sec = int(request.POST.get('NumSeccion',False))
+    seccion = cat.Secciones.all()[sec]
+    pregunta = seccion.Preguntas.all()
+    materias =  models.Materia.objects.filter(Carrera=1)
+    cal = 0
+    
+    for mat in materias:
+        for pre in pregunta:
+            cal = cal + int(request.POST.get(str(pre.id)+""+str(mat.id),False))
+
+        cali = models.Calificaciones(Periodo=periodo[0], Seccion=seccion, Calificacion=cal)
+        cali.save()
+        cal = 0
+
+    secNuevo = sec + 1
+    seccionNueva = cat.Secciones.all()[secNuevo]
+    preguntaNueva = seccionNueva.Preguntas.all()
+
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo})
+
+
+    
+    
+
 

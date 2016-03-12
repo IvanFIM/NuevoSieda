@@ -80,5 +80,6 @@ urlpatterns = [
 
 
     url(r'^Evaluacion/consultar$', views.CatalogoPreguntas, name='Evaluacion_consultar'),
+    url(r'^Evaluacion/Guardar_evaluacion/$', views.GuardarEvaluacion, name='Guardar_evaluacion'),
     
 ]

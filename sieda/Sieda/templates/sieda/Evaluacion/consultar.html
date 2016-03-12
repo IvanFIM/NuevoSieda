@@ -31,7 +31,9 @@
 
      <br>
      <br>
-    <table class="table table-striped">
+     <form action="Guardar_evaluacion/" method="post"> 
+     {% csrf_token %} 
+     <table class="table table-striped">
         <thead >
         <tr>
             <th>Descripcion</th>
@@ -46,11 +48,11 @@
                     <td>{{ pre.Descripcion }} </td>
                     {% for mat in materias %}
                     <td>
-                        <select class="btn btn-default">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
+                        <select name="{{pre.id}}{{mat.id}}" class="btn btn-default">
+                          <option value=1>1</option>
+                          <option value=2>2</option>
+                          <option value=3>3</option>
+                          <option value=4>4</option>
                         </select>
                     </td>      
                     {% endfor %}           
@@ -59,8 +61,12 @@
             {% endfor %}
         </tbody>
 </table>
+
 <br>
-                        <button style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Siguiente</button>
+
+                        <button style="margin-top: -13px" class="btn btn-warning warning_22 pull-right" type="submit" value='{{NumSeccion}}'>Siguiente</button>
+                        </form>
+
     </div>
 </div>
 
