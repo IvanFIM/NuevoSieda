@@ -518,6 +518,14 @@ def Maestros_lista(request):
     data = serializers.serialize("json",models.Maestro.objects.all())
     return HttpResponse(data,content_type='application/json')
 
+def Secciones_lista(request):
+    data = serializers.serialize("json",models.Seccion.objects.all())
+    return HttpResponse(data,content_type='application/json')
+
+def Jeres_lista(request):
+    data = serializers.serialize("json",models.JefeCarrera.objects.all())
+    return HttpResponse(data,content_type='application/json')
+
 def GuardarEvaluacion(request):
     periodo = models.Periodo.objects.filter(Realizado=False)
     cat = periodo[0].Catalagos.all()[0]

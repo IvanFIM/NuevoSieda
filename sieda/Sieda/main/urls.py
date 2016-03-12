@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^Sieda-admin$', views.AdminMain, name='admin_main'),
     #NUEVOS 
     url(r'^lista/maestros/$',views.Maestros_lista, name='LMaestro'),
+    url(r'^lista/secciones/$',views.Secciones_lista, name='LPreguntas'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),
