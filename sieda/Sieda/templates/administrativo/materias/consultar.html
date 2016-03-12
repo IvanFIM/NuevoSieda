@@ -22,6 +22,9 @@
             <thead >
             <tr>
                 <th>Nombre</th>
+                <th>Abreviatura</th>
+                <th>Grupos</th>
+                <th>Carrera</th>
                 <th></th>
             </tr>
             </thead>
@@ -29,18 +32,25 @@
                 {% for materia in materias %}
                     <tr>
                         <td>{{ materia.Nombre }} </td> 
+                        <td>{{ materia.Abrev_materia }} </td> 
+                        <td>
+                            {% for grupo  in materia.Grupos.all %}
+                                ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
+                            {% endfor %}
+                        </td>
+                        <td>{{ materia.Carrera }} </td> 
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:materia_editar' id=materia.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:materia_eliminar' id=materia.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar materia?" onclick="{% url 'main:materia_eliminar' id=materia.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
                       {% empty %}
                             <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay Materias registrados aun!</h4>
+                            <h4>No hay Materias registradas aun!</h4>
                             <p>Para agregar una materia, por favor presione "Agregar"</p>
                             </div>
                 {% endfor %}

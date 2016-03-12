@@ -14,10 +14,10 @@ Portal Administrativo
 
 {% block body %}
 
-<div class="col_3">
+<div class="col_12">
 	<div class="col-md-3 widget widget1">
 		<div class="r3_counter_box">
-			<i class="fa fa-mail-forward"></i>
+			<i class="fa fa-users"></i>
 			<div class="stats">
 			  <h5>{{ maestros_total}}</h5>
 			  <div class="grow">
@@ -26,9 +26,10 @@ Portal Administrativo
 			</div>
 		</div>
 	</div>
+
 	<div class="col-md-3 widget widget1">
-		<div class="r3_counter_box">
-			<i class="fa fa-users "></i>
+		<div class="r3_counter_box ">
+			<i class="fa fa-graduation-cap"></i>
 			<div class="stats">
 			  <h5>{{ alumnos_total}}</h5>
 			  <div class="grow grow1">
@@ -39,15 +40,18 @@ Portal Administrativo
 	</div>
 	<div class="col-md-3 widget widget1">
 		<div class="r3_counter_box">
-			<i class="fa fa-star"></i>
+		<div class="f">
+			<i class="fa fa-graduation-cap"></i>
 			<div class="stats">
-			  <h5>{{tutores_total}}</h5>
+			  <h5>{{alumnos_faltantes}}</h5>
 			  <div class="grow grow3">
-				<p>Tutores</p>
+				<p>Alum. Faltantes</p>
 			  </div>
 			</div>
 		</div>
+		</div>
 	 </div>
+<!--
 	 <div class="col-md-3 widget">
 		<div class="r3_counter_box">
 			<i class="fa fa-map"></i>
@@ -59,8 +63,22 @@ Portal Administrativo
 			</div>
 		</div>
 	</div>
-	<div class="clearfix"> </div>
+-->	
+
+	<div class="xs">
+		<div class="col-md-3 email-list1">
+		<div class="panel panel-default">
+			<div class="panel-heading">Cambios Recientes</div>
+	    
+			<ul class="collection" id="Cambios">
+
+			</ul>
+		</div>
+		</div>
+	</div>
 </div>
+<p>{{preguntas}}</p>
+
 
 
 {% endblock %}

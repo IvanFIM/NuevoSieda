@@ -1,10 +1,17 @@
+# -*- encoding: utf-8 -*-
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.db.models.functions import Lower
 from . import models
 from . import forms
-from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera
+from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
+
+
+def Error(request):
+    return render(request, 'error.html' )
 
 ###### -- PORTAL SIEDA -- ######
 
@@ -21,7 +28,11 @@ def AdminMain(request):
     alumnos_total = Alumno.objects.count()
     carreras_total = Carrera.objects.count()
     tutores_total = Tutor.objects.count()
-    return render(request, 'administrativo/index.html' , {'maestros_total': maestros_total, 'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'tutores_total':tutores_total, })
+    alumnos_faltantes = Alumno.objects.filter(Realizado=False).count()
+
+
+    return render(request, 'administrativo/index.html' , {'maestros_total': maestros_total, 
+        'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'alumnos_faltantes':alumnos_faltantes,})
 
 # -- ADMINISTRADORES -- 
 def AdminAlta(request):
@@ -97,7 +108,7 @@ def AlumnoEliminar(request, id):
     return HttpResponseRedirect(reverse('main:alumno_consultar'))
 
 def AlumnoConsultar(request):
-    alumnos = models.Alumno.objects.all() 
+    alumnos = models.Alumno.objects.all().order_by('Nombre')  
     return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
 
 # --  CARRERAS -- 
@@ -107,7 +118,7 @@ def CarreraAlta(request):
         form = forms.Carreraform(request.POST or None)
         if form.is_valid():
             instance = form.save()
-            messages.add_message(request, messages.INFO, 'Alumno ha sido agregado exitosamente ')
+            messages.add_message(request, messages.INFO, 'Carrera ha sido agregado exitosamente ')
             return HttpResponseRedirect(reverse('main:carrera_consultar'))
         else:
             return render(request, 'Administrativo/carreras/agregar.html', {'form': form})
@@ -132,11 +143,11 @@ def CarreraEditar(request, id):
 def CarreraEliminar(request, id):
     carreras = get_object_or_404(models.Carrera, id=id)
     carreras.delete()
-    messages.add_message(request, messages.INFO, 'Carrera : {0} ha sido borrada '.format(carreras.Nombre))
+    messages.add_message(request, messages.INFO, 'Carrera : {0} ha sido borrada '.format(carreras.Nombre.encode('utf8')))
     return HttpResponseRedirect(reverse('main:carrera_consultar'))
 
 def CarreraConsultar(request):
-    carreras = models.Carrera.objects.all()   
+    carreras = models.Carrera.objects.all().order_by('Nombre')    
     return render(request, 'Administrativo/carreras/consultar.html', {'carreras' : carreras})
 
 
@@ -161,7 +172,7 @@ def MaestroEditar(request, id):
         form = forms.Maestroform(request.POST, instance=maestros)
         if form.is_valid():
             form = form.save()
-            messages.add_message(request, messages.INFO, 'Maestro ha sido modificada exitosamente ')
+            messages.add_message(request, messages.INFO, 'Maestro ha sido modificado exitosamente ')
             return HttpResponseRedirect(reverse('main:maestro_consultar'))
         else:
             return render(request, 'Administrativo/maestros/agregar.html', {'form': form, 'maestros': maestros, })
@@ -172,12 +183,12 @@ def MaestroEditar(request, id):
 def MaestroEliminar(request, id):
     maestros = get_object_or_404(models.Maestro, id=id)
     maestros.delete()
-    messages.add_message(request, messages.INFO, 'Maestro : {0} ha sido borrada '.format(maestros.Nombre))
+    messages.add_message(request, messages.INFO, 'Maestro : {0} ha sido borrado '.format(maestros.Nombre.encode('utf8')))
     return HttpResponseRedirect(reverse('main:maestro_consultar'))
 
 def MaestroConsultar(request):
-    maestros = models.Maestro.objects.all()   
-    return render(request, 'Administrativo/maestros/consultar.html', {'maestros' : maestros})
+    maestros = models.Maestro.objects.all().order_by('Nombre') 
+    return render(request, 'Administrativo/maestros/consultar.html', {'maestros' : maestros,})
 
 # --  TUTORES -- 
 
@@ -200,7 +211,7 @@ def TutorEditar(request, id):
         form = forms.Tutorform(request.POST, instance=tutores)
         if form.is_valid():
             form = form.save()
-            messages.add_message(request, messages.INFO, 'Tutor ha sido modificada exitosamente ')
+            messages.add_message(request, messages.INFO, 'Tutor ha sido modificado exitosamente ')
             return HttpResponseRedirect(reverse('main:tutor_consultar'))
         else:
             return render(request, 'Administrativo/tutores/agregar.html', {'form': form, 'tutores': tutores, })
@@ -211,11 +222,11 @@ def TutorEditar(request, id):
 def TutorEliminar(request, id):
     tutores = get_object_or_404(models.Tutor, id=id)
     tutores.delete()
-    messages.add_message(request, messages.INFO, 'Tutor : {0} ha sido borrada '.format(tutores.Nombre))
+    messages.add_message(request, messages.INFO, 'Tutor : {0} ha sido borrado '.format(tutores.Maestro))
     return HttpResponseRedirect(reverse('main:tutor_consultar'))
 
 def TutorConsultar(request):
-    tutores = models.Tutor.objects.all()   
+    tutores = models.Tutor.objects.all().order_by(Lower('Maestro').desc())    
     return render(request, 'Administrativo/tutores/consultar.html', {'tutores' : tutores})
 
 # --  GRUPOS -- 
@@ -239,7 +250,7 @@ def GrupoEditar(request, id):
         form = forms.Grupoform(request.POST, instance=grupos)
         if form.is_valid():
             form = form.save()
-            messages.add_message(request, messages.INFO, 'Grupo ha sido modificada exitosamente ')
+            messages.add_message(request, messages.INFO, 'Grupo ha sido modificado exitosamente ')
             return HttpResponseRedirect(reverse('main:grupo_consultar'))
         else:
             return render(request, 'Administrativo/grupos/agregar.html', {'form': form, 'grupos': grupos, })
@@ -250,11 +261,11 @@ def GrupoEditar(request, id):
 def GrupoEliminar(request, id):
     grupos = get_object_or_404(models.Grupo, id=id)
     grupos.delete()
-    messages.add_message(request, messages.INFO, 'Grupo : {0} ha sido borrada '.format(grupos.Cuatrimestre))
+    messages.add_message(request, messages.INFO, 'Grupo ha sido borrado '.format(grupos.Cuatrimestre))
     return HttpResponseRedirect(reverse('main:grupo_consultar'))
 
 def GrupoConsultar(request):
-    grupos = models.Grupo.objects.all()   
+    grupos = models.Grupo.objects.all().order_by('Cuatrimestre')    
     return render(request, 'Administrativo/grupos/consultar.html', {'grupos' : grupos})
 
 # --  JEFES DE CARRERAS -- 
@@ -278,7 +289,7 @@ def JefeCarreraEditar(request, id):
         form = forms.JefeCarreraform(request.POST, instance=jefescarreras)
         if form.is_valid():
             form = form.save()
-            messages.add_message(request, messages.INFO, 'Jefe de carrera ha sido modificada exitosamente ')
+            messages.add_message(request, messages.INFO, 'Jefe de carrera ha sido modificado exitosamente ')
             return HttpResponseRedirect(reverse('main:jefe_carrera_consultar'))
         else:
             return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form, 'jefescarreras': jefescarreras, })
@@ -287,13 +298,13 @@ def JefeCarreraEditar(request, id):
     return render(request, 'Administrativo/jefes_carreras/agregar.html', {'form': form, 'jefescarreras': jefescarreras, })
 
 def JefeCarreraEliminar(request, id):
-    jefescarreras = get_object_or_404(models.jefesCarreras, id=id)
+    jefescarreras = get_object_or_404(models.JefeCarrera, id=id)
     jefescarreras.delete()
-    messages.add_message(request, messages.INFO, 'Jefe de carrera : {0} ha sido borrada '.format(jefescarreras.Nombre))
-    return HttpResponseRedirect(reverse('main:jefes_carrera_consultar'))
+    messages.add_message(request, messages.INFO, 'Jefe de carrera : {0} ha sido borrado '.format(jefescarreras.Nombre.encode('utf8')))
+    return HttpResponseRedirect(reverse('main:jefe_carrera_consultar'))
 
 def JefeCarreraConsultar(request):
-    jefescarreras = models.JefeCarrera.objects.all()   
+    jefescarreras = models.JefeCarrera.objects.all().order_by('Nombre')    
     return render(request, 'Administrativo/jefes_carreras/consultar.html', {'jefescarreras' : jefescarreras})
 
 # -- MATERIAS -- 
@@ -328,11 +339,11 @@ def MateriaEditar(request, id):
 def MateriaEliminar(request, id):
     materias = get_object_or_404(models.Materia, id=id)
     materias.delete()
-    messages.add_message(request, messages.INFO, 'Materia : {0} ha sido borrada '.format(materias.Nombre))
+    messages.add_message(request, messages.INFO, 'Materia : {0} ha sido borrada '.format(materias.Nombre.encode('utf8')))
     return HttpResponseRedirect(reverse('main:materia_consultar'))
 
 def MateriaConsultar(request):
-    materias = models.Materia.objects.all()   
+    materias = models.Materia.objects.all().order_by('Nombre')    
     return render(request, 'Administrativo/materias/consultar.html', {'materias' : materias})
 
 
@@ -368,7 +379,7 @@ def CatalogoEditar(request, id):
 def CatalogoEliminar(request, id):
     catalago = get_object_or_404(models.Catalago, id=id)
     catalago.delete()
-    messages.add_message(request, messages.INFO, 'Catalago : {0} ha sido borrada '.format(catalago.Descripcion))
+    messages.add_message(request, messages.INFO, 'Catalago : {0} ha sido borrada '.format(catalago.Descripcion.encode('utf8')))
     return HttpResponseRedirect(reverse('main:catalogo_consultar'))
 
 def CatalogoConsultar(request):
@@ -407,7 +418,7 @@ def PeriodoEditar(request, id):
 def PeriodoEliminar(request, id):
     periodo = get_object_or_404(models.Periodo, id=id)
     periodo.delete()
-    messages.add_message(request, messages.INFO, 'Periodo : {0} ha sido borrada '.format(periodo.Descripcion))
+    messages.add_message(request, messages.INFO, 'Periodo : {0} ha sido borrada '.format(periodo.Descripcion.encode('utf8')))
     return HttpResponseRedirect(reverse('main:periodo_consultar'))
 
 def PeriodoConsultar(request):
@@ -446,7 +457,7 @@ def SeccionEditar(request, id):
 def SeccionEliminar(request, id):
     seccion = get_object_or_404(models.Seccion, id=id)
     seccion.delete()
-    messages.add_message(request, messages.INFO, 'Seccion : {0} ha sido borrada '.format(seccion.Descripcion))
+    messages.add_message(request, messages.INFO, 'Seccion : {0} ha sido borrada '.format(seccion.Descripcion.encode('utf8')))
     return HttpResponseRedirect(reverse('main:seccion_consultar'))
 
 def SeccionConsultar(request):
@@ -485,7 +496,7 @@ def PreguntaEditar(request, id):
 def PreguntaEliminar(request, id):
     pregunta = get_object_or_404(models.Pregunta, id=id)
     pregunta.delete()
-    messages.add_message(request, messages.INFO, 'Pregunta : {0} ha sido borrada '.format(pregunta.Descripcion))
+    messages.add_message(request, messages.INFO, 'Pregunta : {0} ha sido borrada '.format(pregunta.Descripcion.encode('utf8')))
     return HttpResponseRedirect(reverse('main:pregunta_consultar'))
 
 def PreguntaConsultar(request):
@@ -498,10 +509,14 @@ def CatalogoPreguntas(request):
     cat = periodo[0].Catalagos.all()[0]
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
+    materias =  models.Materia.objects.filter(Carrera=7)
+    maestros = models.Maestro.objects.all() 
 
-    materias =  models.Materia.objects.filter(Carrera=1)
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
 
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'NumSeccion' : 0})
+def Maestros_lista(request):
+    data = serializers.serialize("json",models.Maestro.objects.all())
+    return HttpResponse(data,content_type='application/json')
 
 def GuardarEvaluacion(request):
     periodo = models.Periodo.objects.filter(Realizado=False)
@@ -509,7 +524,7 @@ def GuardarEvaluacion(request):
     sec = int(request.POST.get('NumSeccion',False))
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=1)
+    materias =  models.Materia.objects.filter(Carrera=7)
     cal = 0
     
     for mat in materias:
@@ -525,9 +540,3 @@ def GuardarEvaluacion(request):
     preguntaNueva = seccionNueva.Preguntas.all()
 
     return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo})
-
-
-    
-    
-
-

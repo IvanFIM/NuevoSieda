@@ -23,7 +23,6 @@
             <thead>
                 <tr>
                     <th>Nombre </th>
-                    <th>Jefe de carrea</th>
                     <th>Carrera</th>
                     <th></th>
                 </tr>
@@ -32,13 +31,12 @@
                 {% for carrera in carreras %}
                     <tr>
                         <td>{{ carrera.Nombre }} </td>
-                        <td>{{ carrera.Jefe }} </td>
                         <td>{{ carrera.Abrev_carrera }} </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:carrera_editar' id=carrera.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:carrera_eliminar' id=carrera.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button"  class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar carrera?" onclick="{% url 'main:carrera_eliminar' id=carrera.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>

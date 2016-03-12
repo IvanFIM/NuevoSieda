@@ -32,14 +32,14 @@
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:periodo_editar' id=per.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:periodo_eliminar' id=per.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button"  class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar periodo?" onclick="{% url 'main:periodo_eliminar' id=per.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
                       {% empty %}
                             <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay periodos registrados aun!</h4>
+                            <h4>No hay Periodos registrados aun!</h4>
                             <p>Para agregar un periodo, por favor presione "Agregar"</p>
                             </div>
                 {% endfor %}

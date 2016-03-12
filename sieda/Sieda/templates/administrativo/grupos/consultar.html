@@ -20,6 +20,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>Grupo</th>
                 <th>Cuatrimestre</th>
                 <th></th>
             </tr>
@@ -27,13 +28,14 @@
             <tbody >
                 {% for grupo in grupos %}
                     <tr>
+                        <td >{{ grupo.Grupo }} </td>
                         <td >{{ grupo.Cuatrimestre }} </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:grupo_editar' id=grupo.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:grupo_eliminar' id=grupo.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
-                            
+                            <button type="button"  class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar grupo?" onclick="{% url 'main:grupo_eliminar' id=grupo.id %}"><i class="glyphicon glyphicon-trash"></i></button>
+
                         </td>                 
                     </tr>
                       {% empty %}
@@ -48,4 +50,5 @@
     </div>
 </div>
 <div class="clearfix"> </div>
+
 {% endblock %}

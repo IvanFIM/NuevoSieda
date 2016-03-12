@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django import forms
 from . import models
 from django.core.exceptions import ValidationError
@@ -5,23 +6,25 @@ from django.core.exceptions import ValidationError
 class Administradorform(forms.ModelForm):
 	class Meta:
 		model = models.administradores
-		fields = ['nom_user', 'nombre', 'contrasena', 'tipo']
+		fields = '__all__'
 
 class Alumnoform(forms.ModelForm):
 	class Meta:
 		model = models.Alumno
-		fields = ['Matricula','Nombre','Carrera', 'Cuatrimestre', 'Contrasena' ]
+		fields = '__all__'
+		#exclude =('Realizado',)
 
 
 class Carreraform(forms.ModelForm):
 	class Meta:
 		model = models.Carrera
-		fields = ['Nombre', 'Abrev_carrera']
+		fields = '__all__'
+
 
 class Maestroform(forms.ModelForm):
 	class Meta:
 		model = models.Maestro
-		fields = ['Nombre', 'Materia']
+		fields = '__all__'
 		widgets = {
             'Materia': forms.CheckboxSelectMultiple()
         }
@@ -29,12 +32,12 @@ class Maestroform(forms.ModelForm):
 class Grupoform(forms.ModelForm):
 	class Meta:
 		model = models.Grupo
-		fields = ['Cuatrimestre']
+		fields = '__all__'
 
 class Materiaform(forms.ModelForm):
 	class Meta:
 		model = models.Materia
-		fields = ['Nombre', 'Grupos','Carrera']
+		fields = '__all__'
 		widgets = {
             'Grupos': forms.CheckboxSelectMultiple()
         }
@@ -42,12 +45,12 @@ class Materiaform(forms.ModelForm):
 class Tutorform(forms.ModelForm):
 	class Meta:
 		model = models.Tutor
-		fields = ['Maestro','Grupo','Carrera']
+		fields = '__all__'
 
 class Periodoform(forms.ModelForm):
 	class Meta:
 		model = models.Periodo
-		fields = ['Descripcion','Catalagos', 'Realizado']
+		fields = '__all__'
 		widgets = {
             'Catalagos': forms.CheckboxSelectMultiple()
         }
@@ -55,7 +58,7 @@ class Periodoform(forms.ModelForm):
 class Catalagoform(forms.ModelForm):
 	class Meta:
 		model = models.Catalago
-		fields = ['Descripcion','Secciones']
+		fields = '__all__'
 		widgets = {
             'Secciones': forms.CheckboxSelectMultiple()
         }
@@ -63,7 +66,7 @@ class Catalagoform(forms.ModelForm):
 class Seccionform(forms.ModelForm):
 	class Meta:
 		model = models.Seccion
-		fields = ['Descripcion','Preguntas']
+		fields = '__all__'
 		widgets = {
             'Preguntas': forms.CheckboxSelectMultiple()
         }
@@ -71,13 +74,13 @@ class Seccionform(forms.ModelForm):
 class Preguntaform(forms.ModelForm):
 	class Meta:
 		model = models.Pregunta
-		fields = ['Descripcion']
+		fields = '__all__'
 			
 		
 class JefeCarreraform(forms.ModelForm):
 	class Meta:
 		model = models.JefeCarrera
-		fields = ['Nombre', 'Carrera']		
+		fields = '__all__'		
 		
 			
 		

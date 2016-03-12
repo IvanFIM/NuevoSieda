@@ -30,13 +30,13 @@
                 {% for tutor in tutores %}
                     <tr>
                         <td>{{ tutor.Maestro }} </td>
-                        <td>{{ tutor.Grupo }} </td>
+                        <td>{{ tutor.Grupo }}</td>
                         <td>{{ tutor.Carrera }} </td>  
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:tutor_editar' id=tutor.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:tutor_eliminar' id=tutor.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button"  class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar tutor?" onclick="{% url 'main:tutor_eliminar' id=tutor.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>

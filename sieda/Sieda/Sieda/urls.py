@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """Sieda URL Configuration
 """
 from django.conf.urls import include,url

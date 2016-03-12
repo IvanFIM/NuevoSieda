@@ -32,15 +32,15 @@
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:seccion_editar' id=sec.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button"  class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:seccion_eliminar' id=sec.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button"  class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar sección?" onclick="{% url 'main:seccion_eliminar' id=sec.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
                       {% empty %}
                             <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay secciones registradas aun!</h4>
-                            <p>Para agregar una seccion, por favor presione "Agregar"</p>
+                            <h4>No hay Secciones registradas aun!</h4>
+                            <p>Para agregar una sección, por favor presione "Agregar"</p>
                             </div>
                 {% endfor %}
             </tbody>

@@ -45,8 +45,8 @@ INSTALLED_APPS = [
 from django.core.urlresolvers import reverse_lazy
 
 LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/Encuesta'
+LOGOUT_URL = '/'
+LOGIN_REDIRECT_URL = '/Evaluacion/consultar'
 
 
 MIDDLEWARE_CLASSES = [

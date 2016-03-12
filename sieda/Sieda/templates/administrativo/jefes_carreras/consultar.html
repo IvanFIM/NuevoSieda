@@ -34,7 +34,7 @@
                             <button type="button" class=" btn btn-warning btn-circle" onclick="window.location='{% url 'main:jefe_carrera_editar' id=jefecarrera.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:jefe_carrera_eliminar' id=jefecarrera.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar jefe de carrera?" onclick="{% url 'main:jefe_carrera_eliminar' id=jefecarrera.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>

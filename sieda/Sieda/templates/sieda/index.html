@@ -13,25 +13,27 @@ Principal
 				<div class="graphs">
 					<div class="sign-in-form">
 						<div class="sign-in-form-top">
-							<p><img src="{% static 'img/ut.png' %}"><small>&nbsp;&nbsp;Iniciar Sessión</small></p>
+						<h1><span class="grey"><i class="fa fa-user"></i></span></h1>
+						<p>Bienvenido</p>
 						</div>
 						<div class="signin">
 			            	<form role="form" method="POST">{% csrf_token %}
-			                    <div class="form-group">
-						            <div class="login-wrap">
-						                <input name="username" type="text" class="form-control" placeholder="Matricula" autofocus>
-						                <br>
-						                <input name="password" type="password" class="form-control" placeholder="Contraseña">
-						                <label class="checkbox">
-						                    <span class="pull-right">
-						                        <a data-toggle="modal" href="#myModal"> ¿Olvidó su contraseña?</a>
-						                    </span>
-						                </label>
-						                <br>
-						                <br>
-
-						                <button class="btn btn-lg btn-login btn-warning btn-block" type="submit">Ingresar</button>
-						            </div>
+							<div class="log-input">
+								<p>Por favor, ingrese el usuario y contraseña</p>
+								<br>
+								<input type="text" class="user"  name="username" placeholder="Usuario" />
+								<div class="clearfix"> </div>
+							</div>
+							<div class="log-input">
+								<input type="password" class="lock" name="password" placeholder="Contraseña" />
+								<div class="clearfix"> </div>
+							</div>
+							<p><small> <span class="pull-right"><a data-toggle="modal" href="#myModal"> ¿Olvidó su contraseña?</a></span></small></p>
+							<br>
+							<br>
+							<button class="btn btn-lg btn-login btn-warning btn-block" type="submit">Ingresar</button>
+						
+						            
 
 						            <!-- Modal -->
 						            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">

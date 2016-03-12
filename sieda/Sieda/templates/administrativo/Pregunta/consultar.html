@@ -33,14 +33,14 @@
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:pregunta_editar' id=pre.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:pregunta_eliminar' id=pre.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar pregunta?" onclick="{% url 'main:pregunta_eliminar' id=pre.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
                       {% empty %}
                             <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay preguntas registradas aun!</h4>
+                            <h4>No hay Preguntas registradas aun!</h4>
                             <p>Para agregar una pregunta, por favor presione "Agregar"</p>
                             </div>
                 {% endfor %}

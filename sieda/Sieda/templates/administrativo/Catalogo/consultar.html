@@ -21,7 +21,6 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Materia</th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,19 +28,18 @@
                 {% for cat in catalago %}
                     <tr>
                         <td>{{ cat.Descripcion }} </td>
-                        <td>{{ maestro.Materia_id }} </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:catalogo_editar' id=cat.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:catalogo_eliminar' id=cat.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar catalogo?" onclick="{% url 'main:catalogo_eliminar' id=cat.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
                       {% empty %}
                             <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay catalogos registrados aun!</h4>
+                            <h4>No hay Catalogos registrados aun!</h4>
                             <p>Para agregar un catalago, por favor presione "Agregar"</p>
                             </div>
                 {% endfor %}

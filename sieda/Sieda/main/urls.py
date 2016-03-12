@@ -8,14 +8,18 @@ from . import views
 urlpatterns = [
     #url(r'^$', views.SiedaMain, name='sieda_main'),
 
+
     url(r'^$', 'django.contrib.auth.views.login', {'template_name':'sieda/index.html'}, name='login'),
-    url(r'^cerrar/$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^error$',views.Error, name='pagina_error'),
 
     #INDEX ALUMNOS#
     url(r'^Encuesta', views.Encuesta, name='sieda_encuesta'),
 
     #INDEX ADMINISTRADORES#
     url(r'^Sieda-admin$', views.AdminMain, name='admin_main'),
+    #NUEVOS 
+    url(r'^lista/maestros/$',views.Maestros_lista, name='LMaestro'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),

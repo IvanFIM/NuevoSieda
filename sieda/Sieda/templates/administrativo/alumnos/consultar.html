@@ -23,9 +23,7 @@
                 <th>Matricula</th>
                 <th>Nombre</th>
                 <th>Carrera</th>
-                <th>Cuatrimestre</th>
-                <th>Fecha de creación</th>
-                <th>Ultima modificación</th>
+                <th>Cuatrimestre - Grupo</th>
                 <th></th>
                 </tr>
             </thead>
@@ -35,14 +33,12 @@
                     <td>{{ alumno.Matricula }} </td>
                     <td>{{ alumno.Nombre }} </td>
                     <td>{{ alumno.getCarrera }} </td> 
-                    <td>{{ alumno.Cuatrimestre }} </td>  
-                    <td>{{ alumno.fecha_creacion }} </td> 
-                    <td>{{ alumno.fecha_modificacion }} </td> 
+                    <td>{{ alumno.Grupo }} </td> 
                     <td>
                         <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:alumno_editar' id=alumno.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                         </button>
 
-                        <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:alumno_eliminar' id=alumno.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar alumno?" onclick="{% url 'main:alumno_eliminar' id=alumno.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                         
                     </td>                 
                 </tr>

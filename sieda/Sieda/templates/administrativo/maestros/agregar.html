@@ -19,13 +19,13 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                       {% buttons %}
+                      
                         <button type="submit" class="btn btn-warning warning_22">
                            Guardar
                         </button>
                         <button onclick="history.back()" class="btn btn-default">
                            Cancelar
                         </button>
-                        <button type="button" class="btn btn-info " onclick="window.open('{% url 'main:materia_alta' %}', 300, 400, 'ventana1')"><i class="glyphicon glyphicon-plus"></i></button>
                       {% endbuttons %}
                 </form>
             </div>

@@ -18,6 +18,8 @@ html, body{
   	overflow-x: hidden;
 	background: #f9f9f9;
 }
+
+
 body a{
 	transition:0.5s all;
 	-webkit-transition:0.5s all;
@@ -26,6 +28,7 @@ body a{
 	-ms-transition:0.5s all;
 	text-decoration:none;
 }
+
 a:focus, a:active, a:hover {
     outline: none;
     -webkit-transition: all 0.3s;
@@ -38,6 +41,38 @@ a:focus, a:active, a:hover {
 h1, h2, h3, h4, h5 {
     font-family: 'Open Sans', sans-serif;
 }
+.negro{
+	color: #333
+}
+
+span.grey {
+  background: #cccccc;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  color: #fff;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
+  position: relative; 
+
+  top: -50px
+
+}
+
+span.ut-v{
+	background-color:#1CC09F;
+}
+i.icon_v{
+  float: left;
+  color: #8BC34A;
+  line-height: 2em;
+  margin-right: 1em;
+}
+
 .icons {
     margin: 2em 2em;
     background: #fff;
@@ -609,6 +644,8 @@ div#page-wrapper {
 .logo-icon a:hover{
 	color:#b8c9f1;
 }
+
+
 .left-side-inner {
     padding: 0px;
     margin-bottom: 50px;
@@ -1052,10 +1089,15 @@ ul.nav li a span {
 .sticky-header .logo:hover {
 	background-color: rgb(43, 46, 51);
 }
+/*<div class="logo">
+    <h1><a href="{% url 'main:admin_main' %}"><i class="fa fa-cogs"></i><strong> SIEDA </strong></a></h1>
+</div>
+           */
 
-.logo > h1 > a:hover {
+.logo a:hover *{
   color: #1CC09F;
 }
+
 .logo h1 {
     margin-bottom: 0;
 	line-height: 25px;
@@ -1943,7 +1985,7 @@ i.pull-left.fa.fa-bolt.icon-rounded {
     top:47%;
     left:35%;
     background:#8BC34A;/**/
-    width: 95px;
+    width: 100px;
     height: 30px;
     padding: .4em 0 0;
 }
@@ -2608,16 +2650,16 @@ h4.asd label {
     line-height: 105px;
     font-size: 3.5em;
 }
-.r3_counter_box .fa-mail-forward{
+.r3_counter_box .fa-users{
 	color:#8BC34A;
 }
-.r3_counter_box .fa-users {
+.r3_counter_box .fa-graduation-cap{
 	color:#00BCD4;
 }
-.r3_counter_box .fa-usd {
+.r3_counter_box .fa-map {
 	color:#FFCA28;
 }
-.r3_counter_box .fa-eye {
+.r3_counter_box .f .fa-graduation-cap {
 	color:#F44336;
 }
 .stats span{
@@ -3120,6 +3162,23 @@ select[multiple] {
     background-color: #F44336;
     border-color: #F44336;
 }
+.panel.panel-ut-v {
+  border-color: #fdd835;
+}
+.panel.panel-ut-v .panel-heading {
+background:#1CC09F; 
+
+}
+
+.panel.panel-ut-v .panel-heading label, span , i, h2 {
+	color: #fff;
+	font-weight: bold;
+}
+
+.panel.panel-ut .panel-heading label, span , i {
+	color: #fff;
+	font-weight: bold;
+}
 
 .panel.panel-ut {
   border-color: #fdd835;
@@ -3127,6 +3186,7 @@ select[multiple] {
 .panel.panel-ut .panel-heading {
 background:#0c3a58; 
 color: #fff;
+
 }
 
 
@@ -3234,6 +3294,10 @@ ul.collection li.email_last{
   font-weight: 500;
   color: #000;
 }
+.email-title {
+  font-weight: 500;
+  color: #000;
+}
 .ultra-small {
   font-size: 0.8rem;
   margin: 0;
@@ -3309,6 +3373,7 @@ i.icon_5{
 i.icon_6{
   background-color: #03a9f4;
 }
+/*COLORES PARA CAMBIOS*/
 .blue-text {
   color: #2196F3 !important;
   float:right;
@@ -4710,16 +4775,19 @@ span.badge1 {
 	border:1px solid #F44336;
 }
 .sign-in-form-top{
-	background:#0f546f;
+	background:#0c3a58;
 	display:block;
 	min-height:50px;
-	padding:1.5em 0 1.5em;
+	padding:1.5em 0 .3em;
 	text-align: center;
+	border-bottom: #1CC09F 10px solid;
 }
 .sign-in-form-top p{
 	color:#fff;
 	margin:0;
-	font-size:2em;
+	margin-top:-50px ;
+	margin-bottom: 10px;
+	font-size:21pt;
 	font-weight:300;
 	text-decoration:none;
 }
@@ -4739,7 +4807,6 @@ span.badge1 {
 }
 .signin:after {
     content: '';
-    background: url(../img/6.png) no-repeat 0px 0px;
     display: block;
     width: 595px;
     height: 20px;
@@ -5136,7 +5203,6 @@ canvas#bar1 {
     width: 39%;
 }
 .signin:after {
-    background: url(../img/6.png) no-repeat 0px 0px;
     width: 590px;
     background-size: 100%;
 }
@@ -6226,7 +6292,6 @@ div#char {
 		min-height: 2285px !important;
 	}
 	.sign-in-form-top {
-		background: url(../img/3.jpg) no-repeat 0px -80px;
 		min-height: 115px;
 	}
 	.sign-in-form {

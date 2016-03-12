@@ -1,49 +1,83 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
-<!DOCTYPE html>
-</style>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{% endblock %} </title>
-    <!-- Bootstrap Styles-->
+{% block login %}{% endblock %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <!-- Bootstrap Core CSS -->
 <link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
 <link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
-<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet"> 
+<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet"/> 
+<!-- jQuery -->
+<!-- lined-icons -->
 <link rel="stylesheet" href="{% static 'css/icon-font.min.css' %}" type='text/css' />
+<!-- //lined-icons -->
+<!-- chart -->
+<script src="{% static 'js/Chart.js' %}"></script>
+<!-- //chart -->
+<!--animate-->
+<link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" media="all"/>
+
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
+<!--//end-animate-->
+
+ <!-- Meters graphs -->
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<!-- Placed js at the end of the document so the pages load faster -->
+
+</head> 
+
 <body>
+<section>
 
-{% block login %}{% endblock %}
-
-
-    <div id="wrapper" >
-        <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                {% block head %}{% endblock %}
-                                {% bootstrap_messages %}
-                                {% block body %}<br>{% endblock %}
-                            </div>
-                        </div> 
-                </div>
-            </div>   
-        </div>
+<!-- //header-ends -->
+<div id="wrapper" >
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                    {% block head %}{% endblock %}
+                    {% bootstrap_messages %}
+                    {% block body %}<br>{% endblock %}
+                    </div>
+                </div> 
+            </div>
+        </div>   
     </div>
-    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
-      <!-- Bootstrap Js -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- Metis Menu Js -->
-    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
-      <!-- Custom Js -->
-    <script src="{% static 'js/custom-scripts.js' %}"></script>
-    
-   
+</div>
+    <!--footer section start-->
+    <footer>
+    <p>© 2016 Universidad Tecnológica de San Luis Río Colorado</p>
+
+    </footer>
+    <!--footer section end-->
+</section>
+
+<script>
+$(document).on("click", "[data-toggle=\"confirm\"]", function (e) {
+    e.preventDefault();
+    var lHref = $(this).attr('onclick');
+    var lText = this.attributes.getNamedItem("data-title") ? this.attributes.getNamedItem("data-title").value : "Esta seguro?"; 
+    bootbox.confirm(lText, function (confirmed) {
+        if (confirmed) {
+            window.location = lHref; 
+        }
+    });
+});
+</script>
+<!-- JS dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<!-- bootbox code -->
+<script src="{% static 'js/bootbox.min.js' %}"></script>
+<script src="{% static 'js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
-         Consultar Mestros
+         Consultar Maestros
          <a href="{% url 'main:maestro_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
     </div>
     <div class="panel-body no-padding" style="display: block;">
@@ -21,7 +21,7 @@
             <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Materia</th>
+                <th>Materias </th>
                 <th></th>
             </tr>
             </thead>
@@ -29,12 +29,17 @@
                 {% for maestro in maestros %}
                     <tr>
                         <td>{{ maestro.Nombre }} </td>
-                        <td>{{ maestro.Materia }} </td>
+                        <td>
+                        {% for materia in maestro.Materia.all %}
+                           - {{materia.Nombre}}
+                        {% endfor %}
+                        </td>
+
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:maestro_editar' id=maestro.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:maestro_eliminar' id=maestro.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar maestro?" onclick="{% url 'main:maestro_eliminar' id=maestro.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                             
                         </td>                 
                     </tr>
