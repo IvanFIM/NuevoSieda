@@ -38,7 +38,7 @@
                                 ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
                             {% endfor %}
                         </td>
-                        <td>{{ materia.Carrera }} </td> 
+                        <td>{{ materia.Carrera.Nombre }} </td> 
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:materia_editar' id=materia.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>

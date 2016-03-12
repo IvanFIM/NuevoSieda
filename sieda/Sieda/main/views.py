@@ -522,7 +522,7 @@ def Secciones_lista(request):
     data = serializers.serialize("json",models.Seccion.objects.all())
     return HttpResponse(data,content_type='application/json')
 
-def Jeres_lista(request):
+def Jefes_lista(request):
     data = serializers.serialize("json",models.JefeCarrera.objects.all())
     return HttpResponse(data,content_type='application/json')
 
