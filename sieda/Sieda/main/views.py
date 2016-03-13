@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
 from django.core.urlresolvers import reverse
 from django.core import serializers
+from django.template import loader
 from django.contrib import messages
 from django.http import HttpResponse, Http404
 from django.db.models.functions import Lower
@@ -509,7 +510,7 @@ def CatalogoPreguntas(request):
     cat = periodo[0].Catalagos.all()[0]
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=7)
+    materias =  models.Materia.objects.filter(Carrera=1)
     maestros = models.Maestro.objects.all() 
 
     return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
@@ -526,13 +527,13 @@ def Jefes_lista(request):
     data = serializers.serialize("json",models.JefeCarrera.objects.all())
     return HttpResponse(data,content_type='application/json')
 
-def GuardarEvaluacion(request):
+def GuardarEvaluacion(request,id):
     periodo = models.Periodo.objects.filter(Realizado=False)
     cat = periodo[0].Catalagos.all()[0]
-    sec = int(request.POST.get('NumSeccion',False))
+    sec = int(id)
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=7)
+    materias =  models.Materia.objects.filter(Carrera=1)
     cal = 0
     
     for mat in materias:
@@ -546,5 +547,6 @@ def GuardarEvaluacion(request):
     secNuevo = sec + 1
     seccionNueva = cat.Secciones.all()[secNuevo]
     preguntaNueva = seccionNueva.Preguntas.all()
-
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo})
+    template = loader.get_template('sieda/Evaluacion/consultar.html')
+    context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo}
+    return HttpResponse(template.render(context, request))
