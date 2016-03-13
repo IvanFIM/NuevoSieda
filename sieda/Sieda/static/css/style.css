@@ -1089,10 +1089,6 @@ ul.nav li a span {
 .sticky-header .logo:hover {
 	background-color: rgb(43, 46, 51);
 }
-/*<div class="logo">
-    <h1><a href="{% url 'main:admin_main' %}"><i class="fa fa-cogs"></i><strong> SIEDA </strong></a></h1>
-</div>
-           */
 
 .logo a:hover *{
   color: #1CC09F;
@@ -3374,11 +3370,8 @@ i.icon_6{
   background-color: #03a9f4;
 }
 
-i.icon_A{
-  background-color: #00865a;
-}
-i.icon_N{
-  background-color: #f76110;
+i.icon_v7{
+  background-color: #8BC34A;
 }
 
 /*COLORES PARA CAMBIOS*/

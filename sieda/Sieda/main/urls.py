@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^lista/maestros/$',views.Maestros_lista, name='LMaestro'),
     url(r'^lista/secciones/$',views.Secciones_lista, name='LPreguntas'),
     url(r'^lista/jefes/$',views.Jefes_lista, name='LJefes'),
+    url(r'^lista/tutores/$',views.Tutores_lista, name='LTutores'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),

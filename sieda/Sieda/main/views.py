@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.core import serializers
-from django.template import loader
 from django.contrib import messages
 from django.http import HttpResponse, Http404
 from django.db.models.functions import Lower
+from django.template import loader
 from . import models
 from . import forms
 from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
@@ -525,6 +525,10 @@ def Secciones_lista(request):
 
 def Jefes_lista(request):
     data = serializers.serialize("json",models.JefeCarrera.objects.all())
+    return HttpResponse(data,content_type='application/json')
+
+def Tutores_lista(request):
+    data = serializers.serialize("json",models.Tutor.objects.all())
     return HttpResponse(data,content_type='application/json')
 
 def GuardarEvaluacion(request,id):
