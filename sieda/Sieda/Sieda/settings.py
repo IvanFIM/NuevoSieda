@@ -46,7 +46,7 @@ from django.core.urlresolvers import reverse_lazy
 
 LOGIN_URL = 'login'
 LOGOUT_URL = '/'
-LOGIN_REDIRECT_URL = '/Evaluacion/consultar'
+LOGIN_REDIRECT_URL = '/Evaluacion/'
 
 
 MIDDLEWARE_CLASSES = [

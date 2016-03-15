@@ -4,9 +4,13 @@
 <html>
 <head>
 {% block login %}{% endblock %}
+<title>Evaluación</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
  <!-- Bootstrap Core CSS -->
+ 
+<link href="{% static 'css/Profile.css' %}" rel='stylesheet' type='text/css' />
 <link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
 <link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
@@ -23,6 +27,10 @@
 <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" media="all"/>
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+<script src="{% static 'js/wow.min.js' %}"></script>
+    <script>
+         new WOW().init();
+    </script>
 <!--//end-animate-->
 
  <!-- Meters graphs -->
@@ -30,33 +38,77 @@
 <!-- Placed js at the end of the document so the pages load faster -->
 
 </head> 
-
-<body>
-<section>
-
-<!-- //header-ends -->
-<div id="wrapper" >
-    <div id="page-wrapper" >
-        <div id="page-inner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                    {% block head %}{% endblock %}
-                    {% bootstrap_messages %}
-                    {% block body %}<br>{% endblock %}
-                    </div>
-                </div> 
-            </div>
-        </div>   
+   
+ <body >
+    <section>
+    <!-- header-starts -->
+    <div class="header-section navbar-fixed-top" >
+         <p style="padding-bottom: 25px; ">&nbsp;&nbsp;</p>
     </div>
-</div>
-    <!--footer section start-->
-    <footer>
-    <p>© 2016 Universidad Tecnológica de San Luis Río Colorado</p>
-
-    </footer>
-    <!--footer section end-->
-</section>
+    <br>
+    <br>
+    <!-- //header-ends -->
+        <div id="page-wrapper">
+          <div class="row">
+             <div class="col-md-2">
+                    <div class="profile-sidebar grid_3 grid_3">
+                      <!-- SIDEBAR USERPIC -->
+                      <div class="profile-userpic">
+                        <img src="{% static 'img/1.png' %}" class="img-responsive" alt="">
+                      </div>
+                      <!-- END SIDEBAR USERPIC -->
+                      <!-- SIDEBAR USER TITLE -->
+                      <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                        {{ user.username }}
+                          Dalia Morales 
+                        </div>
+                        <div class="profile-usertitle-job">
+                          Alumno
+                        </div>
+                      </div>
+                      <!-- END SIDEBAR USER TITLE -->
+                      <!-- SIDEBAR BUTTONS -->
+                      <div class="profile-userbuttons">
+                      <a href="{% url 'main:logout' %}"  class="btn btn-danger btn-sm">Cerrar Sesión</a>
+                      </div>
+                      <!-- END SIDEBAR BUTTONS -->
+                      <!-- SIDEBAR MENU -->
+                      <div class="profile-usermenu">
+                        <ul class="nav">
+                          <li>
+                            <a href="#">
+                            <i class="fa fa-hashtag gris"></i>
+                            Matricula: 12304063</a>
+                          </li>
+                          <li>
+                            <a href="#"class="disabled">
+                            <i class="fa fa-users gris"></i>
+                            Grupo: 11-1</a>
+                          </li>
+                          <li>
+                            <a href="#">
+                            <i class="fa fa-map gris"></i>
+                             Carrera: tics</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <!-- END MENU -->
+                  </div>
+                  </div>
+                      {% block head %}{% endblock %}
+                      {% bootstrap_messages %}
+                      {% block body %}{% endblock %}
+              
+          </div> 
+        </div>
+        <!--footer section start-->
+            <footer>
+               <p>© 2016 Universidad Tecnológica de San Luis Río Colorado</p>
+                
+            </footer>
+        <!--footer section end-->
+    </section>
 
 <script>
 $(document).on("click", "[data-toggle=\"confirm\"]", function (e) {
@@ -70,6 +122,7 @@ $(document).on("click", "[data-toggle=\"confirm\"]", function (e) {
     });
 });
 </script>
+<script src="{% static 'js/Cambios.js' %}"></script>
 <!-- JS dependencies -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 

@@ -1,4 +1,5 @@
 {% extends 'base_sieda.html' %}
+{% load staticfiles %}
 {% load bootstrap3 %}
 
 {% block title %}
@@ -10,119 +11,47 @@
 {% endblock %}
 
 {% block body %}
-<div class="row">
-  <div class="col-md-8">
-    <div class="banner-bottom-video-grid-left">
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-ut">
-          <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title asd">
-              <a class="pa_italic" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <span class="lnr lnr-chevron-down"></span><i class="lnr lnr-chevron-up"></i><label>Intrucciones</label>
-              </a>
-            </h4>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body panel_text">
-              <p >Bienvenido alumno a la evaluación de docentes y administrativos donde se pretende calificar al maestro para tener resultados de su desempeño impartiendo su clase, así como también se calificara el tutor. A continuación se le mostraran los reactivos le pedimos que por favor conteste la evaluación honestamente.</p>
-               <br>              
-              <h4 class="text-center">Ponderaciones</h4>
-              <p class="bold">La escala que se estará usando es del 1 al 5, equivalentes a:</p>
-              <p class="bold">1 = Altamente en desacuerdo</p>
-              <p class="bold">2 = En desacuerdo</p>
-              <p class="bold">3 = Indiferente</p>
-              <p class="bold">4 = De acuerdo</p>
-              <p class="bold">5 = Totalmente de acuerdo</p>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-ut">
-          <div class="panel-heading" role="tab" id="headingTwo">
-            <h4 class="panel-title asd">
-              <a class="pa_italic collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                <span class="lnr lnr-chevron-down"></span><i class="lnr lnr-chevron-up"></i><label>Abreviaturas</label>
-              </a>
-            </h4>
-          </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-             <div class="panel-body panel_text">
-              <table class="table table-striped">
-                  <thead>
-                      <tr>
-                         <th>Maestros</th>
-                          <th>Nombre de la materia</th>
-                          <th> Abreviatura</th>   
-                      </tr>
-                  </thead>
-                  <tbody>
-                   {% for maestro in maestros %}
-                      {%  for materia in maestro.Materia.all%}
-                          <tr>
-                              <td>{{maestro.Nombre}}</td> 
-                              <td>{{materia.Nombre }} </td>
-                              <td>{{materia.Abrev_materia}}</td>                
-                          </tr>
-                            {% empty %}
-                                  <div class="alert alert-dismissible alert-warning">
-                                  <button type="button" class="close" data-dismiss="alert">×</button>
-                                  <h4>Parece que no estas registrado</h4>
-                                  <p>Por favor avisa que te den de alta :)</p>
-                                  </div>
-                      {% endfor %}
-                  {% endfor %}  
-                  </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+ 
+<div class="col-md-10">
+    <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+  <div class="panel-heading">
+  Abreviaturas
+  
   </div>
-  <div class="col-md-4">
-      <div class="banner-bottom-video-grid-left">
-      <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-ut-v">
-          <div class="panel-heading" role="tab" id="headingthree">
-            <h4 class="panel-title asd">
-              <a class="pa_italic collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#collapsethree" aria-expanded="false" aria-controls="collapsethree">
-                <span class="lnr lnr-chevron-down"></span><i class="lnr lnr-chevron-up"></i><label>Datos del Usuario</label>
-              </a>
-            </h4>
-          </div>
-          <div id="collapsethree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingthree">
-             <div class="panel-body panel_text">
-              <table class="table table-striped">
-                  <thead>
-                      <tr>
-                         <th>Matricula:</th>
-                          <th>Nombre:</th>
-                          <th>Grupo:</th>
-                          <th>Carrera:</th>   
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                        <td>12304063</td> 
-                        <td>Dalia Morales </td>
-                        <td>11-1</td>  
-                        <td>tics</td>                 
-                    </tr> 
-                  </tbody>
-              </table>
-                  <a href="{% url 'main:logout' %}" class="btn btn-danger btn-flat">Cerrar Sesión</a>
+  <div class="panel-body no-padding" style="display: block;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Maestros</th>
+          <th>Nombre de la materia</th>
+          <th> Abreviatura</th>   
+        </tr>
+      </thead>
+      <tbody>
+        {% for maestro in maestros %}
+          {%  for materia in maestro.Materia.all%}
+            <tr>
+              <td>{{maestro.Nombre}}</td> 
+              <td>{{materia.Nombre }} </td>
+              <td>{{materia.Abrev_materia}}</td>                
+            </tr>
+          {% empty %}
+            <div class="alert alert-dismissible alert-warning">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <h4>Parece que no estas registrado</h4>
+              <p>Por favor avisa que te den de alta :)</p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          {% endfor %}
+        {% endfor %}  
+      </tbody>
+    </table>
+
   </div>
 </div>
 
-
-
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading text-center">
-        {{seccion.Descripcion}}
+       <H4>  {{seccion.Descripcion}}</H4>
     </div>
     <div class="panel-body no-padding" style="display: block;">
 
@@ -166,5 +95,13 @@
     </div>
 </div>
 <div class="clearfix"> </div>
+</div>
+
+
+  
+
+
+
+
 
 {% endblock %}

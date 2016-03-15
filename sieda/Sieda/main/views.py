@@ -17,10 +17,7 @@ def Error(request):
 ###### -- PORTAL SIEDA -- ######
 
 def SiedaMain(request):
-    return render(request, 'sieda/index.html' )
-
-def Encuesta(request):
-    return render(request, 'sieda/Encuesta/encuesta.html' )
+    return render(request, 'sieda/login.html' )
 
 ###### -- PORTAL ADMINISTRATIVO -- ######
 
@@ -512,7 +509,7 @@ def CatalogoPreguntas(request):
     pregunta = seccion.Preguntas.all()
     materias =  models.Materia.objects.filter(Carrera=1)
     maestros = models.Maestro.objects.all() 
-
+    
     return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
 
 def Maestros_lista(request):
@@ -538,19 +535,31 @@ def GuardarEvaluacion(request,id):
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
     materias =  models.Materia.objects.filter(Carrera=1)
+    secciones_totales = cat.Secciones.count()
     cal = 0
-    
+
     for mat in materias:
-        for pre in pregunta:
-            cal = cal + int(request.POST.get(str(pre.id)+""+str(mat.id),False))
+            for pre in pregunta:
+                cal = cal + int(request.POST.get(str(pre.id)+""+str(mat.id),False))
 
-        cali = models.Calificaciones(Periodo=periodo[0], Seccion=seccion, Calificacion=cal)
-        cali.save()
-        cal = 0
+            cali = models.Calificaciones(Periodo=periodo[0], Seccion=seccion, Calificacion=cal)
+            cali.save()
+            cal = 0
+    
+    
+    var = secciones_totales -1
 
-    secNuevo = sec + 1
-    seccionNueva = cat.Secciones.all()[secNuevo]
-    preguntaNueva = seccionNueva.Preguntas.all()
-    template = loader.get_template('sieda/Evaluacion/consultar.html')
-    context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo}
-    return HttpResponse(template.render(context, request))
+    if var == sec:
+        return render(request, 'sieda/Evaluacion/fin.html')
+    else:
+        secNuevo = sec + 1
+        seccionNueva = cat.Secciones.all()[secNuevo]
+        preguntaNueva = seccionNueva.Preguntas.all()
+        template = loader.get_template('sieda/Evaluacion/consultar.html')
+        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo}
+        return HttpResponse(template.render(context, request))
+
+def Evaluacion_Intruccion(request):
+    return render(request, 'sieda/Evaluacion/index.html')
+def Fin(request):
+    return render(request, 'sieda/Evaluacion/fin.html')

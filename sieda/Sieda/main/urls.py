@@ -9,12 +9,10 @@ urlpatterns = [
     #url(r'^$', views.SiedaMain, name='sieda_main'),
 
 
-    url(r'^$', 'django.contrib.auth.views.login', {'template_name':'sieda/index.html'}, name='login'),
+    url(r'^$', 'django.contrib.auth.views.login', {'template_name':'sieda/login.html'}, name='login'),
     url(r'^$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^error$',views.Error, name='pagina_error'),
 
-    #INDEX ALUMNOS#
-    url(r'^Encuesta', views.Encuesta, name='sieda_encuesta'),
 
     #INDEX ADMINISTRADORES#
     url(r'^Sieda-admin$', views.AdminMain, name='admin_main'),
@@ -85,8 +83,9 @@ urlpatterns = [
     url(r'^Pregunta/(?P<id>[0-9]+)/eliminar$', views.PreguntaEliminar, name='pregunta_eliminar'),
     url(r'^Pregunta/(?P<id>[0-9]+)/modificar$', views.PreguntaEditar, name='pregunta_editar'),
 
-
+    url(r'^Evaluacion/$', views.Evaluacion_Intruccion, name='Evaluacion_intruccion'),
     url(r'^Evaluacion/consultar$', views.CatalogoPreguntas, name='Evaluacion_consultar'),
     url(r'^Evaluacion/Guardar_evaluacion/(?P<id>[0-9]+)$', views.GuardarEvaluacion, name='Guardar_evaluacion'),
+    url(r'^Evaluacion/fin$', views.Fin, name='fin'),
     
 ]
