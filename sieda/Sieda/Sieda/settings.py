@@ -79,7 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Sieda.wsgi.application'
-
+AUTH_USER_MODEL = 'main.administradores'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

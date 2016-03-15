@@ -1,17 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
-
-# Modelo para usuario administradores
-class administradores(models.Model):
-	nom_user = models.CharField(null=False, max_length=20)
-	nombre = models.CharField(null=False, max_length=100)
-	contrasena = models.CharField(null=False, max_length=10)
-	tipo = models.CharField(null=False, max_length=20)
-	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
-	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
-
-	def __str__(self):
-		return self.nombre.encode('utf8')	
+from django.contrib.auth.models import AbstractUser	
 
 # Modelo para los grupos
 class Grupo(models.Model):
@@ -123,6 +112,15 @@ class Calificaciones(models.Model):
 	Maestro = models.ForeignKey(Maestro,null=True)
 	Calificacion = models.IntegerField(null=False)
 
+# Modelo para usuario administradores
+class administradores(AbstractUser):
+	nom_user = models.CharField(null=False, max_length=20)
+	nombre = models.CharField(null=False, max_length=100)
+	contrasena = models.CharField(null=False, max_length=10)
+	tipo = models.CharField(null=False, max_length=20)
+	Alumno = models.ForeignKey(Alumno,null=True)
+	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
+	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
 
 
 
