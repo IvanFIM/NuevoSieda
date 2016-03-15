@@ -77,6 +77,8 @@ def AlumnoAlta(request):
         form = forms.Alumnoform(request.POST or None)
         if form.is_valid():
             instance = form.save()
+            user = models.administradores(Alumno= instance)
+            user.save()
             messages.add_message(request, messages.INFO, 'Alumno ha sido agregado exitosamente ')
             return HttpResponseRedirect(reverse('main:alumno_consultar'))
         else:
