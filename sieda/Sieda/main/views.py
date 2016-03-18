@@ -9,7 +9,12 @@ from django.template import loader
 from . import models
 from . import forms
 from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
-
+from django.views.generic import FormView
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
 def Error(request):
     return render(request, 'error.html' )
@@ -18,10 +23,16 @@ def Error(request):
 
 def SiedaMain(request):
     return render(request, 'sieda/login.html' )
+   # if not request.user.is_staff:
+   #     return render(request, 'sieda/Evaluacion/index.html')
+   # return HttpResponseRedirect(reverse('main:admin_main'))
+    
 
 ###### -- PORTAL ADMINISTRATIVO -- ######
-
+@login_required(login_url='/')
 def AdminMain(request):
+    if not request.user.is_staff:
+        return render(request, 'sieda/Evaluacion/index.html')
     maestros_total = Maestro.objects.count()
     alumnos_total = Alumno.objects.count()
     carreras_total = Carrera.objects.count()
@@ -29,15 +40,17 @@ def AdminMain(request):
     alumnos_faltantes = Alumno.objects.filter(Realizado=False).count()
 
 
-    return render(request, 'administrativo/index.html' , {'maestros_total': maestros_total, 
+    return render(request, 'administrativo/index.html' , {'tutores_total': tutores_total, 
         'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'alumnos_faltantes':alumnos_faltantes,})
 
 # -- ADMINISTRADORES -- 
 def AdminAlta(request):
     if request.method == 'POST':
-        form = forms.JefeCarreraform(request.POST or None)
+        form = forms.Administradorform(request.POST or None)
         if form.is_valid():
-            instance = form.save()
+            instance = form.save(commit=False)
+            instance.is_staff = True
+            instance.save()
             messages.add_message(request, messages.INFO, 'Administrador ha sido agregado exitosamente ')
             return HttpResponseRedirect(reverse('main:admin_consultar'))
         else:
@@ -63,11 +76,11 @@ def AdminEditar(request, id):
 def AdminEliminar(request, id):
     admin = get_object_or_404(models.administradores, id=id)
     admin.delete()
-    messages.add_message(request, messages.INFO, 'Administrador : {0} ha sido borrado '.format(admin.nombre))
+    messages.add_message(request, messages.INFO, 'Administrador : {0} ha sido borrado '.format(admin.username))
     return HttpResponseRedirect(reverse('main:admin_consultar'))
 
 def AdminConsultar(request):
-    admin = models.administradores.objects.all()   
+    admin = models.administradores.objects.filter(is_staff=True).order_by('username') 
     return render(request, 'Administrativo/administradores/consultar.html', {'admin' : admin})
 
 # --  ALUMNOS -- 
@@ -76,9 +89,10 @@ def AlumnoAlta(request):
     if request.method == 'POST':
         form = forms.Alumnoform(request.POST or None)
         if form.is_valid():
-            instance = form.save()
-            user = models.administradores(Alumno= instance)
-            user.save()
+            instance = form.save(commit=False)
+            instance.is_staff = False
+            instance.is_superuser = False
+            instance.save()
             messages.add_message(request, messages.INFO, 'Alumno ha sido agregado exitosamente ')
             return HttpResponseRedirect(reverse('main:alumno_consultar'))
         else:
@@ -88,7 +102,7 @@ def AlumnoAlta(request):
     return render(request, 'Administrativo/alumnos/agregar.html', {'form': form})
 
 def AlumnoEditar(request, id):
-    alumnos = get_object_or_404(models.Alumno, id=id)
+    alumnos = get_object_or_404(models.administradores, id=id)
     if request.method == 'POST':
         form = forms.Alumnoform(request.POST, instance=alumnos)
         if form.is_valid():
@@ -102,13 +116,13 @@ def AlumnoEditar(request, id):
     return render(request, 'Administrativo/alumnos/agregar.html', {'form': form, 'alumnos': alumnos, })
 
 def AlumnoEliminar(request, id):
-    alumnos = get_object_or_404(models.Alumno, id=id)
+    alumnos = get_object_or_404(models.administradores, id=id)
     alumnos.delete()
-    messages.add_message(request, messages.INFO, 'Alumno : {0} ha sido borrado '.format(alumnos.Nombre))
+    messages.add_message(request, messages.INFO, 'Alumno : {0} ha sido borrado '.format(alumnos.username))
     return HttpResponseRedirect(reverse('main:alumno_consultar'))
 
 def AlumnoConsultar(request):
-    alumnos = models.Alumno.objects.all().order_by('Nombre')  
+    alumnos = models.administradores.objects.filter(is_staff=False).order_by('username') 
     return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
 
 # --  CARRERAS -- 
@@ -526,8 +540,8 @@ def Jefes_lista(request):
     data = serializers.serialize("json",models.JefeCarrera.objects.all())
     return HttpResponse(data,content_type='application/json')
 
-def Tutores_lista(request):
-    data = serializers.serialize("json",models.Tutor.objects.all())
+def Preguntas_lista(request):
+    data = serializers.serialize("json",models.Pregunta.objects.all())
     return HttpResponse(data,content_type='application/json')
 
 def GuardarEvaluacion(request,id):
@@ -561,7 +575,12 @@ def GuardarEvaluacion(request,id):
         context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias, 'NumSeccion' : secNuevo}
         return HttpResponse(template.render(context, request))
 
+@login_required(login_url='/')
 def Evaluacion_Intruccion(request):
-    return render(request, 'sieda/Evaluacion/index.html')
+    if not request.user.is_staff:
+        return render(request, 'sieda/Evaluacion/index.html')
+
+    return HttpResponseRedirect(reverse('main:admin_main'))
+
 def Fin(request):
     return render(request, 'sieda/Evaluacion/fin.html')

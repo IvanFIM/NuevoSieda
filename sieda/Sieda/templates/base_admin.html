@@ -55,6 +55,7 @@
                 <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="{% url 'main:admin_main' %}"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+                        <li><a href="{% url 'main:admin_consultar' %}" ><i class="lnr lnr-lock"></i><span>Administrador</span></a></li>
                         <li class="menu-list">
                         <a href="#"><i class="lnr lnr-cog"></i>
                             <span>Configuración</span></a>
@@ -92,37 +93,13 @@
             <!--notification menu start -->
             <div class="menu-right">
                 <div class="user-panel-top">    
-                    <div class="profile_details_left">
-                        <ul class="nofitications-dropdown">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope "></i></a>
-                                    
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">
-                                               <div class="user_img"></div>
-                                               <div class="notification_desc">
-                                                <p>Lorem ipsum dolor sit amet</p>
-                                                <p><span>1 hour ago</span></p>
-                                                </div>
-                                               <div class="clearfix"></div> 
-                                             </a></li>
-                                            <li>
-                                                <div class="notification_bottom">
-                                                    <a href="#">See all messages</a>
-                                                </div> 
-                                            </li>
-                                        </ul>
-                            </li>                                           
-                            <div class="clearfix"></div>    
-                        </ul>
-                    </div>
                     <div class="profile_details">       
                         <ul>
                             <li class="dropdown profile_details_drop">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
-                                            <p>Dalia<span> Administrator </span></p>
+                                            <p>{{ user.username}}<span> Administrator </span></p>
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
@@ -130,11 +107,10 @@
                                     </div>  
                                 </a>
                                 <ul class="dropdown-menu drp-mnu">
+                                    <li>&nbsp</li>
+                                    <li> <a href="#"><i class="fa fa-cog gris"></i>Coniguración</a> </li>  
                                     <li class="divider"></li>
-                                    <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-                                    <li> <a href="#"><i class="fa fa-user fa-fw"></i>Profile</a> </li> 
-                                    <li class="divider"></li>
-                                    <li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                                    <li><a href="{% url 'main:logout' %}"><i class="fa fa-sign-out gris"></i>Cerrar Sesión</a>
                                 </ul>
                             </li>
                             <div class="clearfix"> </div>

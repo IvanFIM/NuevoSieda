@@ -2,7 +2,7 @@
 """
 URLS
 """
-from django.conf.urls import url
+from django.conf.urls import url,include
 from . import views
 
 urlpatterns = [
@@ -10,7 +10,7 @@ urlpatterns = [
 
 
     url(r'^$', 'django.contrib.auth.views.login', {'template_name':'sieda/login.html'}, name='login'),
-    url(r'^$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^/$', 'django.contrib.auth.views.logout',{'template_name':'sieda/login.html'}, name='logout'),
     url(r'^error$',views.Error, name='pagina_error'),
 
 
@@ -18,9 +18,9 @@ urlpatterns = [
     url(r'^Sieda-admin$', views.AdminMain, name='admin_main'),
     #NUEVOS 
     url(r'^lista/maestros/$',views.Maestros_lista, name='LMaestro'),
-    url(r'^lista/secciones/$',views.Secciones_lista, name='LPreguntas'),
+    url(r'^lista/secciones/$',views.Secciones_lista, name='LSecciones'),
     url(r'^lista/jefes/$',views.Jefes_lista, name='LJefes'),
-    url(r'^lista/tutores/$',views.Tutores_lista, name='LTutores'),
+    url(r'^lista/preguntas/$',views.Preguntas_lista, name='LPregutas'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),

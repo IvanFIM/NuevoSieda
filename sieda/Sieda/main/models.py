@@ -113,14 +113,13 @@ class Calificaciones(models.Model):
 	Calificacion = models.IntegerField(null=False)
 
 # Modelo para usuario administradores
+
 class administradores(AbstractUser):
-	nom_user = models.CharField(null=False, max_length=20)
-	nombre = models.CharField(null=False, max_length=100)
-	contrasena = models.CharField(null=False, max_length=10)
-	tipo = models.CharField(null=False, max_length=20)
-	Alumno = models.ForeignKey(Alumno,null=True)
-	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
-	fecha_modificacion = models.DateTimeField(auto_now=True, null = True, blank=True)
+	Carrera = models.ForeignKey(Carrera,null=True)
+	Grupo = models.ForeignKey(Grupo,null=True)
+	Realizado = models.BooleanField(default=False)
+
+
 
 
 

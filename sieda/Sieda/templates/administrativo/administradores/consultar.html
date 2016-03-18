@@ -23,27 +23,25 @@
                 <tr>
                     <th>Nombre de usuario</th>
                     <th>Nombre</th>
-                    <th>Contraseña</th>
                     <th>Permisos</th>
                     <th>Fecha de creación</th>
-                    <th>Ultima modificación</th>
+                    <th>Ultima Vez que ingreso</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
             {% for administradores in admin %}
                 <tr>
-                    <td>{{ administradores.nom_user }} </td>
-                    <td>{{ administradores.nombre }} </td>
-                    <td>{{ administradores.contrasena }} </td>
-                    <td>{{ administradores.tipo }} </td>  
-                    <td>{{ administradores.fecha_creacion }} </td> 
-                    <td>{{ administradores.fecha_modificacion }} </td> 
+                    <td>{{ administradores.username }} </td>
+                    <td>{{ administradores.first_name }} {{ administradores.last_name }} </td>
+                    <td>(Panel Administrativo)</td>  
+                    <td>{{ administradores.date_joined }} </td> 
+                    <td>{{ administradores.last_login }} </td> 
                     <td>
                         <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:admin_editar' id=administradores.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                         </button>
 
-                        <button type="button" class="btn btn-danger btn-circle" onclick="window.location='{% url 'main:admin_eliminar' id=administradores.id %}'"><i class="glyphicon glyphicon-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar administrador?" onclick="{% url 'main:admin_eliminar' id=administradores.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                         
                     </td>                 
                 </tr>

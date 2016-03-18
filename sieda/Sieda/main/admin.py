@@ -11,3 +11,5 @@ admin.site.register(models.Tutor)
 admin.site.register(models.Periodo)
 admin.site.register(models.Seccion)
 admin.site.register(models.Pregunta)
+admin.site.register(models.administradores)
+

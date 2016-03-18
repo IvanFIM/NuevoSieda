@@ -60,8 +60,7 @@
                       <!-- SIDEBAR USER TITLE -->
                       <div class="profile-usertitle">
                         <div class="profile-usertitle-name">
-
-                          Dalia Morales 
+                          {{ user.first_name}}  {{ user.last_name}}                        
                         </div>
                         <div class="profile-usertitle-job">
                           Alumno
@@ -79,18 +78,18 @@
                           <li>
                             <a href="#">
                             <i class="fa fa-hashtag gris"></i>
-                            Matricula: 12304063</a>
+                            Matricula: {{ user.username}}</a>
                           </li>
                           <li>
                             <a href="#"class="disabled">
                             <i class="fa fa-users gris"></i>
-                            Grupo: 11-1</a>
+                            Grupo: {{ user.Grupo}}</a>
                           </li>
                           <li>
                             <a href="#">
                             <i class="fa fa-map gris"></i>
-                             Carrera: tics</a>
-                             {{ user.Alumno.Matricula}}
+                             Carrera: {{ user.Carrera}}</a>
+                             
                              
                              
                           </li>

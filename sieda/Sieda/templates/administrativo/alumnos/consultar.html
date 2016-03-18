@@ -24,21 +24,25 @@
                 <th>Nombre</th>
                 <th>Carrera</th>
                 <th>Cuatrimestre - Grupo</th>
+                <th>Fecha de creación</th>
+                <th>Ultima Vez que ingreso</th>
                 <th></th>
                 </tr>
             </thead>
             <tbody>
-            {% for alumno in alumnos %}
+            {% for administradores in alumnos %}
                 <tr>
-                    <td>{{ alumno.Matricula }} </td>
-                    <td>{{ alumno.Nombre }} </td>
-                    <td>{{ alumno.getCarrera }} </td> 
-                    <td>{{ alumno.Grupo }} </td> 
+                    <td>{{ administradores.username }} </td>
+                    <td>{{ administradores.first_name }} {{ administradores.last_name }}  </td>
+                    <td>{{ administradores.Carrera }} </td> 
+                    <td>{{ administradores.Grupo }} </td> 
+                    <td>{{ administradores.date_joined }} </td> 
+                    <td>{{ administradores.last_login }} </td> 
                     <td>
-                        <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:alumno_editar' id=alumno.id %}'"><i class="glyphicon glyphicon-pencil"></i>
+                        <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:alumno_editar' id=administradores.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                         </button>
 
-                        <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar alumno?" onclick="{% url 'main:alumno_eliminar' id=alumno.id %}"><i class="glyphicon glyphicon-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-circle" class="alert btn btn-danger btn-circle" data-toggle="confirm" data-title="Desea eliminar alumno?" onclick="{% url 'main:alumno_eliminar' id=administradores.id %}"><i class="glyphicon glyphicon-trash"></i></button>
                         
                     </td>                 
                 </tr>
