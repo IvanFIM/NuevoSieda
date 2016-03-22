@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    Consultar Grupo
+    Grupo registrados
 {% endblock %}
 
 {% block head %}         
@@ -13,23 +13,24 @@
 
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
-        Consultar Grupo
+        Grupo registrados
          <a href="{% url 'main:grupo_alta' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Agregar</a>
     </div>
     <div class="panel-body no-padding" style="display: block;">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Grupo</th>
                 <th>Cuatrimestre</th>
+                <th>Grupo</th>
+                
                 <th></th>
             </tr>
             </thead>
             <tbody >
                 {% for grupo in grupos %}
                     <tr>
-                        <td >{{ grupo.Grupo }} </td>
                         <td >{{ grupo.Cuatrimestre }} </td>
+                        <td >{{ grupo.Grupo }} </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:grupo_editar' id=grupo.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>

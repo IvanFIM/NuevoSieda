@@ -10,10 +10,11 @@ class Administradorform(UserCreationForm):
     class Meta:
         model = models.administradores
         fields = '__all__'
-       	exclude =['password','last_login','groups','is_superuser','user_permissions','is_staff','email','date_joined','is_active','Carrera','Realizado','Grupo']
         help_texts = {
-            'password': _('repita la ☺contraseña'),
+            'password2': _('Repita la contraseña anterior.'),
         }
+       	exclude =['password','last_login','groups','is_superuser','user_permissions','is_staff','email','date_joined','is_active','Carrera','Realizado','Grupo']
+       
 
 class Alumnoform(UserCreationForm):
 	class Meta:
@@ -41,7 +42,7 @@ class Maestroform(forms.ModelForm):
 class Grupoform(forms.ModelForm):
 	class Meta:
 		model = models.Grupo
-		fields = '__all__'
+		fields = ['Cuatrimestre','Grupo']
 
 class Materiaform(forms.ModelForm):
 	class Meta:
@@ -68,6 +69,9 @@ class Catalagoform(forms.ModelForm):
 	class Meta:
 		model = models.Catalago
 		fields = '__all__'
+		help_texts = {
+            'Descripcion': _(u'Ingrese una dimensión'),
+        }
 		widgets = {
             'Secciones': forms.CheckboxSelectMultiple()
         }
@@ -76,14 +80,23 @@ class Seccionform(forms.ModelForm):
 	class Meta:
 		model = models.Seccion
 		fields = '__all__'
+		help_texts = {
+            'Descripcion': _(u'Ingrese una dimensión'),
+        }
 		widgets = {
             'Preguntas': forms.CheckboxSelectMultiple()
         }
-
+        
 class Preguntaform(forms.ModelForm):
 	class Meta:
 		model = models.Pregunta
 		fields = '__all__'
+		help_texts = {
+            'Descripcion': _('Ingrese un enunciado'),
+            'Identificador': _('Ingrese el identificador de la pregunta si lo desea'),
+
+        }
+
 			
 		
 class JefeCarreraform(forms.ModelForm):

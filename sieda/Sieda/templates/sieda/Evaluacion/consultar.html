@@ -14,8 +14,8 @@
  
 <div class="col-md-10">
     <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
-  <div class="panel-heading">
-  Abreviaturas
+  <div class="panel-heading text-center">
+  <h4>Abreviaturas</h4>
   
   </div>
   <div class="panel-body no-padding" style="display: block;">
@@ -62,7 +62,7 @@
         <tr>
             <th>Descripcion</th>
             {% for mat in materias %}
-            <th> {{mat.Nombre}}</th>
+            <th> {{mat.Abrev_materia}}</th>
             {% endfor %}
         </tr>
         </thead>

@@ -44,9 +44,9 @@ INSTALLED_APPS = [
 
 from django.core.urlresolvers import reverse_lazy
 
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/Evaluacion/'
+LOGIN_URL =''
+LOGIN_REDIRECT_URL ='/Evaluacion/'
+LOGOUT_URL = '/cerrar/'
 
 
 MIDDLEWARE_CLASSES = [
@@ -127,6 +127,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_CHARSET = 'utf-8' 
+
+FILE_CHARSET = 'utf-8' 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
