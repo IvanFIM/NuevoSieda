@@ -61,6 +61,7 @@ def AdminAlta(request):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.is_staff = True
+            instance.is_superuser = True
             instance.save()
             messages.add_message(request, messages.INFO, 'El administrador ha sido agregado exitosamente ')
             return HttpResponseRedirect(reverse('main:admin_consultar'))
