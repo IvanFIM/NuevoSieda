@@ -8,7 +8,8 @@ class Grupo(models.Model):
 	Cuatrimestre = models.IntegerField(null=False,default=0)
 
 	def __unicode__(self):
-		return '{1} - {0}'.format(self.Grupo,self.Cuatrimestre,)
+		return '{1} - {0}'.format(self.Grupo,self.Cuatrimestre)
+		#return u'%s %s' % (self.Grupo, self.Cuatrimestre)
 
 # Modelo para las carreras
 class Carrera(models.Model):

@@ -27,12 +27,22 @@ def Cerrar(request):
 def SiedaMain(request):
     return render(request, 'sieda/login.html' )
 
-@login_required(login_url='/')
+#@login_required(login_url='/')
 def Evaluacion(request):
-    if not request.user.is_staff:
-        return render(request, 'sieda/Evaluacion/index.html')
+    per = models.Periodo.objects.filter(Realizado=False)
 
-    return HttpResponseRedirect(reverse('main:admin_main'))
+    return render(request, 'sieda/Evaluacion/index.html', {'per' :per })
+
+def Evaluacion_sencilla(request,id):
+    per = models.Periodo.objects.filter(Realizado=False)
+    cat = per[0].Catalagos.get(id=id)
+    seccion = cat.Secciones.all()[0]
+    pregunta = seccion.Preguntas.all()
+
+
+
+    return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo': cat})
+
 
 def Fin(request):
     return render(request, 'sieda/Evaluacion/fin.html')
@@ -535,8 +545,9 @@ def CatalogoPreguntas(request):
     cat = periodo[0].Catalagos.all()[0]
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=1)
-    maestros = models.Maestro.objects.all() 
+    materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)#las filtra por grupo tambien
+  #  materias =  models.Materia.objects.filter(Carrera=1)
+    maestros = models.Maestro.objects.filter(Materia__in=materias)
     
     return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
 
