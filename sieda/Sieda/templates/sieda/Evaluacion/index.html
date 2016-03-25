@@ -37,14 +37,19 @@
              </dl>
         </div>
           <hr>
-      <p><a href="{% url 'main:Evaluacion_consultar' %}" style="margin-top: -13px" class="btn btn-warning warning_22 pull-right">Realizar evaluación</a></p>
+      
       <hr>
         {% for periodo in per %}
           {%  for catalago in periodo.Catalagos.all %}
-            <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_sencilla' id=catalago.id %}'"><i class="glyphicon glyphicon-pencil"></i>
-            {{catalago.Descripcion}}
-            </button>          
-          {% empty %}
+            {% if catalago.EvaluacionSencilla %}
+                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_sencilla' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
+                      {{catalago.Descripcion}}
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_consultar' %}'"><i class="fa fa-check-square-o"></i>
+                      {{catalago.Descripcion}}
+                </button>
+            {% endif %}
           {% endfor %}
         {% endfor %} 
     </div>

@@ -29,8 +29,8 @@ def SiedaMain(request):
 
 #@login_required(login_url='/')
 def Evaluacion(request):
+    
     per = models.Periodo.objects.filter(Realizado=False)
-
     return render(request, 'sieda/Evaluacion/index.html', {'per' :per })
 
 def Evaluacion_sencilla(request,id):
@@ -41,7 +41,7 @@ def Evaluacion_sencilla(request,id):
 
 
 
-    return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo': cat})
+    return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo':cat})
 
 
 def Fin(request):

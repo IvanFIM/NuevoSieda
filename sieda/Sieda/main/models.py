@@ -93,6 +93,7 @@ class Catalago(models.Model):
 	Descripcion = models.CharField("Descripción",null=False,max_length=100)
 	Secciones = models.ManyToManyField(Seccion)
 	fecha_creacion = models.DateTimeField(auto_now_add=True, null = True, blank=True)
+	EvaluacionSencilla = models.BooleanField("Evaluación sencilla",default=False)
 
 	def __unicode__(self):
 		return self.Descripcion
@@ -112,6 +113,8 @@ class Calificaciones(models.Model):
 	Seccion = models.ForeignKey(Seccion,null=True)
 	Maestro = models.ForeignKey(Maestro,null=True)
 	Calificacion = models.IntegerField(null=False)
+	Materia = models.ForeignKey(Materia,null=True)
+	Catalogo = models.ForeignKey(Catalago,null=True)
 
 # Modelo para usuario administradores
 
