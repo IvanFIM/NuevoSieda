@@ -68,7 +68,7 @@ class Periodoform(forms.ModelForm):
 class Catalagoform(forms.ModelForm):
 	class Meta:
 		model = models.Catalago
-		fields = '__all__'
+		fields = {'Descripcion','Secciones','EvaluacionSencilla',}
 		help_texts = {
             'Descripcion': _(u'Ingrese una dimensión'),
         }

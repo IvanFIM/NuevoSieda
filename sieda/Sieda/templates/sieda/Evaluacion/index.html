@@ -46,7 +46,7 @@
                       {{catalago.Descripcion}}
                 </button>
             {% else %}
-                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_consultar' %}'"><i class="fa fa-check-square-o"></i>
+                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_consultar' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
                       {{catalago.Descripcion}}
                 </button>
             {% endif %}

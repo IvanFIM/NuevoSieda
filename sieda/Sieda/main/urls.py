@@ -85,7 +85,8 @@ urlpatterns = [
 
     url(r'^Evaluacion/$', views.Evaluacion, name='Evaluacion'),
     url(r'^Evaluacion/Sencilla/(?P<id>[0-9]+)$', views.Evaluacion_sencilla, name='Evaluacion_sencilla'),
-    url(r'^Evaluacion/consultar$', views.CatalogoPreguntas, name='Evaluacion_consultar'),
+    url(r'^Evaluacion/consultar(?P<id>[0-9]+)$', views.CatalogoPreguntas, name='Evaluacion_consultar'),
+    url(r'^Evaluacion/Guardar_evaluacionSencilla/(?P<id>[0-9]+)$', views.GuardarEvaluacionSencilla, name='Guardar_evaluacionSencilla'),
     url(r'^Evaluacion/Guardar_evaluacion/(?P<id>[0-9]+)$', views.GuardarEvaluacion, name='Guardar_evaluacion'),
     url(r'^Evaluacion/fin$', views.Fin, name='fin'),
     

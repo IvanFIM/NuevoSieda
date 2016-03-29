@@ -8,7 +8,7 @@ from django.db.models.functions import Lower
 from django.template import loader
 from . import models
 from . import forms
-from .models import administradores, Alumno, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
+from .models import administradores, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -41,7 +41,7 @@ def Evaluacion_sencilla(request,id):
 
 
 
-    return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo':cat})
+    return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo':cat, 'NumSeccion' : 0})
 
 
 def Fin(request):
@@ -540,16 +540,16 @@ def PreguntaConsultar(request):
     return render(request, 'Administrativo/Pregunta/consultar.html', {'pregunta' : pregunta})
 
 #  --Evaluacion--
-def CatalogoPreguntas(request):
+def CatalogoPreguntas(request,id):
     periodo = models.Periodo.objects.filter(Realizado=False)
-    cat = periodo[0].Catalagos.all()[0]
+    cat = periodo[0].Catalagos.get(id=id)
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)#las filtra por grupo tambien
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)#las filtra por grupo tambien
   #  materias =  models.Materia.objects.filter(Carrera=1)
     maestros = models.Maestro.objects.filter(Materia__in=materias)
     
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
 
 def Maestros_lista(request):
     data = serializers.serialize("json",models.Maestro.objects.all())
@@ -567,14 +567,45 @@ def Preguntas_lista(request):
     data = serializers.serialize("json",models.Pregunta.objects.all())
     return HttpResponse(data,content_type='application/json')
 
-def GuardarEvaluacion(request,id):
+def GuardarEvaluacionSencilla(request,id):
     periodo = models.Periodo.objects.filter(Realizado=False)
-    cat = periodo[0].Catalagos.all()[0]
+
+    cat = periodo[0].Catalagos.get(id = int(request.POST.get("cat",False)))
     sec = int(id)
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
-    maestros = models.Maestro.objects.all() 
-    materias =  models.Materia.objects.filter(Carrera=1)
+    secciones_totales = cat.Secciones.count()
+    cal = 0
+
+    for pre in pregunta:
+        cal = cal + int(request.POST.get(str(pre.id),False))
+
+    tutor = models.Tutor.objects.get(Grupo = request.user.Grupo)
+    cali = models.Calificaciones(Periodo=periodo[0],Tutor = tutor, Catalogo= cat, Seccion=seccion, Calificacion=cal)
+    cali.save()
+    
+    
+    var = secciones_totales -1
+
+    if var == sec:
+        return render(request, 'sieda/Evaluacion/fin.html')
+    else:
+        secNuevo = sec + 1
+        seccionNueva = cat.Secciones.all()[secNuevo]
+        preguntaNueva = seccionNueva.Preguntas.all()
+        template = loader.get_template('sieda/Evaluacion/Evaluacion_sencilla.html')
+        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo':cat,'NumSeccion' : secNuevo}
+        return HttpResponse(template.render(context, request))
+
+def GuardarEvaluacion(request,id):
+    periodo = models.Periodo.objects.filter(Realizado=False)
+    cat = periodo[0].Catalagos.get(id = int(request.POST.get("cat",False)))
+    sec = int(id)
+    seccion = cat.Secciones.all()[sec]
+    pregunta = seccion.Preguntas.all()
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)
+    #materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)
+    maestros = models.Maestro.objects.filter(Materia__in=materias)
     secciones_totales = cat.Secciones.count()
     cal = 0
 
@@ -582,7 +613,8 @@ def GuardarEvaluacion(request,id):
             for pre in pregunta:
                 cal = cal + int(request.POST.get(str(pre.id)+""+str(mat.id),False))
 
-            cali = models.Calificaciones(Periodo=periodo[0], Seccion=seccion, Calificacion=cal)
+            NomMaestro = models.Maestro.objects.get(Materia__id=mat.id)
+            cali = models.Calificaciones(Periodo=periodo[0],Maestro = NomMaestro,Materia = mat, Catalogo= cat, Seccion=seccion, Calificacion=cal)
             cali.save()
             cal = 0
     
@@ -596,7 +628,7 @@ def GuardarEvaluacion(request,id):
         seccionNueva = cat.Secciones.all()[secNuevo]
         preguntaNueva = seccionNueva.Preguntas.all()
         template = loader.get_template('sieda/Evaluacion/consultar.html')
-        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva, 'materias' : materias,'maestros':maestros, 'NumSeccion' : secNuevo}
+        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat, 'materias' : materias,'maestros':maestros, 'NumSeccion' : secNuevo}
         return HttpResponse(template.render(context, request))
 
 

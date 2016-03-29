@@ -14,9 +14,6 @@
  
 <div class="col-md-10">
     <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
-  <div class="panel-heading text-center">
-  <h4>{{catalogo.Descripcion}}</h4>
-  </div>
 </div>
 
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
@@ -25,7 +22,7 @@
     </div>
     <div class="panel-body no-padding" style="display: block;">
 
-<form action="{% url 'main:Guardar_evaluacion' id=1 %}" method="post"> 
+<form action="{% url 'main:Guardar_evaluacionSencilla' id=NumSeccion %}" method="post"> 
      {% csrf_token %} 
      <table class="table table-striped">
         <thead >
@@ -55,7 +52,7 @@
 
 <br>
 
-    <button style="margin-top: -13px" class="btn btn-warning warning_22 pull-right" type="submit" value='{{NumSeccion}}'>Siguiente</button>
+    <button style="margin-top: -13px" name="cat" class="btn btn-warning warning_22 pull-right" type="submit" value='{{catalogo.id}}'>Siguiente</button>
     </form>
 
     </div>
