@@ -45,7 +45,11 @@ def Evaluacion_sencilla(request,id):
 
 
 def Fin(request):
-    return render(request, 'sieda/Evaluacion/fin.html')
+    per = models.Periodo.objects.filter(Realizado=False)
+    cat = per[0].Catalagos.get(id=int(request.POST.get("cat",False)))
+    comen = models.Comentarios(Periodo=per[0],Alumno = request.user,Catalogo = cat, Comentario= request.POST.get("comen",False))
+    comen.save()
+    return HttpResponseRedirect(reverse('main:Evaluacion'))
 
 
 
@@ -588,7 +592,9 @@ def GuardarEvaluacionSencilla(request,id):
     var = secciones_totales -1
 
     if var == sec:
-        return render(request, 'sieda/Evaluacion/fin.html')
+        template = loader.get_template('sieda/Evaluacion/fin.html')
+        context = {'catalogo': cat}
+        return HttpResponse(template.render(context, request))
     else:
         secNuevo = sec + 1
         seccionNueva = cat.Secciones.all()[secNuevo]
@@ -622,7 +628,9 @@ def GuardarEvaluacion(request,id):
     var = secciones_totales -1
 
     if var == sec:
-        return render(request, 'sieda/Evaluacion/fin.html')
+        template = loader.get_template('sieda/Evaluacion/fin.html')
+        context = {'catalogo': cat}
+        return HttpResponse(template.render(context, request))
     else:
         secNuevo = sec + 1
         seccionNueva = cat.Secciones.all()[secNuevo]
