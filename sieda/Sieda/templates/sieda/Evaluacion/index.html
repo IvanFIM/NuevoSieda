@@ -17,7 +17,7 @@
     </div>
     <div class="panel-body no-padding" style="display: block;">
     <br>
-      <p >Bienvenido alumno a la evaluación de docentes y administrativos donde se pretende calificar al maestro para tener resultados de su desempeño impartiendo su clase, así como también se calificara el tutor. A continuación se le mostraran los reactivos; le pedimos que por favor conteste la evaluación honestamente.</p>
+      <p >Bienvenido alumno a la evaluación de docentes donde se pretende calificar al maestro para tener resultados de su desempeño impartiendo su clase, así como también se calificara el tutor. A continuación se le mostraran las evaluaciones que se encuentan disponibles y las ponderaciones que se utilizaran para los reactivos; le pedimos que por favor conteste la evaluación honestamente.</p>
         <br> 
         <br> 
         <div class="well" >            
@@ -36,9 +36,11 @@
                 <dd>Totalmente de acuerdo</dd>
              </dl>
         </div>
-          <hr>
-      
-      <hr>
+        <hr>
+            <h4 class="text-center">Evaluaciones disponibles</h4>
+
+        <div class="well text-center" >  
+
         {% for periodo in per %}
           {%  for catalago in periodo.Catalagos.all %}
             {% if catalago.EvaluacionSencilla %}
@@ -46,12 +48,14 @@
                       {{catalago.Descripcion}}
                 </button>
             {% else %}
-                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_consultar' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
+                <button type="button" class="btn btn-success" onclick="window.location='{% url 'main:Evaluacion_consultar' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
                       {{catalago.Descripcion}}
                 </button>
             {% endif %}
           {% endfor %}
-        {% endfor %} 
+        {% endfor %}
+        </div>
+ 
     </div>
   </div>
 </div>
