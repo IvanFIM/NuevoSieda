@@ -36,7 +36,7 @@
 
 </head> 
    
- <body class="sticky-header left-side-collapsed"  onload="initMap()">
+ <body class="sticky-header left-side-collapsed"  >
     <section>
     <!-- left side start-->
         <div class="left-side sticky-left-side">
@@ -153,8 +153,12 @@ $(document).on("click", "[data-toggle=\"confirm\"]", function (e) {
     });
 });
 </script>
+
 <script src="{% static 'js/Cambios.js' %}"></script>
 <!-- JS dependencies -->
+
+{% block Reporte %}{% endblock %}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <!-- bootbox code -->

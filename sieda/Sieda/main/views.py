@@ -13,8 +13,10 @@ from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required ,permission_required
+from django.db.models import F, Count, Sum
+import json as simplejson
+import json
 
 def Error(request):
     return render(request, 'error.html' )
@@ -564,12 +566,28 @@ def Secciones_lista(request):
     return HttpResponse(data,content_type='application/json')
 
 def Jefes_lista(request):
-    data = serializers.serialize("json",models.JefeCarrera.objects.all())
+    data = serializers.serialize("json",models.Calificaciones.objects.all())
     return HttpResponse(data,content_type='application/json')
 
 def Preguntas_lista(request):
     data = serializers.serialize("json",models.Pregunta.objects.all())
     return HttpResponse(data,content_type='application/json')
+##### Pruebas ###
+def Jefes_view(request):
+    return render(request, 'Administrativo/reportes/reporte_general.html' )
+def Jefes_view_Am(request):
+    return render(request, 'Administrativo/reportes/reporte_general_am.html' )
+##### Fin Pruebas ###
+
+# --  REPORTES -- 
+def Reporte_general_maestros(request):
+    return render(request, 'Administrativo/reportes/reporte_general_maestros.html' )
+
+def Lista_general_maestros(request):
+    data = json.dumps([dict(item) for item in models.Calificaciones.objects.values('Maestro_id__Nombre').annotate(Total=Sum('Calificacion'))])
+    return HttpResponse(data,content_type='application/json')
+    #data = serializers.serialize("json")
+    #data = simplejson.dumps()
 
 def GuardarEvaluacionSencilla(request,id):
     periodo = models.Periodo.objects.filter(Realizado=False)
