@@ -30,11 +30,10 @@
       <tbody>
 
         {% for maestro in maestros %}
-          {%  for materia in maestro.Materia.all %}
             <tr>
-              <td>{{maestro.Nombre}}</td> 
-              <td>{{materia.Nombre }} </td>
-              <td>{{materia.Abrev_materia}}</td>                
+              <td>{{maestro.maestro}}</td> 
+              <td>{{maestro.materia }} </td>
+              <td>{{maestro.abrev}}</td>                
             </tr>
           {% empty %}
             <div class="alert alert-dismissible alert-warning">
@@ -42,7 +41,6 @@
               <h4>Parece que no estas registrado</h4>
               <p>Por favor avisa que te den de alta :)</p>
             </div>
-          {% endfor %}
         {% endfor %}  
  
       </tbody>
@@ -56,7 +54,7 @@
     </div>
     <div class="panel-body no-padding" style="display: block;">
 
-<form action="{% url 'main:Guardar_evaluacion' id=NumSeccion %}" method="post"> 
+<form action="{% url 'main:Guardar_evaluacion' id=NumSeccion %}" method="post" onsubmit="return confirm('la información es correcta?');"> 
      {% csrf_token %} 
      <table class="table table-striped">
         <thead >
@@ -90,7 +88,7 @@
 
 <br>
 
-    <button style="margin-top: -13px" name="cat" class="btn btn-warning warning_22 pull-right" type="submit" value='{{catalogo.id}}'>Siguiente</button>
+    <button style="margin-top: -13px" name="cat" class="btn btn-warning warning_22 pull-right" type="submit" data-dismiss="modal" value='{{catalogo.id}}'>Siguiente</button>
     </form>
 
     </div>
