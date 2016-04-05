@@ -2,17 +2,18 @@
 """
 URLS
 """
-from django.conf.urls import url,include
+from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from . import views
+from django.conf.urls import handler404
 
 urlpatterns = [
     #url(r'^$', views.SiedaMain, name='sieda_main'),
-
+   
 
     url(r'^$', 'django.contrib.auth.views.login', {'template_name':'sieda/login.html'}, name='login'),
     url(r'^cerrar/$', 'django.contrib.auth.views.logout',{'template_name':'cerrar.html'}, name='logout'),
-    url(r'^error$',views.Error, name='pagina_error'),
-
+    url(handler404,views.error404),
 
     #INDEX ADMINISTRADORES#
     url(r'^Sieda-admin$', views.AdminMain, name='admin_main'),
@@ -96,3 +97,4 @@ urlpatterns = [
     url(r'^Evaluacion/fin$', views.Fin, name='fin'),
     
 ]
+ 

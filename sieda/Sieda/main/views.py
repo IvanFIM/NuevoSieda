@@ -18,6 +18,25 @@ from django.db.models import F, Count, Sum
 import json as simplejson
 import json
 
+
+
+##
+# Handle 404 Errors
+# @param request WSGIRequest list with all HTTP Request
+def error404(request):
+
+    # 1. Load models for this view
+    #from idgsupply.models import My404Method
+
+    # 2. Generate Content for this view
+    template = loader.get_template('error.htm')
+    context = Context({
+        'message': 'All: %s' % request,
+        })
+
+    # 3. Return Template for this view + Data
+    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+
 def Error(request):
     return render(request, 'error.html' )
 
@@ -42,7 +61,6 @@ def Evaluacion_sencilla(request,id):
     pregunta = seccion.Preguntas.all()
 
 
-
     return render(request, 'sieda/Evaluacion/Evaluacion_sencilla.html', {'seccion' :seccion ,'preguntas':pregunta, 'catalogo':cat, 'NumSeccion' : 0})
 
 
@@ -51,6 +69,9 @@ def Fin(request):
     cat = per[0].Catalagos.get(id=int(request.POST.get("cat",False)))
     comen = models.Comentarios(Periodo=per[0],Alumno = request.user,Catalogo = cat, Comentario= request.POST.get("comen",False))
     comen.save()
+    cat.alumnos.add(request.user)
+    cat.save()
+    messages.add_message(request, messages.INFO, 'Se realizado la evaluación correctamente.')
     return HttpResponseRedirect(reverse('main:Evaluacion'))
 
 
@@ -552,10 +573,16 @@ def CatalogoPreguntas(request,id):
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
     materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)#las filtra por grupo tambien
-  #  materias =  models.Materia.objects.filter(Carrera=1)
-    maestros = models.Maestro.objects.filter(Materia__in=materias)
-    
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'materias' : materias, 'maestros':maestros, 'NumSeccion' : 0})
+    Maes_list = []
+    for file in materias:
+        file_info = {}
+        nomMaestro = models.Maestro.objects.get(Materia__id=file.id)
+        file_info['maestro'] = nomMaestro.Nombre
+        file_info['materia'] = file.Nombre
+        file_info['abrev'] = file.Abrev_materia
+        Maes_list.append(file_info)
+
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'materias' : materias, 'maestros':Maes_list, 'NumSeccion' : 0})
 
 def Maestros_lista(request):
     data = serializers.serialize("json",models.Maestro.objects.all())
@@ -629,7 +656,15 @@ def GuardarEvaluacion(request,id):
     pregunta = seccion.Preguntas.all()
     materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)
     #materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)
-    maestros = models.Maestro.objects.filter(Materia__in=materias)
+    Maes_list = []
+    for file in materias:
+        file_info = {}
+        nomMaestro = models.Maestro.objects.get(Materia__id=file.id)
+        file_info['maestro'] = nomMaestro.Nombre
+        file_info['materia'] = file.Nombre
+        file_info['abrev'] = file.Abrev_materia
+        Maes_list.append(file_info)
+
     secciones_totales = cat.Secciones.count()
     cal = 0
 
@@ -654,7 +689,7 @@ def GuardarEvaluacion(request,id):
         seccionNueva = cat.Secciones.all()[secNuevo]
         preguntaNueva = seccionNueva.Preguntas.all()
         template = loader.get_template('sieda/Evaluacion/consultar.html')
-        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat, 'materias' : materias,'maestros':maestros, 'NumSeccion' : secNuevo}
+        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat, 'materias' : materias,'maestros':Maes_list, 'NumSeccion' : secNuevo}
         return HttpResponse(template.render(context, request))
 
 

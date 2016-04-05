@@ -22,7 +22,7 @@
     </div>
     <div class="panel-body no-padding" style="display: block;">
 
-<form action="{% url 'main:Guardar_evaluacionSencilla' id=NumSeccion %}" method="post"> 
+<form action="{% url 'main:Guardar_evaluacionSencilla' id=NumSeccion %}" method="post" onsubmit="return confirm('la información es correcta?');"> 
      {% csrf_token %} 
      <table class="table table-striped">
         <thead >

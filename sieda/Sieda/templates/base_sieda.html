@@ -80,15 +80,15 @@
                             <i class="fa fa-hashtag gris"></i>
                             Matricula: {{ user.username}}</a>
                           </li>
-                          <li>
-                            <a href="#"class="disabled">
+                          <li name="grupo" value='{{user.Grupos.id}}'>
+                            <a href="#"class="disabled" 
                             <i class="fa fa-users gris"></i>
-                            Grupo: {{ user.Grupo}}</a>
+                            Grupo: {{ user.Grupo.id}}</a>
                           </li>
-                          <li>
-                            <a href="#">
+                          <li name="carrera" value='{{user.Carrera.id}}'>
+                            <a href="#" >
                             <i class="fa fa-map gris"></i>
-                              Carrera: {{user.Carrera}}</a>
+                              Carrera: {{user.Carrera.id}}</a>
                           </li>
                         </ul>
                       </div>
