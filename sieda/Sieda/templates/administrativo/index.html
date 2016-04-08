@@ -5,27 +5,13 @@ Principal
 
       
 {% block head %} 
-<h1 class="page-header">
+<h1 class="page-header" style="margin-top: -8px;">
 Portal Administrativo
 </h1>        
 {% endblock %}
 
 
 {% block body %}
-
-<div class="col_12">
-	<div class="col-md-3 widget widget1">
-		<div class="r3_counter_box">
-			<i class="fa fa-users"></i>
-			<div class="stats">
-			  <h5>{{ tutores_total}}</h5>
-			  <div class="grow">
-				<p>Tutores</p>
-			  </div>
-			</div>
-		</div>
-	</div>
-
 	<div class="col-md-3 widget widget1">
 		<div class="r3_counter_box ">
 			<i class="fa fa-graduation-cap"></i>
@@ -51,6 +37,18 @@ Portal Administrativo
 		</div>
 	 </div>
 <!--
+<div class="col_12">
+	<div class="col-md-3 widget widget1">
+		<div class="r3_counter_box">
+			<i class="fa fa-users"></i>
+			<div class="stats">
+			  <h5>{{ tutores_total}}</h5>
+			  <div class="grow">
+				<p>Tutores</p>
+			  </div>
+			</div>
+		</div>
+	</div>
 	 <div class="col-md-3 widget">
 		<div class="r3_counter_box">
 			<i class="fa fa-map"></i>
@@ -65,7 +63,7 @@ Portal Administrativo
 -->	
 
 	<div class="xs">
-		<div class="col-md-3 email-list1">
+		<div class="col-md-6 email-list1">
 			<ul class="collection" id="Cambios">
 			<h4 class="text-center">Actividad Reciente</h4>
 			<hr>

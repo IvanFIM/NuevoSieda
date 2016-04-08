@@ -43,7 +43,8 @@
     <section>
     <!-- header-starts -->
     <div class="header-section navbar-fixed-top" >
-         <p style="padding-bottom: 25px; ">&nbsp;&nbsp;</p>
+        
+         <p><img src="{% static 'img/ut.png' %}" id="ut" class="img-responsive left-block"></p>
     </div>
     <br>
     <br>
@@ -80,15 +81,15 @@
                             <i class="fa fa-hashtag gris"></i>
                             Matricula: {{ user.username}}</a>
                           </li>
-                          <li name="grupo" value='{{user.Grupos.id}}'>
-                            <a href="#"class="disabled" 
+                          <li>
+                            <a href="#"class="disabled">
                             <i class="fa fa-users gris"></i>
-                            Grupo: {{ user.Grupo.id}}</a>
+                            Grupo: {{ user.Grupo}}</a>
                           </li>
-                          <li name="carrera" value='{{user.Carrera.id}}'>
+                          <li >
                             <a href="#" >
                             <i class="fa fa-map gris"></i>
-                              Carrera: {{user.Carrera.id}}</a>
+                              Carrera: {{user.Carrera}}</a>
                           </li>
                         </ul>
                       </div>

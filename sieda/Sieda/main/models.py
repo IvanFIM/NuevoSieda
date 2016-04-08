@@ -7,9 +7,11 @@ class Grupo(models.Model):
 	Grupo = models.CharField(null=True, max_length=100)
 	Cuatrimestre = models.IntegerField(null=False,default=0)
 
-	def __unicode__(self):
+	def __str__(self):
 		return '{1} - {0}'.format(self.Grupo,self.Cuatrimestre)
 		#return u'%s %s' % (self.Grupo, self.Cuatrimestre)
+	class Meta:
+		ordering = ['Cuatrimestre']
 
 # Modelo para las carreras
 class Carrera(models.Model):
@@ -18,24 +20,33 @@ class Carrera(models.Model):
 
 	def __unicode__(self):
 		return self.Nombre
+	class Meta:
+		ordering = ['Nombre']
 
 # Modelo para las materias
 class Materia(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
 	Abrev_materia = models.CharField("Abreviatura",null=True, max_length=10)
-	Grupos = models.ManyToManyField(Grupo)
 	Carrera = models.ForeignKey(Carrera,null=True)
 
 	def __unicode__(self):
-		return self.Nombre
+		#return self.Nombre
+		return u'{1} - {0}'.format(self.Nombre,self.Carrera.Abrev_carrera)
+
+	class Meta:
+		ordering = ['Carrera','Nombre']
 
 #Modelo para maestros
 class Maestro(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
 	Materia = models.ManyToManyField('Materia')
+	Grupos = models.ManyToManyField(Grupo)
 
 	def __unicode__(self):
 		return self.Nombre
+
+	class Meta:
+		ordering = ['Nombre']
 
 
 # Modelo para los jefes de carrera
@@ -45,6 +56,8 @@ class JefeCarrera(models.Model):
 
 	def __unicode__(self):
 		return self.Nombre
+	class Meta:
+		ordering = ['Nombre']
 
 # Modelo para los tutores
 class Tutor(models.Model):
@@ -54,6 +67,8 @@ class Tutor(models.Model):
 
 	def __unicode__(self):
 		return self.Maestro.Nombre
+	class Meta:
+		ordering = ['Maestro']
 
 # Modelo para preguntas
 class Pregunta(models.Model):
@@ -61,6 +76,7 @@ class Pregunta(models.Model):
 
 	def __unicode__(self):
 		return self.Descripcion
+
 
 # Modelo para secciones de preguntas
 class Seccion(models.Model):

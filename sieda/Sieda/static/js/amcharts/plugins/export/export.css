@@ -1,3 +1,33 @@
+.boton{
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	font-size: 11px;
+	font-family: Verdana;
+	color: #000;
+}
+.boton li a span{
+	color: #000;
+    font-weight: normal;
+
+}
+.boton li a:hover span{
+	color: #fff;
+    font-weight: normal;
+
+}
+.amcharts-export-menu li > a {
+	position: relative;
+	display: block;
+	color: #000;
+	text-decoration: none;
+	padding: 12px 12px;
+	z-index: 2;
+	white-space: nowrap;
+	border-bottom: 1px solid #f2f2f2;
+}
+
 /**
  * Drawing mode
  */

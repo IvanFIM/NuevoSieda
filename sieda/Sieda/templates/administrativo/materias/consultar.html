@@ -23,7 +23,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Abreviatura</th>
-                <th>Grupos</th>
+
                 <th>Carrera</th>
                 <th></th>
             </tr>
@@ -33,11 +33,7 @@
                     <tr>
                         <td>{{ materia.Nombre }} </td> 
                         <td>{{ materia.Abrev_materia }} </td> 
-                        <td>
-                            {% for grupo  in materia.Grupos.all %}
-                                ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
-                            {% endfor %}
-                        </td>
+                      
                         <td>{{ materia.Carrera.Nombre }} </td> 
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:materia_editar' id=materia.id %}'"><i class="glyphicon glyphicon-pencil"></i>

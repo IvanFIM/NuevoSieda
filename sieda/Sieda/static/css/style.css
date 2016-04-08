@@ -48,7 +48,13 @@ h1, h2, h3, h4, h5 {
 .gris{
 	color: #93a3b5;
 }
-
+#ut{
+	padding: 10px 65px 10px 80px;
+	background-color: #cccccc;
+-webkit-box-shadow: inset -9px 0px 32px 1px rgba(184,178,184,1);
+-moz-box-shadow: inset -9px 0px 32px 1px rgba(184,178,184,1);
+box-shadow: inset -9px 0px 32px 1px rgba(184,178,184,1);
+}
 span.grey {
   background: #cccccc;
   border-radius: 1em;
@@ -3170,9 +3176,9 @@ background:#1CC09F;
 
 }
 
-.panel.panel-ut-v .panel-heading label, span , i, h2 {
+.panel.panel-ut-v .panel-heading label, span , i, h2  {/*,h4*/
 	color: #fff;
-	font-weight: bold;
+	font-weight:normal;
 }
 
 .panel.panel-ut .panel-heading label, span , i {
@@ -3183,7 +3189,7 @@ background:#1CC09F;
 .panel.panel-ut {
   border-color: #fdd835;
 }
-.panel.panel-ut .panel-heading {
+.panel.panel-ut >.panel-heading {
 background:#0c3a58; 
 color: #fff;
 
@@ -4790,7 +4796,7 @@ span.badge1 {
 .sign-in-form-top p{
 	color:#fff;
 	margin:0;
-	margin-top:-50px ;
+	margin-top:-90px ;
 	margin-bottom: 10px;
 	font-size:21pt;
 	font-weight:300;
@@ -5253,7 +5259,7 @@ canvas#bar {
     height: 55px;
 }
 .avatar_left {
-  width: 65%;
+  width: 80%;/* width: 65%;*/
 }
 .pull-left {
   width: 47%;

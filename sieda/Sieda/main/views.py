@@ -14,7 +14,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required ,permission_required
-from django.db.models import F, Count, Sum
+from django.db.models import F, Count, Sum,Q
 import json as simplejson
 import json
 
@@ -48,11 +48,13 @@ def Cerrar(request):
 def SiedaMain(request):
     return render(request, 'sieda/login.html' )
 
-#@login_required(login_url='/')
+@login_required(login_url='/')
 def Evaluacion(request):
-    
-    per = models.Periodo.objects.filter(Realizado=False)
-    return render(request, 'sieda/Evaluacion/index.html', {'per' :per })
+    if not request.user.is_staff:
+        per = models.Periodo.objects.filter(Realizado=False)
+        return render(request, 'sieda/Evaluacion/index.html', {'per' :per })
+    return HttpResponseRedirect(reverse('main:admin_main'))
+
 
 def Evaluacion_sencilla(request,id):
     per = models.Periodo.objects.filter(Realizado=False)
@@ -71,7 +73,7 @@ def Fin(request):
     comen.save()
     cat.alumnos.add(request.user)
     cat.save()
-    messages.add_message(request, messages.INFO, 'Se realizado la evaluación correctamente.')
+    messages.add_message(request, messages.INFO, 'Se ha realizado la evaluación correctamente.')
     return HttpResponseRedirect(reverse('main:Evaluacion'))
 
 
@@ -80,13 +82,13 @@ def Fin(request):
 @login_required(login_url='/')
 def AdminMain(request):
     if not request.user.is_staff:
-        return render(request, 'sieda/Evaluacion/index.html')
+        return HttpResponseRedirect(reverse('main:Evaluacion'))
     maestros_total = Maestro.objects.count()
     alumnos_total = administradores.objects.filter(is_staff=False).count()
     carreras_total = Carrera.objects.count()
     tutores_total = Tutor.objects.count()
-    alumnos_faltantes = administradores.objects.filter(is_staff=False).filter(Realizado=False).count()
-
+    f=models.Catalago.objects.values('alumnos').count()
+    alumnos_faltantes = alumnos_total-f
 
     return render(request, 'administrativo/index.html' , {'tutores_total': tutores_total, 
         'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'alumnos_faltantes':alumnos_faltantes,})
@@ -406,7 +408,7 @@ def MateriaEliminar(request, id):
     return HttpResponseRedirect(reverse('main:materia_consultar'))
 
 def MateriaConsultar(request):
-    materias = models.Materia.objects.all().order_by('Nombre')    
+    materias = models.Materia.objects.all()    
     return render(request, 'Administrativo/materias/consultar.html', {'materias' : materias})
 
 
@@ -572,15 +574,17 @@ def CatalogoPreguntas(request,id):
     cat = periodo[0].Catalagos.get(id=id)
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)#las filtra por grupo tambien
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera)#las filtra por grupo tambien
     Maes_list = []
     for file in materias:
         file_info = {}
-        nomMaestro = models.Maestro.objects.get(Materia__id=file.id)
-        file_info['maestro'] = nomMaestro.Nombre
-        file_info['materia'] = file.Nombre
-        file_info['abrev'] = file.Abrev_materia
-        Maes_list.append(file_info)
+        
+        nomMaestro = models.Maestro.objects.filter(Grupos= request.user.Grupo.id,Materia=file.id)
+        for n in nomMaestro:
+            file_info['maestro'] = n.Nombre
+            file_info['materia'] = file.Nombre
+            file_info['abrev'] = file.Abrev_materia
+            Maes_list.append(file_info)
 
     return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'materias' : materias, 'maestros':Maes_list, 'NumSeccion' : 0})
 
@@ -593,28 +597,66 @@ def Secciones_lista(request):
     return HttpResponse(data,content_type='application/json')
 
 def Jefes_lista(request):
-    data = serializers.serialize("json",models.Calificaciones.objects.all())
+    data = serializers.serialize("json",models.JefeCarrera.objects.all())
     return HttpResponse(data,content_type='application/json')
 
 def Preguntas_lista(request):
     data = serializers.serialize("json",models.Pregunta.objects.all())
     return HttpResponse(data,content_type='application/json')
-##### Pruebas ###
-def Jefes_view(request):
-    return render(request, 'Administrativo/reportes/reporte_general.html' )
-def Jefes_view_Am(request):
-    return render(request, 'Administrativo/reportes/reporte_general_am.html' )
-##### Fin Pruebas ###
 
 # --  REPORTES -- 
+def Reporte_menu(request):
+    grupos = models.Grupo.objects.all().order_by('Cuatrimestre')    
+    carreras = models.Carrera.objects.all().order_by('Nombre')   
+    return render(request, 'Administrativo/reportes/reportes_menu.html',{'grupos' : grupos, 'carreras':carreras} )
+
+def Reporte_grupal(request): 
+    return render(request, 'Administrativo/reportes/reporte_grupal.html', {'grupo' : grupo})
+
+def Lista_grupal(request):
+    idgrupo = request.POST['grupo']
+    idcarera= request.POST['carrera']
+    ma = Calificaciones.objects.values('Maestro').filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera)
+
+    data = json.dumps([dict(item) for item in Materia.objects.values('id').filter(Grupos=idgrupo)])
+    return HttpResponse(data,content_type='application/json')
+
+
 def Reporte_general_maestros(request):
+
     return render(request, 'Administrativo/reportes/reporte_general_maestros.html' )
 
 def Lista_general_maestros(request):
-    data = json.dumps([dict(item) for item in models.Calificaciones.objects.values('Maestro_id__Nombre').annotate(Total=Sum('Calificacion'))])
+
+    #quizas te sirva
+       # >>> Catalago.objects.all().values('alumnos').annotate(num=Count('alumnos'))
+       # [{'alumnos': None, 'num': 0}, {'alumnos': 2, 'num': 1}, {'alumnos': 3, 'num': 1}]
+       
+       #>>> Catalago.objects.all().values('alumnos').aggregate(num=Count('alumnos'))
+       # {'num': 1}
+
+    #consulta los catalogos del maestro en el periodo 
+    Cae_Mae = models.Calificaciones.objects.filter(Periodo__Realizado=False,Catalogo__EvaluacionSencilla=False)
+    #Consulta el grupo del maestro que se evaluo
+    Mae_Mat_Ca = models.Calificaciones.objects.values('Maestro__Grupos')
+    #Consulta la Carrera que se evaluo
+    Mae_Mat_Gru = models.Calificaciones.objects.values('Maestro__Materia__Carrera')
+    #cuenta los alumnos que estan en el catalogo(que hicieron la evaluacion) que tenga la carreras y grupo del maestro evaluado
+    
+   # Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre').annotate(Total=(Sum('Calificacion')/Nu)).order_by('Total')
+
+
+
+    data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre')\
+        .annotate(Total=Sum('Calificacion')).order_by('Total')])
     return HttpResponse(data,content_type='application/json')
     #data = serializers.serialize("json")
     #data = simplejson.dumps()
+def Reporte_alumnos(request):
+    alu_no= models.administradores.objects.filter(is_staff=False).order_by('username') 
+    alu_si = models.Catalago.objects.filter(alumnos__Carrera=Mae_Mat_Ca,alumnos__Grupo=Mae_Mat_Gru).filter(id=Ca_Mae).count()
+    return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
+    
 
 def GuardarEvaluacionSencilla(request,id):
     periodo = models.Periodo.objects.filter(Realizado=False)
@@ -654,12 +696,12 @@ def GuardarEvaluacion(request,id):
     sec = int(id)
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera).filter(Grupos=request.user.Grupo)
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera)
     #materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)
     Maes_list = []
     for file in materias:
         file_info = {}
-        nomMaestro = models.Maestro.objects.get(Materia__id=file.id)
+        nomMaestro = models.Maestro.objects.filter(Materia__id=file.id).filter(Grupos=request.user.Grupo)
         file_info['maestro'] = nomMaestro.Nombre
         file_info['materia'] = file.Nombre
         file_info['abrev'] = file.Abrev_materia

@@ -21,12 +21,14 @@ urlpatterns = [
     url(r'^lista/maestros/$',views.Maestros_lista, name='LMaestro'),
     url(r'^lista/secciones/$',views.Secciones_lista, name='LSecciones'),
     url(r'^lista/jefes/$',views.Jefes_lista, name='LJefes'),
-    url(r'^lista/jefes/vistaAm$',views.Jefes_view_Am, name='Jefes_vista_am'),
     url(r'^lista/preguntas/$',views.Preguntas_lista, name='LPregutas'),
 
     #REPORTES
+    url(r'^Reporte/reporte_menu$',views.Reporte_menu, name='RMenu'),
     url(r'^lista/g_maestros/$',views.Lista_general_maestros, name='LGMaestros'),
     url(r'^Reporte/g_maestros$',views.Reporte_general_maestros, name='RGMaestros'),
+    url(r'^lista/grupos/$',views.Lista_grupal, name='LGrupal'),
+    url(r'^Reporte/grupos$',views.Reporte_grupal, name='RGrupal'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),

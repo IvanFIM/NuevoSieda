@@ -21,7 +21,9 @@
             <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Grupos</th>
                 <th>Materias </th>
+                
                 <th></th>
             </tr>
             </thead>
@@ -30,10 +32,16 @@
                     <tr>
                         <td>{{ maestro.Nombre }} </td>
                         <td>
-                        {% for materia in maestro.Materia.all %}
-                           - {{materia.Nombre}}
+                        {% for grupo  in maestro.Grupos.all %}
+                            ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
                         {% endfor %}
                         </td>
+                        <td>
+                        {% for materia in maestro.Materia.all %}
+                          - {{materia.Nombre}}<br> 
+                        {% endfor %}
+                        </td>
+                        
 
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:maestro_editar' id=maestro.id %}'"><i class="glyphicon glyphicon-pencil"></i>

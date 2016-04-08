@@ -36,7 +36,8 @@ class Maestroform(forms.ModelForm):
 		model = models.Maestro
 		fields = '__all__'
 		widgets = {
-            'Materia': forms.CheckboxSelectMultiple()
+            'Materia': forms.CheckboxSelectMultiple(),
+            'Grupos': forms.CheckboxSelectMultiple(),
         }
 
 class Grupoform(forms.ModelForm):
@@ -68,9 +69,11 @@ class Periodoform(forms.ModelForm):
 class Catalagoform(forms.ModelForm):
 	class Meta:
 		model = models.Catalago
-		fields = {'Descripcion','Secciones','EvaluacionSencilla',}
+		fields = ['Descripcion','EvaluacionSencilla', 'Secciones']
+
 		help_texts = {
             'Descripcion': _(u'Ingrese una dimensión'),
+            'EvaluacionSencilla': _(u'Elija la opción de arriba si desea evaluar tutores, servicios, etc.'),
         }
 		widgets = {
             'Secciones': forms.CheckboxSelectMultiple()

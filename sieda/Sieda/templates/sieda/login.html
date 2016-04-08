@@ -35,10 +35,15 @@
     <section>
 			<div id="page-wrapper" class="sign-in-wrapper">
 				<div class="graphs">
+				<br>
+				<img src="{% static 'img/ut-v.png' %}" class="img-responsive center-block" >
+				<br>
+
 					<div class="sign-in-form">
 						<div class="sign-in-form-top">
 						<h1><span class="grey"><i class="fa fa-user"></i></span></h1>
-						<p>Bienvenido</p>
+						<p>&nbsp;</p>
+						
 						</div>
 						<div class="signin">
 			            	<form role="form" method="POST">{% csrf_token %}
@@ -52,11 +57,11 @@
 								<input type="password" class="lock" name="password" placeholder="Contraseña" />
 								<div class="clearfix"> </div>
 							</div>
-							<p><small> <span class="pull-right"><a data-toggle="modal" href="#myModal"> ¿Olvidó su contraseña?</a></span></small></p>
+							<!--<p><small> <span class="pull-right"><a data-toggle="modal" href="#myModal"> ¿Olvidó su contraseña?</a></span></small>
 							<br>
-							<br>
+							<br></p>-->
 							<button class="btn btn-lg btn-login btn-warning btn-block" type="submit">Ingresar</button>
-						            <!-- Modal -->
+						           <!-- Modal -->
 						            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
 						                <div class="modal-dialog">
 						                    <div class="modal-content">
@@ -85,6 +90,7 @@
 			</div>
 
 	</section> 
+	
 <!-- JS dependencies -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 

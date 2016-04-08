@@ -21,6 +21,7 @@ $(document).ready(function () {
             "id": "AmGraph-1",
             "title": "graph 1",
             "type": "column",
+            "labelText": "[[Total]]",
             "valueField": "Total"
         }
     ],
@@ -28,19 +29,22 @@ $(document).ready(function () {
     "valueAxes": [
         {
             "id": "ValueAxis-1",
-            "title": "Total"
+            "title": "Calificación total ",
         }
     ],
     "allLabels": [],
-    "balloon": {},
+    "balloon": {
+        "enabled":false
+    },
     "titles": [
         {
             "id": "Title-1",
             "size": 15,
-            "text": "Reporte Maestros"
+            "text": "Acumulado de Resultados: Maestros"
         }
     ],
-    "dataProvider": []
+    "dataProvider": [],
+    "export": AmCharts.exportCFG
 };
 
     $.get('/lista/g_maestros/').done(function (data) {
