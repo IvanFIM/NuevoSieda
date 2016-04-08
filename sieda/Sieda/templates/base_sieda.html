@@ -50,6 +50,7 @@
     <br>
     <!-- //header-ends -->
         <div id="page-wrapper">
+          <div class="row">{% bootstrap_messages %}</div>
           <div class="row">
              <div class="col-md-2">
                     <div class="profile-sidebar grid_3 grid_3 ">
@@ -97,9 +98,9 @@
 
                       <!---->
                   </div>
-                  </div>
+            </div>
                       {% block head %}{% endblock %}
-                      {% bootstrap_messages %}
+                      
                       {% block body %}{% endblock %}
               
           </div> 

@@ -17,6 +17,9 @@ body {
 .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
+  position: fixed;
+  left: 2%;
+  right: 83%;
 }
 
 .profile-userpic img {
@@ -112,7 +115,7 @@ body {
   min-height: 460px;
 }
 
-/* Móviles en horizontal o tablets en vertical
+/* Móviles en horizontal o tablets en vertical */
    ------------------------------------------------------------------------- 
 @media (min-width: 768px)
  {
@@ -123,7 +126,7 @@ body {
 }
  }
  
-Tablets en horizonal y escritorios normales
+/*Tablets en horizonal y escritorios normales */
    ------------------------------------------------------------------------- 
 @media (min-width: 1024px) { 
   .profile-sidebar {
@@ -135,7 +138,7 @@ Tablets en horizonal y escritorios normales
 }
 }
  
-Escritorios muy anchos
+/*Escritorios muy anchos */
    ------------------------------------------------------------------------- 
 @media (min-width: 1200px) {
   .profile-sidebar {
@@ -145,4 +148,4 @@ Escritorios muy anchos
   left: 2%;
   right: 83%;
 }
- }/*
+ }

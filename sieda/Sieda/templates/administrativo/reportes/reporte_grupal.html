@@ -1,0 +1,38 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block title %}
+    Tutores registrados
+{% endblock %}
+
+
+{% block body %}
+
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Grafica General Maestros {{grupo}}
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+    <div class= "boton" id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+</div>
+
+
+
+{% endblock %}
+{% block Reporte %}
+<link href="{% static 'js/amcharts/plugins/export/export.css' %}" rel='stylesheet' type='text/css' />
+<script src="{% static 'js/amcharts/amcharts.js' %}"></script>
+<script src="{% static 'js/amcharts/serial.js' %}"></script>
+<script src="{% static 'js/amcharts/themes/light.js' %}"></script>
+
+<script src="{% static 'js/amcharts/plugins/export/export.js' %}"></script>
+<script src="{% static 'js/amcharts/plugins/export/examples/export.config.default.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'reportes/reporte_general_maestros.js' %}"></script>
+
+{% endblock %}
+
+
+
