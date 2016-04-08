@@ -42,17 +42,21 @@
         <div class="well text-center" >  
 
         {% for periodo in per %}
-          {%  for catalago in periodo.Catalagos.all %}
-            {% if catalago.EvaluacionSencilla %}
-                <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_sencilla' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
-                      {{catalago.Descripcion}}
-                </button>
-            {% else %}
-                <button type="button" class="btn btn-success" onclick="window.location='{% url 'main:Evaluacion_consultar' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
-                      {{catalago.Descripcion}}
-                </button>
-            {% endif %}
-          {% endfor %}
+              {% for catalago in periodo.Catalagos.all %}
+                {% if not user in catalago.alumnos.all %}
+                  {% if catalago.EvaluacionSencilla %}
+                      <button type="button" class="btn btn-warning" onclick="window.location='{% url 'main:Evaluacion_sencilla' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
+                            {{catalago.Descripcion}}
+                      </button>
+                  {% else %}
+                      <button type="button" class="btn btn-success" onclick="window.location='{% url 'main:Evaluacion_consultar' id=catalago.id %}'"><i class="fa fa-check-square-o"></i>
+                            {{catalago.Descripcion}}
+                      </button>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            
+            
         {% endfor %}
         </div>
  

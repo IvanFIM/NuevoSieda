@@ -54,7 +54,7 @@
     </div>
     <div class="panel-body no-padding" style="display: block;">
 
-<form action="{% url 'main:Guardar_evaluacion' id=NumSeccion %}" method="post" onsubmit="return confirm('la información es correcta?');"> 
+<form action="{% url 'main:Guardar_evaluacion' id=NumSeccion %}" method="post" onsubmit="return confirm('¿la información proporionada es correcta?');"> 
      {% csrf_token %} 
      <table class="table table-striped">
         <thead >
@@ -71,7 +71,7 @@
                     <td>{{ pre.Descripcion }} </td>
                     {% for mat in materias %}
                     <td>
-                        <select name="{{pre.id}}{{mat.id}}" class="btn btn-default">
+                        <select name="{{pre.id}}{{mat.id}}" id="validar" class="btn btn-default">
                           <option value=1>1</option>
                           <option value=2>2</option>
                           <option value=3>3</option>
