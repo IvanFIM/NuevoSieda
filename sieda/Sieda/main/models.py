@@ -77,7 +77,8 @@ class Pregunta(models.Model):
 	def __unicode__(self):
 		return self.Descripcion
 
-
+	class Meta:
+		ordering = ['Descripcion']
 
 
 # Modelo para secciones de preguntas
