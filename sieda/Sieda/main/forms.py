@@ -40,6 +40,7 @@ class Maestroform(forms.ModelForm):
             'Grupos': forms.CheckboxSelectMultiple(),
         }
 
+
 class Grupoform(forms.ModelForm):
 	class Meta:
 		model = models.Grupo

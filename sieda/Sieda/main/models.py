@@ -130,6 +130,7 @@ class Calificaciones(models.Model):
 	Calificacion = models.IntegerField(null=False)
 	Materia = models.ForeignKey(Materia,null=True)
 	Catalogo = models.ForeignKey(Catalago,null=True)
+	Grupo = models.ForeignKey(Grupo,null=True)
 
 #Modelo para comentarios
 class Comentarios(models.Model):
