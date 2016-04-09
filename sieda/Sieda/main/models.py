@@ -78,6 +78,8 @@ class Pregunta(models.Model):
 		return self.Descripcion
 
 
+
+
 # Modelo para secciones de preguntas
 class Seccion(models.Model):
 	Descripcion = models.CharField("Descripción",null=False,max_length=100)
@@ -86,6 +88,8 @@ class Seccion(models.Model):
 
 	def __unicode__(self):
 		return self.Descripcion
+	class Meta:
+		ordering = ['Descripcion']
 
 # Modelo para usuario administradores
 class administradores(AbstractUser):
@@ -103,6 +107,8 @@ class Catalago(models.Model):
 
 	def __unicode__(self):
 		return self.Descripcion
+	class Meta:
+		ordering = ['Descripcion']
 
 #Modelo para periodo
 class Periodo(models.Model):
@@ -112,6 +118,7 @@ class Periodo(models.Model):
 
 	def __unicode__(self):
 		return self.Descripcion
+
 
 # Modelo para calificaciones
 class Calificaciones(models.Model):

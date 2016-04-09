@@ -517,7 +517,7 @@ def SeccionEditar(request, id):
             return render(request, 'Administrativo/Seccion/agregar.html', {'form': form, 'seccion': seccion, })
     else:
         form = forms.Seccionform(instance=seccion)
-    return render(request, 'Administrativo/Periodo/agregar.html', {'form': form, 'seccion': seccion, })
+    return render(request, 'Administrativo/Seccion/agregar.html', {'form': form, 'seccion': seccion, })
 
 def SeccionEliminar(request, id):
     seccion = get_object_or_404(models.Seccion, id=id)
