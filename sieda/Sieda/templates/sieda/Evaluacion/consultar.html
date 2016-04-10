@@ -59,8 +59,8 @@
         <thead >
         <tr>
             <th>Descripcion</th>
-            {% for mat in materias %}
-            <th> {{mat.Abrev_materia}}</th>
+            {% for mat in maestros %}
+            <th> {{mat.abrev}}</th>
             {% endfor %}
         </tr>
         </thead>
@@ -68,8 +68,9 @@
             {% for pre in preguntas %}
                 <tr>
                     <td>{{ pre.Descripcion }} </td>
-                    {% for mat in materias %}
+                    {% for mat in maestros %}
                     <td>
+                      
                         <select name="{{pre.id}}{{mat.id}}" id="validar" class="btn btn-default">
                           <option value=1>1</option>
                           <option value=2>2</option>

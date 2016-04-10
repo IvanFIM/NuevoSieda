@@ -581,12 +581,15 @@ def CatalogoPreguntas(request,id):
         
         nomMaestro = models.Maestro.objects.filter(Grupos= request.user.Grupo.id,Materia=file.id)
         for n in nomMaestro:
+            file_info['id'] = file.id
             file_info['maestro'] = n.Nombre
             file_info['materia'] = file.Nombre
             file_info['abrev'] = file.Abrev_materia
             Maes_list.append(file_info)
 
-    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'materias' : materias, 'maestros':Maes_list, 'NumSeccion' : 0})
+    return render(request, 'sieda/Evaluacion/consultar.html', {'seccion' : seccion, 'catalogo': cat, 'preguntas' : pregunta, 'maestros':Maes_list, 'NumSeccion' : 0})
+
+
 
 def Maestros_lista(request):
     data = serializers.serialize("json",models.Maestro.objects.all())
@@ -701,24 +704,26 @@ def GuardarEvaluacion(request,id):
     Maes_list = []
     for file in materias:
         file_info = {}
-        nomMaestro = models.Maestro.objects.filter(Materia__id=file.id).filter(Grupos=request.user.Grupo)
-        file_info['maestro'] = nomMaestro.Nombre
-        file_info['materia'] = file.Nombre
-        file_info['abrev'] = file.Abrev_materia
-        Maes_list.append(file_info)
+        nomMaestro = models.Maestro.objects.filter(Grupos= request.user.Grupo.id,Materia=file.id)
+        for n in nomMaestro:
+            file_info['id'] = file.id
+            file_info['maestro'] = n.Nombre
+            file_info['materia'] = file.Nombre
+            file_info['abrev'] = file.Abrev_materia
+            Maes_list.append(file_info)
 
     secciones_totales = cat.Secciones.count()
     cal = 0
 
-    for mat in materias:
-            for pre in pregunta:
-                cal = cal + int(request.POST.get(str(pre.id)+""+str(mat.id),False))
+    for mat in Maes_list:
+        for pre in pregunta:
+            cal = cal + int(request.POST.get(str(pre.id)+""+str(mat['id']),False))
 
-            NomMaestro = models.Maestro.objects.get(Materia__id=mat.id)
-            cali = models.Calificaciones(Periodo=periodo[0],Maestro = NomMaestro,Materia = mat, Catalogo= cat, Seccion=seccion, Calificacion=cal)
-            cali.save()
-            cal = 0
-    
+        NMaestro = models.Maestro.objects.filter(Materia__id=int(mat['id'])).filter(Grupos= request.user.Grupo.id)
+        Materia = models.Materia.objects.get(id = mat['id'])
+        cali = models.Calificaciones(Periodo=periodo[0], Maestro = NMaestro[0],Materia = Materia, Catalogo= cat, Seccion=seccion, Calificacion=cal, Grupo = request.user.Grupo)
+        cali.save()
+        cal = 0
     
     var = secciones_totales -1
 
@@ -731,7 +736,5 @@ def GuardarEvaluacion(request,id):
         seccionNueva = cat.Secciones.all()[secNuevo]
         preguntaNueva = seccionNueva.Preguntas.all()
         template = loader.get_template('sieda/Evaluacion/consultar.html')
-        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat, 'materias' : materias,'maestros':Maes_list, 'NumSeccion' : secNuevo}
+        context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat,'maestros':Maes_list, 'NumSeccion' : secNuevo}
         return HttpResponse(template.render(context, request))
-
-
