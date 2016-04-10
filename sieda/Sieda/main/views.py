@@ -674,8 +674,8 @@ def GuardarEvaluacionSencilla(request,id):
     for pre in pregunta:
         cal = cal + int(request.POST.get(str(pre.id),False))
 
-    tutor = models.Tutor.objects.get(Grupo = request.user.Grupo)
-    cali = models.Calificaciones(Periodo=periodo[0],Tutor = tutor, Catalogo= cat, Seccion=seccion, Calificacion=cal)
+    tutor = models.Tutor.objects.filter(Grupo = request.user.Grupo)
+    cali = models.Calificaciones(Periodo=periodo[0],Tutor = tutor[0], Catalogo= cat, Seccion=seccion, Calificacion=cal)
     cali.save()
     
     
