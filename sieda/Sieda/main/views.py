@@ -169,7 +169,7 @@ def AlumnoEliminar(request, id):
 
 @login_required(login_url='/')
 def AlumnoConsultar(request):
-    alumnos = models.administradores.objects.filter(is_staff=False).order_by('username') 
+    alumnos = models.administradores.objects.filter(is_staff=False).order_by('Carrera') 
     return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
 
 # --  CARRERAS -- 
@@ -600,7 +600,7 @@ def CatalogoPreguntas(request,id):
     cat = periodo[0].Catalagos.get(id=id)
     seccion = cat.Secciones.all()[0]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera)#las filtra por grupo tambien
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera,Grupos= request.user.Grupo.id)#las filtra por grupo tambien
     Maes_list = []
     for file in materias:
         file_info = {}
@@ -734,7 +734,7 @@ def GuardarEvaluacion(request,id):
     sec = int(id)
     seccion = cat.Secciones.all()[sec]
     pregunta = seccion.Preguntas.all()
-    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera)
+    materias =  models.Materia.objects.filter(Carrera=request.user.Carrera,Grupos= request.user.Grupo.id)
     #materias =  models.Materia.objects.filter(Carrera=1).filter(Grupos=1)
     Maes_list = []
     for file in materias:

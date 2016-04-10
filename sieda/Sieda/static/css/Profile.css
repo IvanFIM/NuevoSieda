@@ -123,29 +123,28 @@ body {
    padding: 20px 0 10px 0;
    background: #fff;
 
-}
+    }
  }
  
 /*Tablets en horizonal y escritorios normales */
    ------------------------------------------------------------------------- 
 @media (min-width: 1024px) { 
-  .profile-sidebar {
+ .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
   position: fixed;
   left: 2%;
   right: 83%;
+  } 
 }
-}
- 
 /*Escritorios muy anchos */
    ------------------------------------------------------------------------- 
 @media (min-width: 1200px) {
   .profile-sidebar {
-  padding: 20px 0 10px 0;
-  background: #fff;
-  position: fixed;
-  left: 2%;
-  right: 83%;
+    padding: 20px 0 10px 0;
+    background: #fff;
+    position: fixed;
+    left: 2%;
+    right: 83%;
+  }
 }
- }

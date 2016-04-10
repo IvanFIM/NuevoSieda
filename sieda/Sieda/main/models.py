@@ -27,6 +27,7 @@ class Carrera(models.Model):
 class Materia(models.Model):
 	Nombre = models.CharField(null=False, max_length=100)
 	Abrev_materia = models.CharField("Abreviatura",null=True, max_length=10)
+	Grupos = models.ManyToManyField(Grupo)
 	Carrera = models.ForeignKey(Carrera,null=True)
 
 	def __unicode__(self):

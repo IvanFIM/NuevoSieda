@@ -21,20 +21,30 @@
         <table class="table table-striped">
             <thead >
             <tr>
+            
                 <th>Nombre</th>
                 <th>Abreviatura</th>
 
                 <th>Carrera</th>
+                <th>Grupos</th>
+
                 <th></th>
             </tr>
             </thead>
             <tbody>
                 {% for materia in materias %}
                     <tr>
+                       
                         <td>{{ materia.Nombre }} </td> 
                         <td>{{ materia.Abrev_materia }} </td> 
-                      
                         <td>{{ materia.Carrera.Nombre }} </td> 
+
+                        <td>
+                        {% for grupo  in materia.Grupos.all %}
+                            ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
+                        {% endfor %}
+                        </td>
+
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:materia_editar' id=materia.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>
