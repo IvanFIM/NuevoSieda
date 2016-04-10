@@ -76,8 +76,9 @@ def AdminMain(request):
     alumnos_total = administradores.objects.filter(is_staff=False).count()
     carreras_total = Carrera.objects.count()
     tutores_total = Tutor.objects.count()
-    f=models.Catalago.objects.values('alumnos').count()
-    alumnos_faltantes = alumnos_total-f
+    
+    c = models.Catalago.objects.filter(EvaluacionSencilla=False).aggregate(num=Count('alumnos'))
+    alumnos_faltantes = alumnos_total- c['num']
 
     return render(request, 'administrativo/index.html' , {'tutores_total': tutores_total, 
         'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'alumnos_faltantes':alumnos_faltantes,})
