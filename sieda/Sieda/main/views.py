@@ -211,7 +211,7 @@ def CarreraEliminar(request, id):
 
 @login_required(login_url='/')
 def CarreraConsultar(request):
-    carreras = models.Carrera.objects.all().order_by('Nombre')    
+    carreras = models.Carrera.objects.all()  
     return render(request, 'Administrativo/carreras/consultar.html', {'carreras' : carreras})
 
 
@@ -254,7 +254,7 @@ def MaestroEliminar(request, id):
 
 @login_required(login_url='/')
 def MaestroConsultar(request):
-    maestros = models.Maestro.objects.all().order_by('Nombre') 
+    maestros = models.Maestro.objects.all()
     return render(request, 'Administrativo/maestros/consultar.html', {'maestros' : maestros,})
 
 # --  TUTORES -- 
@@ -296,7 +296,7 @@ def TutorEliminar(request, id):
 
 @login_required(login_url='/')
 def TutorConsultar(request):
-    tutores = models.Tutor.objects.all().order_by(Lower('Maestro').desc())    
+    tutores = models.Tutor.objects.all()    
     return render(request, 'Administrativo/tutores/consultar.html', {'tutores' : tutores})
 
 # --  GRUPOS -- 
@@ -338,7 +338,7 @@ def GrupoEliminar(request, id):
 
 @login_required(login_url='/')
 def GrupoConsultar(request):
-    grupos = models.Grupo.objects.all().order_by('Cuatrimestre')    
+    grupos = models.Grupo.objects.all()  
     return render(request, 'Administrativo/grupos/consultar.html', {'grupos' : grupos})
 
 # --  JEFES DE CARRERAS -- 
@@ -380,7 +380,7 @@ def JefeCarreraEliminar(request, id):
 
 @login_required(login_url='/')
 def JefeCarreraConsultar(request):
-    jefescarreras = models.JefeCarrera.objects.all().order_by('Nombre')    
+    jefescarreras = models.JefeCarrera.objects.all()   
     return render(request, 'Administrativo/jefes_carreras/consultar.html', {'jefescarreras' : jefescarreras})
 
 # -- MATERIAS -- 
