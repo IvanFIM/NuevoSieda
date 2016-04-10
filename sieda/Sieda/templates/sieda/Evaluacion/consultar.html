@@ -70,14 +70,16 @@
                     <td>{{ pre.Descripcion }} </td>
                     {% for mat in maestros %}
                     <td>
-                      
-                        <select name="{{pre.id}}{{mat.id}}" id="validar" class="btn btn-default">
+                      <div class="form-group required">
+                        <select name="{{pre.id}}{{mat.id}}" id="validar" class="btn btn-default form-control" required="">
+                          <option disabled selected value>--</option>
                           <option value=1>1</option>
                           <option value=2>2</option>
                           <option value=3>3</option>
                           <option value=4>4</option>
                           <option value=5>5</option>
                         </select>
+                      </div>
                     </td>      
                     {% endfor %}           
                 </tr>
