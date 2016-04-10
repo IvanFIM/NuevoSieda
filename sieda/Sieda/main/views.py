@@ -18,23 +18,12 @@ from django.db.models import F, Count, Sum,Q
 import json as simplejson
 import json
 
-
-
-##
 # Handle 404 Errors
-# @param request WSGIRequest list with all HTTP Request
 def error404(request):
-
-    # 1. Load models for this view
-    #from idgsupply.models import My404Method
-
-    # 2. Generate Content for this view
     template = loader.get_template('error.htm')
     context = Context({
         'message': 'All: %s' % request,
         })
-
-    # 3. Return Template for this view + Data
     return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
 
 def Error(request):
@@ -721,7 +710,7 @@ def GuardarEvaluacionSencilla(request,id):
 
     tutor = models.Tutor.objects.filter(Grupo = request.user.Grupo)
     cali = models.Calificaciones(Periodo=periodo[0],Tutor = tutor[0], Catalogo= cat, Seccion=seccion, Calificacion=cal)
- @login_required(login_url='/')   cali.save()
+    cali.save()
     
     
     var = secciones_totales -1
