@@ -23,7 +23,7 @@
 <!--animate-->
 <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" media="all"/>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+<link href="{% static 'fonts/fuente.css' %}" rel='stylesheet' type='text/css' />
 <script src="{% static 'js/wow.min.js' %}"></script>
     <script>
          new WOW().init();
@@ -67,7 +67,7 @@
                                 <li><a href="{% url 'main:pregunta_consultar' %}">Preguntas</a></li>
                             </ul>
                         </li>
-                        <li><a href="#" ><i class="lnr lnr-chart-bars"></i><span>Reportes</span></a></li>
+                        <li><a href="{% url 'main:RMenu' %}" ><i class="lnr lnr-chart-bars"></i><span>Reportes</span></a></li>
                         <li><a href="{% url 'main:carrera_consultar' %}" ><i class="lnr lnr-map"></i><span>Carreras</span></a></li>
                         <li><a href="{% url 'main:grupo_consultar' %}" ><i class="lnr lnr-users"></i><span>Grupos</span></a></li>
                         <li><a href="{% url 'main:materia_consultar' %}" ><i class="lnr lnr-book"></i><span>Materia</span></a></li>

@@ -17,9 +17,8 @@ body {
 .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
-  position: fixed;
-  left: 2%;
-  right: 83%;
+
+
 }
 
 .profile-userpic img {
@@ -42,6 +41,8 @@ body {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .profile-usertitle-job {
@@ -115,36 +116,46 @@ body {
   min-height: 460px;
 }
 
-/* Móviles en horizontal o tablets en vertical */
-   ------------------------------------------------------------------------- 
-@media (min-width: 768px)
- {
-  .profile-sidebar {
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets,  and down) */
+@media (max-width:768px) { 
+
+.profile-sidebar {
    padding: 20px 0 10px 0;
    background: #fff;
 
     }
- }
- 
-/*Tablets en horizonal y escritorios normales */
-   ------------------------------------------------------------------------- 
-@media (min-width: 1024px) { 
- .profile-sidebar {
+  .profile-userpic{
+  display: none;
+}
+
+}
+
+/* Medium devices (desktops,  and up) */
+@media (min-width: 992px) { 
+  .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
   position: fixed;
   left: 2%;
   right: 83%;
   } 
-}
-/*Escritorios muy anchos */
-   ------------------------------------------------------------------------- 
-@media (min-width: 1200px) {
+
+
+ }
+
+/* Large devices (large desktops, and up) */
+@media (min-width: 1200px ) { 
   .profile-sidebar {
-    padding: 20px 0 10px 0;
+    padding: 20px 10px 10px 0;
     background: #fff;
     position: fixed;
     left: 2%;
     right: 83%;
   }
+
+
 }
