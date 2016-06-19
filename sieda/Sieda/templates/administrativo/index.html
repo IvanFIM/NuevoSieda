@@ -12,7 +12,15 @@ Portal Administrativo
 
 
 {% block body %}
-	<div class="col-md-3 widget widget1">
+	
+		<div class="col-md-5 ">
+			<ul class="collection" id="Cambios">
+			<h4 class="text-center">Cambios Recientes</h4>
+			<hr>
+			</ul>
+		</div>
+
+	<div class="col-md-2 widget widget1">
 		<div class="r3_counter_box ">
 			<i class="fa fa-graduation-cap"></i>
 			<div class="stats">
@@ -23,17 +31,28 @@ Portal Administrativo
 			</div>
 		</div>
 	</div>
-	<div class="col-md-3 widget widget1">
+	<div class="col-md-2 widget widget1">
 		<div class="r3_counter_box">
 		<div class="f">
 			<i class="fa fa-graduation-cap"></i>
 			<div class="stats">
 			  <h5>{{alumnos_faltantes}}</h5>
 			  <div class="grow grow3">
-				<p>Alum. Faltantes</p>
+				<p>Almn. Faltantes</p>
 			  </div>
 			</div>
 		</div>
+		</div>
+	 </div>
+	 <div class="col-md-2 widget widget1">
+		<div class="r3_counter_box">
+			<i class="fa fa-comments-o"></i>
+			<div class="stats">
+			  <h5>{{ comentarios_total}}<a href="{% url 'main:comentario_consultar' %}"><span> : coments.</span></a></h5>
+			  <div class="grow">
+				<p>Comentarios</p>
+			  </div>
+			</div>
 		</div>
 	 </div>
 <!--
@@ -62,15 +81,8 @@ Portal Administrativo
 	</div>
 -->	
 
-	<div class="xs">
-		<div class="col-md-6 email-list1">
-			<ul class="collection" id="Cambios">
-			<h4 class="text-center">Actividad Reciente</h4>
-			<hr>
-			</ul>
-		</div>
-	</div>
-</div>
+
+
 
 
 {% endblock %}

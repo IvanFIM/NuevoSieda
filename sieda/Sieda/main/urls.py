@@ -25,10 +25,16 @@ urlpatterns = [
 
     #REPORTES
     url(r'^Reporte/reporte_menu$',views.Reporte_menu, name='RMenu'),
-    url(r'^lista/g_maestros/$',views.Lista_general_maestros, name='LGMaestros'),
+   
     url(r'^Reporte/g_maestros$',views.Reporte_general_maestros, name='RGMaestros'),
-    url(r'^lista/grupos/$',views.Lista_grupal, name='LGrupal'),
+    url(r'^lista/g_maestros/$',views.Lista_general_maestros, name='LGMaestros'),
+    url(r'^Reporte/g_tutores$',views.Reporte_general_tutores, name='RGTutores'),
+    url(r'^lista/g_tutores/$',views.Lista_general_tutores, name='LGTutores'),
+    
     url(r'^Reporte/grupos$',views.Reporte_grupal, name='RGrupal'),
+    url(r'^lista/grupos/$',views.Lista_grupal, name='LGrupal'),
+
+    url(r'^Reporte/alumnos$',views.Reporte_alumnos, name='RAlumno'),
 
     #ABC'S#
     url(r'^administradores/alta$', views.AdminAlta, name='admin_alta'),
@@ -97,6 +103,10 @@ urlpatterns = [
     url(r'^Evaluacion/Guardar_evaluacionSencilla/(?P<id>[0-9]+)$', views.GuardarEvaluacionSencilla, name='Guardar_evaluacionSencilla'),
     url(r'^Evaluacion/Guardar_evaluacion/(?P<id>[0-9]+)$', views.GuardarEvaluacion, name='Guardar_evaluacion'),
     url(r'^Evaluacion/fin$', views.Fin, name='fin'),
+
+    url(r'^Comentarios/consultar$', views.ComentarioConsultar, name='comentario_consultar'),
+    url(r'^Comentarios/eliminar$', views.ComentarioEliminar, name='comentario_eliminar'),
+
     
 ]
  

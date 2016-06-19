@@ -8,7 +8,7 @@ from django.db.models.functions import Lower
 from django.template import loader
 from . import models
 from . import forms
-from .models import administradores, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion
+from .models import administradores, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion, Comentarios
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -75,12 +75,12 @@ def AdminMain(request):
     maestros_total = Maestro.objects.count()
     alumnos_total = administradores.objects.filter(is_staff=False).count()
     carreras_total = Carrera.objects.count()
-    tutores_total = Tutor.objects.count()
+    comentarios_total = models.Comentarios.objects.count()
     
     c = models.Catalago.objects.filter(EvaluacionSencilla=False).aggregate(num=Count('alumnos'))
     alumnos_faltantes = alumnos_total- c['num']
 
-    return render(request, 'administrativo/index.html' , {'tutores_total': tutores_total, 
+    return render(request, 'administrativo/index.html' , {'comentarios_total': comentarios_total, 
         'alumnos_total':alumnos_total, 'carreras_total':carreras_total, 'alumnos_faltantes':alumnos_faltantes,})
 
 # -- ADMINISTRADORES -- 
@@ -652,9 +652,14 @@ def Reporte_grupal(request):
 def Lista_grupal(request):
     idgrupo = request.POST['grupo']
     idcarera= request.POST['carrera']
-    ma = Calificaciones.objects.values('Maestro').filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera)
+    m=models.Calificaciones.objects.values('Maestro_id__Nombre').filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera).filter(Grupo_id=idgrupo)
 
-    data = json.dumps([dict(item) for item in Materia.objects.values('id').filter(Grupos=idgrupo)])
+    data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre')\
+        .filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera)\
+        .annotate(num=Count('Maestro_id'))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('total')])
     return HttpResponse(data,content_type='application/json')
 
 @login_required(login_url='/')
@@ -664,36 +669,55 @@ def Reporte_general_maestros(request):
 
 @login_required(login_url='/')
 def Lista_general_maestros(request):
-
-    #quizas te sirva
-       # >>> Catalago.objects.all().values('alumnos').annotate(num=Count('alumnos'))
-       # [{'alumnos': None, 'num': 0}, {'alumnos': 2, 'num': 1}, {'alumnos': 3, 'num': 1}]
-       
-       #>>> Catalago.objects.all().values('alumnos').aggregate(num=Count('alumnos'))
-       # {'num': 1}
-
-    #consulta los catalogos del maestro en el periodo 
-    Cae_Mae = models.Calificaciones.objects.filter(Periodo__Realizado=False,Catalogo__EvaluacionSencilla=False)
-    #Consulta el grupo del maestro que se evaluo
-    Mae_Mat_Ca = models.Calificaciones.objects.values('Maestro__Grupos')
-    #Consulta la Carrera que se evaluo
-    Mae_Mat_Gru = models.Calificaciones.objects.values('Maestro__Materia__Carrera')
-    #cuenta los alumnos que estan en el catalogo(que hicieron la evaluacion) que tenga la carreras y grupo del maestro evaluado
-    
-   # Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre').annotate(Total=(Sum('Calificacion')/Nu)).order_by('Total')
-
-
-
     data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre')\
-        .annotate(Total=Sum('Calificacion')).order_by('Total')])
+        .annotate(num=Count('Maestro_id'))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('total')])
     return HttpResponse(data,content_type='application/json')
-    #data = serializers.serialize("json")
-    #data = simplejson.dumps()
+
+#-- REPORTE tutores listo---
+@login_required(login_url='/')
+def Reporte_general_tutores(request):
+    return render(request, 'Administrativo/reportes/Reporte_general_tutores.html')
+
+@login_required(login_url='/')
+def Lista_general_tutores(request):
+    data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Tutor_id=None).values('Tutor_id__Maestro__Nombre')\
+        .annotate(num=Count('Tutor_id'))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('total')])
+    return HttpResponse(data,content_type='application/json')
+
 @login_required(login_url='/')    
 def Reporte_alumnos(request):
-    alu_no= models.administradores.objects.filter(is_staff=False).order_by('username') 
-    alu_si = models.Catalago.objects.filter(alumnos__Carrera=Mae_Mat_Ca,alumnos__Grupo=Mae_Mat_Gru).filter(id=Ca_Mae).count()
-    return render(request, 'Administrativo/alumnos/consultar.html', {'alumnos' : alumnos})
+    idgrupo = request.POST['grupo']
+    idcarrera= request.POST['carrera']
+    alu_no= models.administradores.objects.filter(is_staff=False, Carrera=idcarrera, Grupo=idgrupo).order_by('username') 
+    alumnos = models.catalogo.objects.all()
+
+    a_no = []
+
+    for alumno_no in alu_no:
+        alu_no
+
+    for file in materias:
+        file_info = {}
+        nomMaestro = models.Maestro.objects.filter(Grupos= request.user.Grupo.id,Materia=file.id)
+        for n in nomMaestro:
+            file_info['id'] = file.id
+            file_info['maestro'] = n.Nombre
+            file_info['materia'] = file.Nombre
+            file_info['abrev'] = file.Abrev_materia
+            Maes_list.append(file_info)
+
+    secciones_totales = cat.Secciones.count()
+    cal = 0
+
+
+   # alu_si = models.Catalago.objects.filter(alumnos__Carrera=Mae_Mat_Ca,alumnos__Grupo=Mae_Mat_Gru).filter(id=Ca_Mae).count()
+    return render(request, 'Administrativo/reportes/Reporte_alumnos.html', {'alu_no' : alu_no})
     
 @login_required(login_url='/')
 def GuardarEvaluacionSencilla(request,id):
@@ -774,3 +798,25 @@ def GuardarEvaluacion(request,id):
         template = loader.get_template('sieda/Evaluacion/consultar.html')
         context = {'seccion' : seccionNueva, 'preguntas' : preguntaNueva,'catalogo': cat,'maestros':Maes_list, 'NumSeccion' : secNuevo}
         return HttpResponse(template.render(context, request))
+
+
+
+@login_required(login_url='/')
+def ComentarioEliminar(request):
+
+    comentario = request.POST.getlist('comentarios')
+
+    for co in comentario:
+        try:
+            co=Comentarios.objects.get(pk=co)
+            co.delete()
+        except Comentarios.DoesNotExist:
+            co = 0
+    messages.add_message(request, messages.INFO, 'los comentarios ha sido borrados ')
+    return HttpResponseRedirect(reverse('main:comentario_consultar'))
+
+
+@login_required(login_url='/')
+def ComentarioConsultar(request):
+    comentario = Comentarios.objects.all()   
+    return render(request, 'Administrativo/comentarios/consultar.html', {'comentario' : comentario})

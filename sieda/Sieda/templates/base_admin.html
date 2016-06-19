@@ -56,6 +56,7 @@
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="{% url 'main:admin_main' %}"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
                         <li><a href="{% url 'main:admin_consultar' %}" ><i class="lnr lnr-lock"></i><span>Administrador</span></a></li>
+                        <li><a href="{% url 'main:comentario_consultar' %}"><i class="lnr lnr-bubble"></i><span>Comentarios</span></a></li>
                         <li class="menu-list">
                         <a href="#"><i class="lnr lnr-cog"></i>
                             <span>Configuración</span></a>
@@ -74,7 +75,8 @@
                         <li><a href="{% url 'main:jefe_carrera_consultar' %}"><i class="lnr lnr-briefcase"></i><span>Jefes de carrera</span></a></li>
                         <li><a href="{% url 'main:maestro_consultar' %}" ><i class="lnr lnr-license"></i><span>Maestros</span></a></li>
                         <li><a href="{% url 'main:tutor_consultar' %}" ><i class="lnr lnr-star"></i><span>Tutores</span></a></li>
-                        <li><a href="{% url 'main:alumno_consultar' %}" ><i class="lnr lnr-graduation-hat"></i><span>Alumnos</span></a></li>   
+                        <li><a href="{% url 'main:alumno_consultar' %}" ><i class="lnr lnr-graduation-hat"></i><span>Alumnos</span></a></li>  
+
                     </ul>
                 <!--sidebar nav end-->
             </div>

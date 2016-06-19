@@ -4,9 +4,9 @@ $(document).ready(function () {
 
     var osChartConfig = {
     "type": "serial",
-    "categoryField": "Maestro_id__Nombre",
+    "categoryField": "Tutor_id__Maestro__Nombre",
     "startDuration": 1,
-    "theme": "light",
+    "theme": "default",
     "categoryAxis": {
         "gridPosition": "start",
         "boldLabels": true
@@ -42,14 +42,14 @@ $(document).ready(function () {
         {
             "id": "Title-1",
             "size": 15,
-            "text": "Resultados de evaluación: Maestros"
+            "text": "Resultados de evaluación: Tutores"
         }
     ],
     "dataProvider": [],
     "export": AmCharts.exportCFG
 };
 
-    $.get('/lista/g_maestros/').done(function (data) {
+    $.get('/lista/g_tutores/').done(function (data) {
       
         osChartConfig.dataProvider = data;
         var chart = AmCharts.makeChart('chartdiv', osChartConfig);

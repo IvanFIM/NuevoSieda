@@ -11,6 +11,38 @@
 
 {% block body %}
 
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+        Catalogos registrados
 
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Grupo</th>
+                    <th>Carrera</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for administradores in alu_no %}
+                    <tr>
+	                    <td>{{ administradores.first_name }} {{ administradores.last_name }}  </td>
+	                    <td>{{ administradores.Carrera }} </td> 
+	                    <td>{{ administradores.Grupo }} </td> 
+                      	                
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay Catalogos registrados aun!</h4>
+                            <p>Para agregar un catalago, por favor presione "Agregar"</p>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}

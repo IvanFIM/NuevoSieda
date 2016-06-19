@@ -1989,7 +1989,7 @@ i.pull-left.fa.fa-bolt.icon-rounded {
 .grow{
 	position: absolute;
     top:47%;
-    left:35%;
+    left:26%;
     background:#8BC34A;/**/
     width: 100px;
     height: 30px;
@@ -2005,7 +2005,7 @@ i.pull-left.fa.fa-bolt.icon-rounded {
     background: #F44336;
 }
 .grow1,.grow3,.grow2 {
-    left: 36%;
+    left: 26%;
 }
 .switch-right-grid h3{
 	color:#000;
@@ -2656,7 +2656,7 @@ h4.asd label {
     line-height: 105px;
     font-size: 3.5em;
 }
-.r3_counter_box .fa-users{
+.r3_counter_box .fa-comments-o{
 	color:#8BC34A;
 }
 .r3_counter_box .fa-graduation-cap{
