@@ -8,7 +8,7 @@ from django.db.models.functions import Lower
 from django.template import loader
 from . import models
 from . import forms
-from .models import administradores, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion, Comentarios
+from .models import administradores, Carrera, Maestro, Grupo, Tutor, JefeCarrera, Materia, Seccion, Comentarios, Periodo, Catalago
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
@@ -640,23 +640,28 @@ def Preguntas_lista(request):
 # --  REPORTES -- 
 @login_required(login_url='/')
 def Reporte_menu(request):
+    maestros = models.Maestro.objects.values('id','Nombre').order_by('Nombre').distinct()
+    tutores = models.Tutor.objects.values('Maestro','Maestro__Nombre').order_by('Maestro__Nombre').distinct()
     grupos = models.Grupo.objects.all().order_by('Cuatrimestre')    
     carreras = models.Carrera.objects.all().order_by('Nombre')   
-    return render(request, 'Administrativo/reportes/reportes_menu.html',{'grupos' : grupos, 'carreras':carreras} )
+    return render(request, 'Administrativo/reportes/reportes_menu.html',{'grupos' : grupos, 'carreras':carreras, 'tutores':tutores,'maestros':maestros} )
 
 @login_required(login_url='/')
 def Reporte_grupal(request): 
-    return render(request, 'Administrativo/reportes/reporte_grupal.html', {'grupo' : grupo})
+    return render(request, 'Administrativo/reportes/reporte_grupal.html')
 
 @login_required(login_url='/')
 def Lista_grupal(request):
-    idgrupo = request.POST['grupo']
-    idcarera= request.POST['carrera']
-    m=models.Calificaciones.objects.values('Maestro_id__Nombre').filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera).filter(Grupo_id=idgrupo)
+    idgrupo = request.GET['grupo']
+    idcarera= request.GET['carrera']
 
-    data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre')\
-        .filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera)\
-        .annotate(num=Count('Maestro_id'))\
+
+    periodo = models.Periodo.objects.filter(Realizado=False).get()
+    cat = periodo.Catalagos.filter(EvaluacionSencilla =False).values('Secciones').count()
+ 
+    data = json.dumps([dict(item) for item in models.Calificaciones.objects.filter(Materia__Grupos=idgrupo,Materia__Carrera=idcarera)\
+        .filter(Grupo_id=idgrupo).exclude(Maestro_id=None).values('Maestro_id__Nombre')\
+        .annotate(num=(Count('Maestro_id')/cat))\
         .annotate(puntos=Sum('Calificacion'))\
         .annotate(total=F('puntos') / F('num'))\
         .order_by('total')])
@@ -664,17 +669,56 @@ def Lista_grupal(request):
 
 @login_required(login_url='/')
 def Reporte_general_maestros(request):
-
+   
     return render(request, 'Administrativo/reportes/reporte_general_maestros.html' )
 
 @login_required(login_url='/')
 def Lista_general_maestros(request):
+    periodo = models.Periodo.objects.filter(Realizado=False).get()
+    cat = periodo.Catalagos.filter(EvaluacionSencilla =False).values('Secciones').count()
+ 
     data = json.dumps([dict(item) for item in models.Calificaciones.objects.exclude(Maestro_id=None).values('Maestro_id__Nombre')\
-        .annotate(num=Count('Maestro_id'))\
+        .annotate(num=(Count('Maestro_id')/cat))\
         .annotate(puntos=Sum('Calificacion'))\
         .annotate(total=F('puntos') / F('num'))\
         .order_by('total')])
     return HttpResponse(data,content_type='application/json')
+
+@login_required(login_url='/')
+def Reporte_esp_maestros(request):
+    maestro = request.POST['maestro']
+    materias = models.Maestro.objects.filter(id = maestro)
+
+    periodo = models.Periodo.objects.filter(Realizado=False)
+
+    tutor= models.Calificaciones.objects.all().filter(Tutor_id__Maestro_id = maestro)\
+    .values('Tutor_id__Maestro__Nombre','Tutor__Carrera__Nombre','Tutor__Grupo__Grupo','Tutor__Grupo__Cuatrimestre','Seccion__Descripcion')\
+        .annotate(num=Count('Tutor_id'))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('total')
+
+    carrera_c = models.Maestro.objects.filter(id = maestro).values('Materia__Carrera__Nombre').annotate(num = Count('Materia__Carrera__Nombre'))
+
+    maestro_e = models.Calificaciones.objects.filter(Maestro_id = maestro).exclude(Maestro_id=None)\
+        .values('Maestro_id__Nombre','Seccion_id__Descripcion','Grupo__Cuatrimestre','Grupo__Grupo','Materia__Nombre','Periodo__Descripcion')\
+        .annotate(num=Count('Maestro_id'))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('Seccion_id','Maestro_id',)
+
+    periodo = models.Periodo.objects.filter(Realizado=False).get()
+    cat = periodo.Catalagos.filter(EvaluacionSencilla =False).values('Secciones').count()
+ 
+    maestro_g = models.Calificaciones.objects.filter(Maestro_id=maestro)\
+        .values('Materia_id__Nombre','Maestro_id__Nombre','Grupo_id__Grupo','Grupo_id__Cuatrimestre','Materia_id__Carrera__Nombre')\
+        .annotate(num=(Count('Maestro_id')/cat))\
+        .annotate(puntos=Sum('Calificacion'))\
+        .annotate(total=F('puntos') / F('num'))\
+        .order_by('total','Grupo_id')
+
+    return render(request, 'Administrativo/reportes/reporte_esp_maestros.html',{'materias':materias,'carrera_c':carrera_c,'periodo':periodo\
+        ,'tutor':tutor,'maestro_e':maestro_e,'maestro_g':maestro_g})
 
 #-- REPORTE tutores listo---
 @login_required(login_url='/')
@@ -690,34 +734,40 @@ def Lista_general_tutores(request):
         .order_by('total')])
     return HttpResponse(data,content_type='application/json')
 
+    A.objects.filter(pk=B.objects.filter(pk=c.b_id))
+
 @login_required(login_url='/')    
 def Reporte_alumnos(request):
-    idgrupo = request.POST['grupo']
-    idcarrera= request.POST['carrera']
-    alu_no= models.administradores.objects.filter(is_staff=False, Carrera=idcarrera, Grupo=idgrupo).order_by('username') 
-    alumnos = models.catalogo.objects.all()
+    tutor = request.POST['tutor']
 
-    a_no = []
+    #Guardar en valiables el grupo y la carrera del tutor para filtrar los alumnos
+    idgrupo = models.Tutor.objects.filter(Maestro=tutor).values_list('Grupo__id',flat=True)
+    idcarrera = models.Tutor.objects.filter(Maestro=tutor).values_list('Carrera__id',flat=True)
 
-    for alumno_no in alu_no:
-        alu_no
+    #Guardar en valiable los catalogos que hay en el periodo actual, para despues filtrar los alumnos que hicieron todos los catalogos
+    catalogos = models.Periodo.objects.filter(Realizado=False).values_list('Catalagos',flat=True)
+    
+    #Guardar en valiable los alumnos que evaluaron Alguno de los catalogos   
+    alumnos= models.Catalago.objects.filter(alumnos__catalago__in=catalogos).values('alumnos')
 
-    for file in materias:
-        file_info = {}
-        nomMaestro = models.Maestro.objects.filter(Grupos= request.user.Grupo.id,Materia=file.id)
-        for n in nomMaestro:
-            file_info['id'] = file.id
-            file_info['maestro'] = n.Nombre
-            file_info['materia'] = file.Nombre
-            file_info['abrev'] = file.Abrev_materia
-            Maes_list.append(file_info)
+    #alumnos que no han hecho la evaluacion (para la tabla)
+    alu_no= models.administradores.objects.filter(is_staff=False, Carrera__in=idcarrera, Grupo__in=idgrupo)\
+   .order_by('Carrera','first_name')
 
-    secciones_totales = cat.Secciones.count()
-    cal = 0
+    #alumnos que no han hecho la evaluacion (Alumnos tutorados faltantes:)
+    alu_no_num= models.administradores.objects.filter(is_staff=False, Carrera__in=idcarrera, Grupo__in=idgrupo)\
+    .exclude(id__in=alumnos).count()
 
+    #alumnos que hicieron la evaluacion (Alumnos tutorados evaluados:)
+    alu_si= models.administradores.objects.filter(is_staff=False, Carrera__in=idcarrera, Grupo__in=idgrupo)\
+    .filter(id__in=alumnos).count()
 
-   # alu_si = models.Catalago.objects.filter(alumnos__Carrera=Mae_Mat_Ca,alumnos__Grupo=Mae_Mat_Gru).filter(id=Ca_Mae).count()
-    return render(request, 'Administrativo/reportes/Reporte_alumnos.html', {'alu_no' : alu_no})
+    si_c= models.administradores.objects.filter(is_staff=False, Carrera__in=idcarrera, Grupo__in=idgrupo).filter(id__in=alumnos).values_list('id',flat=True)
+    
+    catalogos_al = models.Catalago.objects.filter(alumnos__in = si_c).values('alumnos__first_name','Descripcion').order_by('alumnos__first_name')
+
+    return render(request, 'Administrativo/reportes/Reporte_alumnos.html', {'alu_no' : alu_no,'alu_si':alu_si,\
+        'alu_no_num':alu_no_num,'alumnos':alumnos, 'catalogos_al':catalogos_al })
     
 @login_required(login_url='/')
 def GuardarEvaluacionSencilla(request,id):

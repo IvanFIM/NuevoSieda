@@ -1,0 +1,86 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Comentarios
+{% endblock %}
+
+{% block head %}         
+        
+{% endblock %}
+
+{% block body %}
+<h1 class="page-header" >
+      <i class="fa fa-comments-o negro"></i> Comentarios 
+</h1>
+
+
+<form action="{% url 'main:comentario_eliminar' %}" name="f1" method="post" onsubmit="return confirm('¿Desea borrar los comentarios seleccionados?');"> 
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+    {% if not comentario %}
+     
+    {% else%}
+        <button style="margin-top: -13px" class="btn btn-info warning_22 " type="button" onclick="javascript:seleccionar_todo()"><i class="fa fa-check-square" aria-hidden="true"></i> Marcar todos</button>  | 
+        <button style="margin-top: -13px" class="btn btn-info warning_22" type="button" onclick="javascript:deseleccionar_todo()"><i class="fa fa-square-o" aria-hidden="true"></i> Marcar ninguno</button>  | 
+
+        <button style="margin-top: -13px" class="btn btn-danger warning_22 " type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>  
+    {% endif %}   
+    
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+  
+     {% csrf_token %} 
+
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><i class="fa fa-square negro" aria-hidden="true"></i></th>
+                    <th>Id</th>
+                    <th>Comentario </th>
+                    <th>Catalogo</th>
+                    <th>Periodo</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for comentarios in comentario %}
+                    <tr>
+                        <td><input type="checkbox" name="comentarios" value="{{comentarios.pk}}"></td>
+                        <td>{{ comentarios.id }} </td>
+                        <td>{{ comentarios.Comentario }} </td>
+                        <td>{{ comentarios.Catalogo }} </td>
+                        <td>{{ comentarios.Periodo }} </td>
+                                       
+                    </tr>
+                      {% empty %}
+                            <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>No hay Comentarios aun!</h4>
+                            </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+
+   
+
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+    function seleccionar_todo(){ 
+       for (i=0;i<document.f1.elements.length;i++) 
+          if(document.f1.elements[i].type == "checkbox")    
+             document.f1.elements[i].checked=1 
+    }
+    function deseleccionar_todo(){ 
+       for (i=0;i<document.f1.elements.length;i++) 
+          if(document.f1.elements[i].type == "checkbox")    
+             document.f1.elements[i].checked=0 
+    }
+
+</script>
+{% endblock %}

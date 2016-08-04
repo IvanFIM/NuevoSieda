@@ -25,6 +25,8 @@ urlpatterns = [
 
     #REPORTES
     url(r'^Reporte/reporte_menu$',views.Reporte_menu, name='RMenu'),
+
+    url(r'^Reporte/e_maestros$',views.Reporte_esp_maestros, name='REMaestros'),
    
     url(r'^Reporte/g_maestros$',views.Reporte_general_maestros, name='RGMaestros'),
     url(r'^lista/g_maestros/$',views.Lista_general_maestros, name='LGMaestros'),

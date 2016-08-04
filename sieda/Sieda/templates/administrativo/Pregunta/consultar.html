@@ -28,7 +28,7 @@
             <tbody>
                 {% for pre in pregunta %}
                     <tr>
-                        <td>{{ pre.Descripcion }} </td>
+                        <td>{{ pre.Descripcion}} </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-circle" onclick="window.location='{% url 'main:pregunta_editar' id=pre.id %}'"><i class="glyphicon glyphicon-pencil"></i>
                             </button>

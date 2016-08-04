@@ -10,39 +10,69 @@
 {% endblock %}
 
 {% block body %}
+<h1 class="page-header" style="margin-top: -8px;">
+Reporte de alumnos 
+</h1> 
 
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
-        Catalogos registrados
+       Alumnos tutorados evaluados: {{alu_si}} | Alumnos tutorados faltantes: {{alu_no_num}} 
+       
+
+        <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i> Volver</button>
+		
 
     </div>
     <div class="panel-body no-padding" style="display: block;">
+    	
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Grupo</th>
                     <th>Carrera</th>
+                    <th>Grupo</th>
+                    <th>Catalogo Evaluado</th>
                 </tr>
             </thead>
             <tbody>
                 {% for administradores in alu_no %}
                     <tr>
 	                    <td>{{ administradores.first_name }} {{ administradores.last_name }}  </td>
-	                    <td>{{ administradores.Carrera }} </td> 
-	                    <td>{{ administradores.Grupo }} </td> 
-                      	                
+	                    <td>{{ administradores.Carrera.Abrev_carrera }} </td> 
+	                    <td>{{ administradores.Grupo }} </td>
+                        <td>  
+                        {% for cata in catalogos_al %}
+                            {% if cata.alumnos__first_name in administradores.first_name %} 
+                               ({{cata.Descripcion}})
+                            {% endif %}
+                            
+                        {% endfor %} 
+                        </td>                    	                
                     </tr>
-                      {% empty %}
-                            <div class="alert alert-dismissible alert-warning">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>No hay Catalogos registrados aun!</h4>
-                            <p>Para agregar un catalago, por favor presione "Agregar"</p>
-                            </div>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
 </div>
 
 {% endblock %}
+
+                {% for cata in c %}
+                    <tr>
+                        <td>{{cata.Descripcion}}</td> 
+
+                        <td>
+
+                        {% for c in cata.alumnos.all %}
+                            {% if c.id in si_c %} 
+                               {{c.first_name }}-
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td>{{cata.num}}</td>
+
+                                        
+                    </tr>
+                {% endfor %} 

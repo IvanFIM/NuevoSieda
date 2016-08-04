@@ -1,0 +1,235 @@
+{% extends 'base_admin.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Reporte de Alumnos
+{% endblock %}
+
+{% block head %}         
+        
+{% endblock %}
+
+{% block body %}
+<style type="text/css">
+@media print {
+
+.print {
+    visibility: visible !important;
+    margin-top: -70px;
+    margin-left: -30px;
+  }
+.panel{
+    margin-bottom: -20px;
+  }
+
+.hidden-print {
+    visibility: hidden;
+    display:none;
+
+  }
+
+  
+  
+}
+</style>
+<h1 class="page-header hidden-print" style="margin-top: -8px;">
+Evaluación Docente 
+</h1> 
+<br/>
+<div id="dvData" class="print">
+<h4><strong>Docente:</strong>&nbsp;{% for mat in materias %}{{mat.Nombre}}{% endfor %}</h4>
+<br>
+<div class="panel panel-ut " data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+       
+       <strong> Periodos en que el Docente ha sido Asignado como Maestro</strong>
+        <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right hidden-print" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i></button> 
+        <button style="margin-top: -13px" type="button" id="btnExport" class="btn btn-warning warning_22 pull-right hidden-print"/><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+	
+        <button style="margin-top: -13px" type="button" onclick="javascript:window.print()"  class="btn btn-info warning_22 pull-right hidden-print"/><i class="fa fa-print" aria-hidden="true"></i></i></button>
+        <br>
+
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+    	
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Materias</th>
+                    <th>Grupos</th>
+                    <th>Carreras</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mat in materias %}
+                    {% for materia in mat.Materia.all %}
+                    <tr>
+                        <td>
+                            {{materia.Nombre}}
+                        </td> 
+                        <td style="text-align: center;">
+                        {% for grupo  in materia.Grupos.all %}
+                            ({{grupo.Cuatrimestre}}-{{grupo.Grupo}})
+                        {% endfor %}
+                        </td> 
+                        <td>
+                            {{materia.Carrera}}
+                        </td> 
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br class="hidden-print" />
+
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+       
+       <strong> Cerreras en que el Docente se ha desempeñado como Profesor de Tiempo Completo</strong>        
+       <br>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Carrera</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for ca in carrera_c %}
+                    <tr>
+                        {% if ca.num > 1 %}
+                            <td>{{ca.Materia__Carrera__Nombre}}</td>
+                        {% endif %} 
+                        
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br class="hidden-print"/>    
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+       
+        <strong> Evaluación del Proceso Enseñanza-Aprendizaje</strong>      
+        <br>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        
+
+        <table class="table table-striped">
+            <thead>
+               <tr>
+                 <th>Materia </th>
+                 <th style="text-align: center;">Total Evaluados</th>
+                 <th style="color:green;">Promedio</th>
+                 <th style="text-align: center;">Grupos</th>
+                 <th>Carrera</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for g in maestro_g%}
+                <tr>
+                    <td>{{g.Materia_id__Nombre}}</td>
+                    <td style="text-align: center;">{{g.num}}</td>
+                    <td style="color:green; text-align: center;">{{g.total}}</td>
+                    <td style="text-align: center;">({{g.Grupo_id__Cuatrimestre}}-{{g.Grupo_id__Grupo}})</td>
+                    <td>{{g.Materia_id__Carrera__Nombre}}</td>
+                </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br class="hidden-print"/>
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+       
+        <strong> Evaluación del tutor </strong>       
+        <br>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        
+
+        <table class="table table-striped">
+            <thead>
+               <tr>
+                 <th>Grupo</th>
+                 <th>Carrera</th>
+                 <th style="color:green; text-align: center;">Promedio</th>
+                 <th style=" text-align: center;">Sección</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for t in tutor%}
+                <tr>
+                    <td>({{t.Tutor__Grupo__Cuatrimestre}}-{{t.Tutor__Grupo__Grupo}})</td>
+                    <td>{{t.Tutor__Carrera__Nombre}}</td>
+                    <td style="color:green; text-align: center;" >{{t.total}}</td>
+                    <td style=" text-align: center;">{{t.Seccion__Descripcion}}</td>
+                </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <br class="hidden-print"/>
+<div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
+    <div class="panel-heading">
+       
+       <strong>  Evaluación del docente (Puntaje obtenido entre el numero de alumnos evaluados)</strong>       
+       <br>
+    </div>
+    <div class="panel-body no-padding" style="display: block;">
+        
+
+        <table class="table table-striped">
+            {% regroup maestro_e by Materia__Nombre as mate_lista %}
+            {% for ma in mate_lista %}
+            <thead>
+                <tr>
+                    <th>Materia</th>
+
+                    {% for me in ma.list %}
+                        <th>{{me.Seccion_id__Descripcion}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>{{ma.grouper}}</td>
+
+                    {% for me in ma.list %}
+                        <td style="text-align: center;">{{me.total}}</td>
+                    {% endfor %}
+                </tr>
+               
+            </tbody>
+            {% endfor %} 
+        </table>
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}
+{% block Reporte %}
+ <script>
+    $("#btnExport").click(function(e) {
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvData').html()));
+        e.preventDefault();
+    });
+</script>
+{% endblock %}

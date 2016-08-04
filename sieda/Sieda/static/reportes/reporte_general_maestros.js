@@ -9,7 +9,8 @@ $(document).ready(function () {
     "theme": "light",
     "categoryAxis": {
         "gridPosition": "start",
-        "boldLabels": true
+        "boldLabels": true,
+        "labelRotation": 45
     },
     "chartScrollbar": {
         "enabled": true
