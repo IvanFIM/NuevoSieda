@@ -64,7 +64,7 @@ Reportes
         <hr>
         <p>
         <form action="{% url 'main:RGrupal' %}" method="GET">
-        {% csrf_token %} 
+        
         <select name="grupo" id="grupo" class="btn btn-default btn-sm">
 	    		<option selected="selected" disabled>Grupo:</option>
 	    		{% for grupo in grupos %}

@@ -49,8 +49,11 @@ $(document).ready(function () {
     "dataProvider": [],
     "export": AmCharts.exportCFG
 };
+   
 
-    $.get('/lista/grupos/').done(function (data) {
+    var g = GetURLParameter('grupo');
+    var c= GetURLParameter('carrera');
+    $.get('/lista/grupos/?grupo='+g+'&carrera='+c).done(function (data) {
       
         osChartConfig.dataProvider = data;
         var chart = AmCharts.makeChart('chartdiv', osChartConfig);
@@ -60,3 +63,17 @@ $(document).ready(function () {
     });
 
 });
+
+ function GetURLParameter(sParam)
+    {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++)
+        {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam)
+            {
+                return decodeURIComponent(sParameterName[1]);
+            }
+        }
+    }

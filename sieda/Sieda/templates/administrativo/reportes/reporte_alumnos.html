@@ -6,23 +6,27 @@
 {% endblock %}
 
 {% block head %}         
-        
+        <meta charset="utf-8">
 {% endblock %}
 
 {% block body %}
-<h1 class="page-header" style="margin-top: -8px;">
+<h1 class="page-header hidden-print " style="margin-top: -8px;">
 Reporte de alumnos 
 </h1> 
-
+<div id="dvData" class="print">
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
        Alumnos tutorados evaluados: {{alu_si}} | Alumnos tutorados faltantes: {{alu_no_num}} 
        
 
-        <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i> Volver</button>
+        <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right hidden-print" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i></button>
+        <button style="margin-top: -13px" type="button" id="btnExport" class="btn btn-warning warning_22 pull-right hidden-print"/><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+        <button style="margin-top: -13px" type="button" onclick="javascript:window.print()"  class="btn btn-info warning_22 pull-right hidden-print"><i class="fa fa-print" aria-hidden="true"></i></button>
 		
 
     </div>
+    <br/>
+
     <div class="panel-body no-padding" style="display: block;">
     	
 
@@ -39,7 +43,7 @@ Reporte de alumnos
                 {% for administradores in alu_no %}
                     <tr>
 	                    <td>{{ administradores.first_name }} {{ administradores.last_name }}  </td>
-	                    <td>{{ administradores.Carrera.Abrev_carrera }} </td> 
+	                    <td>{{ administradores.Carrera.Abrev_carrera }}</td> 
 	                    <td>{{ administradores.Grupo }} </td>
                         <td>  
                         {% for cata in catalogos_al %}
@@ -56,23 +60,15 @@ Reporte de alumnos
     </div>
 
 </div>
-
+</div>
 {% endblock %}
 
-                {% for cata in c %}
-                    <tr>
-                        <td>{{cata.Descripcion}}</td> 
-
-                        <td>
-
-                        {% for c in cata.alumnos.all %}
-                            {% if c.id in si_c %} 
-                               {{c.first_name }}-
-                            {% endif %}
-                        {% endfor %}
-                        </td>
-                        <td>{{cata.num}}</td>
-
-                                        
-                    </tr>
-                {% endfor %} 
+{% block Reporte %}
+ <script>
+    $("#btnExport").click(function(e) {
+        window.open("data:application/vnd.ms-excel;charset=utf-8, "  + encodeURIComponent($('#dvData').html()) );
+        e.preventDefault();
+       
+    });
+</script>
+{% endblock %}

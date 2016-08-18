@@ -652,8 +652,8 @@ def Reporte_grupal(request):
 
 @login_required(login_url='/')
 def Lista_grupal(request):
-    idgrupo = request.GET['grupo']
-    idcarera= request.GET['carrera']
+    idgrupo = request.GET.get('grupo')
+    idcarera= request.GET.get('carrera')
 
 
     periodo = models.Periodo.objects.filter(Realizado=False).get()
@@ -734,7 +734,6 @@ def Lista_general_tutores(request):
         .order_by('total')])
     return HttpResponse(data,content_type='application/json')
 
-    A.objects.filter(pk=B.objects.filter(pk=c.b_id))
 
 @login_required(login_url='/')    
 def Reporte_alumnos(request):

@@ -15,17 +15,11 @@
 </h1>
 
 
-<form action="{% url 'main:comentario_eliminar' %}" name="f1" method="post" onsubmit="return confirm('¿Desea borrar los comentarios seleccionados?');"> 
+<form action="{% url 'main:comentario_eliminar' %}" name="f1" method="post"  onsubmit="return confirm('¿Desea borrar los comentarios seleccionados?');"> 
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
-    {% if not comentario %}
-     
-    {% else%}
-        <button style="margin-top: -13px" class="btn btn-info warning_22 " type="button" onclick="javascript:seleccionar_todo()"><i class="fa fa-check-square" aria-hidden="true"></i> Marcar todos</button>  | 
-        <button style="margin-top: -13px" class="btn btn-info warning_22" type="button" onclick="javascript:deseleccionar_todo()"><i class="fa fa-square-o" aria-hidden="true"></i> Marcar ninguno</button>  | 
 
-        <button style="margin-top: -13px" class="btn btn-danger warning_22 " type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>  
-    {% endif %}   
+        <button style="margin-top: -13px" id="e" class="btn btn-danger warning_22 " disabled="disabled" type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>    
     
     </div>
     <div class="panel-body no-padding" style="display: block;">
@@ -37,7 +31,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th><i class="fa fa-square negro" aria-hidden="true"></i></th>
+                    <th><input name="checktodos" type="checkbox" /> </th>
                     <th>Id</th>
                     <th>Comentario </th>
                     <th>Catalogo</th>
@@ -71,16 +65,21 @@
 </div>
 </form>
 <script type="text/javascript">
-    function seleccionar_todo(){ 
-       for (i=0;i<document.f1.elements.length;i++) 
-          if(document.f1.elements[i].type == "checkbox")    
-             document.f1.elements[i].checked=1 
-    }
-    function deseleccionar_todo(){ 
-       for (i=0;i<document.f1.elements.length;i++) 
-          if(document.f1.elements[i].type == "checkbox")    
-             document.f1.elements[i].checked=0 
-    }
+$(document).ready(function(){
 
+    //Checkbox
+    $("input[name=checktodos]").change(function(){
+        $('input[type=checkbox]').each( function() {         
+            if($("input[name=checktodos]:checked").length == 1){
+                this.checked = true; 
+                $("#e").attr('disabled',false);  
+
+            } else {
+                this.checked = false; 
+                $("#e").attr('disabled',true);   
+            }
+        });
+    }); 
+});
 </script>
 {% endblock %}

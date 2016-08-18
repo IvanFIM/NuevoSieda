@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^Reporte/g_tutores$',views.Reporte_general_tutores, name='RGTutores'),
     url(r'^lista/g_tutores/$',views.Lista_general_tutores, name='LGTutores'),
     
-    url(r'^Reporte/grupos$',views.Reporte_grupal, name='RGrupal'),
+    url(r'^Reporte/grupos/$',views.Reporte_grupal, name='RGrupal'),
     url(r'^lista/grupos/$',views.Lista_grupal, name='LGrupal'),
 
     url(r'^Reporte/alumnos$',views.Reporte_alumnos, name='RAlumno'),
