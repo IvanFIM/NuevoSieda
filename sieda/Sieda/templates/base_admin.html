@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
  <!-- Bootstrap Core CSS -->
 <link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
@@ -16,6 +17,7 @@
 <!-- jQuery -->
 <!-- lined-icons -->
 <link rel="stylesheet" href="{% static 'css/icon-font.min.css' %}" type='text/css' />
+<link rel="stylesheet" href="{% static 'export/tableexport.css' %}" type='text/css' />
 <!-- //lined-icons -->
 <!-- chart -->
 <script src="{% static 'js/Chart.js' %}"></script>
@@ -159,10 +161,17 @@ $(document).on("click", "[data-toggle=\"confirm\"]", function (e) {
 <script src="{% static 'js/Cambios.js' %}"></script>
 <!-- JS dependencies -->
 
-{% block Reporte %}{% endblock %}
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+<script src="{% static 'export/xlsx.core.min.js' %}"></script>
+<script src="{% static 'export/filesaver.js' %}"></script>
+<script src="{% static 'export/tableexport.js' %}"></script>
+<script src="{% static 'reportes/jquery.base64.min.js' %}"></script>
+
+
+{% block Reporte %}{% endblock %}
 <!-- bootbox code -->
 <script src="{% static 'js/bootbox.min.js' %}"></script>
 <script src="{% static 'js/jquery.nicescroll.js' %}"></script>

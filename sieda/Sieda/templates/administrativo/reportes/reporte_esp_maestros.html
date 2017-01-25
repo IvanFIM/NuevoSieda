@@ -25,7 +25,7 @@ Evaluación Docente
             <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right hidden-print" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i></button> 
             <button style="margin-top: -13px" type="button" id="btnExport" class="btn btn-warning warning_22 pull-right hidden-print"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
     	
-            <button style="margin-top: -13px" type="button" onclick="javascript:window.print()"  class="btn btn-info warning_22 pull-right hidden-print"><i class="fa fa-print" aria-hidden="true"></i></button>
+            <button style="margin-top: -13px" type="button" id="print"  class="btn btn-info warning_22 pull-right hidden-print"><i class="fa fa-print" aria-hidden="true"></i></button>
             <br>
 
     </div>
@@ -170,31 +170,19 @@ Evaluación Docente
            <br>
         </div>
         <div class="panel-body no-padding" style="display: block;">
-            
-
             <table class="table table-striped">
                 {% regroup maestro_e by Materia__Nombre as mate_lista %}
                 {% for ma in mate_lista %}
-                <thead>
                     <tr>
-                        <th>Materia</th>
-
-                        {% for me in ma.list %}
-                            <th>{{me.Seccion_id__Descripcion}}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                
+                        <th>Area</th>
+                        <th>{{ma.grouper}}</th>            
+                    </tr> 
+                    {% for me in ma.list %}   
                     <tr>
-                        <td>{{ma.grouper}}</td>
-
-                        {% for me in ma.list %}
-                            <td style="text-align: center;">{{me.total}}</td>
-                        {% endfor %}
+                        <td>{{me.Seccion_id__Descripcion}}</td>
+                        <td style="text-align: center;">{{me.total}}</td>
                     </tr>
-                   
-                </tbody>
+                    {% endfor %}
                 {% endfor %} 
             </table>
         </div>
@@ -210,6 +198,16 @@ Evaluación Docente
     $("#btnExport").click(function(e) {
         window.open('data:application/vnd.ms-excel;charset=UTF-8,' + encodeURIComponent($('#dvData').html()));
         e.preventDefault();
+
     });
+    $(document).on('click',"#print",function(){
+        var originalContents = $("body").html();
+        var printContents = $("#dvData").html();
+        $("body").html(printContents);
+        window.print();
+        $("body").html(originalContents);
+        return false;
+});
+
 </script>
 {% endblock %}

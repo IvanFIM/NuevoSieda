@@ -5,10 +5,6 @@
     Reporte de Alumnos
 {% endblock %}
 
-{% block head %}         
-        <meta charset="utf-8">
-{% endblock %}
-
 {% block body %}
 <h1 class="page-header hidden-print " style="margin-top: -8px;">
 Reporte de alumnos 
@@ -17,20 +13,15 @@ Reporte de alumnos
 <div class="panel panel-ut" data-widget="{&quot;draggable&quot;: &quot;false&quot;}" data-widget-static="">
     <div class="panel-heading">
        Alumnos tutorados evaluados: {{alu_si}} | Alumnos tutorados faltantes: {{alu_no_num}} 
-       
-
+       <button style="margin-top: -13px" type="button" id="btnExport" class="btn btn-warning warning_22 pull-right hidden-print"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+       <button style="margin-top: -13px" type="button" id="print"  class="btn btn-info warning_22 pull-right hidden-print"><i class="fa fa-print" aria-hidden="true"></i></button>
         <button style="margin-top: -13px" class="btn btn-info warning_22 pull-right hidden-print" type="button" onclick="history.back()"><i class="fa fa-reply" aria-hidden="true"></i></button>
-        <button style="margin-top: -13px" type="button" id="btnExport" class="btn btn-warning warning_22 pull-right hidden-print"/><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
-        <button style="margin-top: -13px" type="button" onclick="javascript:window.print()"  class="btn btn-info warning_22 pull-right hidden-print"><i class="fa fa-print" aria-hidden="true"></i></button>
-		
-
     </div>
-    <br/>
 
     <div class="panel-body no-padding" style="display: block;">
     	
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="tblReporte">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -45,13 +36,12 @@ Reporte de alumnos
 	                    <td>{{ administradores.first_name }} {{ administradores.last_name }}  </td>
 	                    <td>{{ administradores.Carrera.Abrev_carrera }}</td> 
 	                    <td>{{ administradores.Grupo }} </td>
-                        <td>  
-                        {% for cata in catalogos_al %}
-                            {% if cata.alumnos__first_name in administradores.first_name %} 
-                               ({{cata.Descripcion}})
-                            {% endif %}
-                            
-                        {% endfor %} 
+                        <td> 
+                            {% for cata in catalogos_al %}
+                                {% if cata.alumnos__first_name in administradores.first_name %} 
+                                 ({{cata.Descripcion}})
+                                {% endif %}
+                            {% endfor %} 
                         </td>                    	                
                     </tr>
                 {% endfor %}
@@ -66,9 +56,21 @@ Reporte de alumnos
 {% block Reporte %}
  <script>
     $("#btnExport").click(function(e) {
-        window.open("data:application/vnd.ms-excel;charset=utf-8, "  + encodeURIComponent($('#dvData').html()) );
+        window.open('data:application/vnd.ms-excel;base64,' + $.base64.encode($('#dvData').html()));
+        //window.open('data:application/vnd.ms-excel;charset=utf-8,' + encodeURIComponent($('#dvData').html()));
         e.preventDefault();
-       
     });
+
+
+$(document).on('click',"#print",function(){
+        var originalContents = $("body").html();
+        var printContents = $("#tblReporte").html();
+        $("body").html(printContents);
+        window.print();
+        $("body").html(originalContents);
+        return false;
+});
+
 </script>
+
 {% endblock %}
