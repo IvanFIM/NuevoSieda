@@ -17,13 +17,21 @@ class Administradorform(UserCreationForm):
        
 
 class Alumnoform(UserCreationForm):
+
 	class Meta:
 		model = models.administradores
 		fields = '__all__'
-		exclude =['password','last_login','groups','is_superuser','user_permissions','email','date_joined','is_active','is_staff','Realizado']
+		exclude =['password','password2','last_login','groups','is_superuser','user_permissions','email','date_joined','is_active','is_staff','Realizado']
 		labels = {
 			"username": _("Matricula"),
 		}
+
+	def clean_username(self):
+		diccionario_limpio = self.cleaned_data
+		username = diccionario_limpio.get('username')
+		return username
+
+	
 
 class Carreraform(forms.ModelForm):
 	class Meta:

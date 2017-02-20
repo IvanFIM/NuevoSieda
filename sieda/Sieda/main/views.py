@@ -132,16 +132,27 @@ def AdminConsultar(request):
 @login_required(login_url='/')
 def AlumnoAlta(request):
     if request.method == 'POST':
-        form = forms.Alumnoform(request.POST or None)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.is_staff = False
-            instance.is_superuser = False
-            instance.save()
-            messages.add_message(request, messages.INFO, 'El alumno ha sido agregado exitosamente ')
-            return HttpResponseRedirect(reverse('main:alumno_consultar'))
-        else:
-            return render(request, 'Administrativo/alumnos/agregar.html', {'form': form})
+        if request.POST.get('btnGuardar'):
+            form = forms.Alumnoform(request.POST or None)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.is_staff = False
+                instance.is_superuser = False
+                instance.save()
+                messages.add_message(request, messages.INFO, 'El alumno ha sido agregado exitosamente ')
+                return HttpResponseRedirect(reverse('main:alumno_consultar'))
+            else:
+                return render(request, 'Administrativo/alumnos/agregar.html', {'form': form})
+        elif request.POST.get('btnAgregarOtro'):
+            form = forms.Alumnoform(request.POST or None)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.is_staff = False
+                instance.is_superuser = False
+                instance.save()
+                messages.add_message(request, messages.INFO, 'El alumno ha sido agregado exitosamente ')
+            else:
+                return render(request, 'Administrativo/alumnos/agregar.html', {'form': form})
     else:
         form = forms.Alumnoform()
     return render(request, 'Administrativo/alumnos/agregar.html', {'form': form})

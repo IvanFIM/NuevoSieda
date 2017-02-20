@@ -14,14 +14,13 @@
             </div>
             <div class="panel-body panel-body-com-m">
               
-                <form action="" method="post" class="form">
+                <form action="" method="post" class="form" id="formAlumn">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                       {% buttons %}
-                        <button type="submit" class="btn btn-warning warning_22">
-                           Guardar
-                        </button>
-                        <button onclick="history.back()" class="btn btn-default">
+                        <input type="submit" name="btnGuardar" value="guardar" class="btn btn-success success_22">
+                        <input type="submit" name="btnAgregarOtro" id="btnGuardarOtroAlumno" value="agregar otro" class="btn btn-warning warning_22 ">
+                        <button onclick="history.back()" class="btn btn-danger danger_22">
                            Cancelar
                         </button>
                       {% endbuttons %}
@@ -30,4 +29,18 @@
          </div>
       </div>
 </div>
+{% endblock %}
+{% block Reporte %}
+ <script>
+    $(document).ready(function() {
+      $('#id_password1').val("sieda123");
+      $('#id_password2').val("sieda123");
+      $('#formAlumn').submit(function(e) {
+          $('#id_first_name').val("");
+          $('#id_last_name').val("");
+          var user = $('#id_username').val();
+          $('#id_username').val(user.substring(0, 4));
+      });
+    });
+</script>
 {% endblock %}

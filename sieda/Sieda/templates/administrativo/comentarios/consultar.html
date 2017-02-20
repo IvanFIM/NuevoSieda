@@ -80,6 +80,9 @@ $(document).ready(function(){
             }
         });
     }); 
+    $("input[type=checkbox]").change(function(){
+        $("input[type=checkbox]").is(":checked")?$("#e").attr('disabled',false):$("#e").attr('disabled',true);
+    });
 });
 </script>
 {% endblock %}
